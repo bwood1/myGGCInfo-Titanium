@@ -40,13 +40,6 @@ html,body {
 	float: left;
 }
 
-#loginDiv {
-	text-align: center;
-	width: 20%;
-	height: 3%;
-	float: right;
-}
-
 #backDiv {
 	text-align: center;
 	width: 20%;
@@ -62,6 +55,28 @@ html,body {
 	height: 3%;
 	float: right;
 	padding-right: 17.5%;
+}
+
+#loginDiv {
+    text-align: center;
+    width: 20%;
+    height: 3%;
+    float: right;
+}
+
+#tickerDiv {
+    position:relative;
+    margin-top: 7%;
+    height: 7%;
+    width: 100%;
+    clear: both;
+}
+
+#backDivHome {
+    text-align: center;
+    width: 20%;
+    height: 3%;
+    float: right;
 }
 
 /* -------------------------ggcApps.html------------------------------*/
@@ -82,14 +97,6 @@ html,body {
 
 #homeContent {
 	padding-bottom: 7%;
-}
-
-#tickerDiv {
-	position:relative;
-	margin-top: 7%;
-	height: 7%;
-	width: 100%;
-	clear:both;
 }
 
 #icons div {

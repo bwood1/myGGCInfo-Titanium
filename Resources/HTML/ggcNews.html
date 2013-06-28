@@ -10,10 +10,6 @@
 	title="no title" charset="utf-8">
 <!-- <script type="text/javascript" charset="utf-8" src="js/wormhole.js"></script> -->
 <script>
-	//Go back to the GGC Apps screen when the back key is pressed.
-	document.addEventListener("backbutton", function() {
-		window.history.back();
-	}, true);
 </script>
 </head>
 <body>
@@ -37,9 +33,14 @@
 		<!-- /TopContent -->
 
 		<!-- News Content -->
-		<div id="newsContent" style="padding-top: 10%; height: 100%">
-			<iframe src="newsRSS.html" style="height: 80%; width: 95%"
-				sandbox="allow-top-navigation" name="iframe-news"> </iframe>
+		<div id="newsContent" style="padding-top: 5%; height: 100%">
+		    
+		    <script language="JavaScript" 
+		      src="http://feed2js.org//feed2js.php?src=http%3A%2F%2Fwww.ggc.edu%2Fabout-ggc%2Fnews%2FNews%3Fformat%3Drss&chan=y&desc=1&utf=y"  
+		      charset="UTF-8" type="text/javascript"></script>
+		    
+			<!-- <iframe src="newsRSS.html" style="height: 80%; width: 95%"
+				sandbox="allow-top-navigation" name="iframe-news"> </iframe> -->
 		</div>
 		<!-- /newsContent -->
 	</div>

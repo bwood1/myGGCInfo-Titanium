@@ -10,10 +10,7 @@
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
         <script src="js/login.js"></script>
         <script>
-			// Go back to the GGC Apps screen when the back key is pressed.
-			document.addEventListener("backbutton", function() {
-				window.history.back();
-			}, true);
+			
 
 			function getTextFields() {
 				//TODO get the information from the text fields to pass to server
@@ -51,26 +48,26 @@
             <br />
             <br />
             <!-- content -->
-            <div id="loginContent" style="text-align: left; border: 1px solid red">
+            <div id="loginContent" style="text-align: left;">
                 <form id="loginForm">
                     <!-- username -->
                     <div>
-                        <div id="userNameLabel" class="passwordLabels" style="border: 1px solid blue">
+                        <div id="userNameLabel" class="passwordLabels">
                             User Name:
                         </div>
                         <span style="width: 10%; display: inline-block"></span>
                         <input name="userNameField" type="text" style="width: 30%; display: 
-                            inline-block; border: 1px solid yellow" />
+                            inline-block;" />
                     </div>
                     <!-- /username -->
                     <!-- password -->
                     <div>
-                        <div id="passwordLabel" class="passwordLabels" style="border: 1px solid pink">
+                        <div id="passwordLabel" class="passwordLabels">
                             Password:
                         </div>
                         <span style="width: 10%; display: inline-block"></span>
                         <input name="passwordField" type="password" style="width: 30%; display: 
-                            inline-block; border: 1px solid white" />
+                            inline-block;" />
                     </div>
                     <!-- /password -->
                 </form>
