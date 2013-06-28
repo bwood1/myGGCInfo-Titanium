@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<!--
+* @file index.html
+*
+* Template application that shows examples of how to access
+* device services from JavaScript using the Wormhole library.
+-->
+<html>
+    <head>
+        <meta name="viewport" content="user-scalable=no">
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+        <title>myGGC Info</title>
+        <link rel="stylesheet" href="style.css" type="text/css" media="screen"
+        title="no title" charset="utf-8">
+        <!-- <script type="text/javascript" charset="utf-8" src="js/wormhole.js"></script> -->
+        <script src="js/jquery.js"></script>
+        <script src="js/login.js"></script>
+        <script type="text/javascript">
+            
+            function loadWhatsHappening() {
+                if (Titanium.Platform.name = 'iPhoneOS'){
+                    alert('is iPhone');
+                    document.location='whatsHappening.html';
+                }
+                else{
+                    document.location='whatsHappeningRSS.html';
+                }
+            }
+            
+            var windowWidth = 0;
+            var windowHeight = 0;
+
+            $(document).ready(function() {
+            setScreenWidth();
+            });
+
+            function setScreenWidth() {
+            // windowWidth = screen.innerWidth;
+            // windowHeight = screen.innerHeight;
+            screenWidth = screen.innerHeight;
+            // document.getElementById("screen").setAttribute('width', windowWidth);
+            document.getElementById("screen").setAttribute('width', screenWidth);
+            debuger;
+            }
+
+            /**
+            * Vibrate device.
+            */
+            function vibrate() {
+            navigator.notification.vibrate(500);
+            }
+
+            // Register event listeners.
+
+            // The "deviceready" event is sent when the system
+            // has finished loading.
+            document.addEventListener("deviceready", setScreenWidth, true);
+        </script>
+    </head>
+    <body>
+        <div id="screen">
+            <!-- Top content -->
+            <div style="padding: 5% 5% 10% 5%">
+                <!-- LoginButton -->
+                <div id="loginDiv">
+                    <img width="100%" height="100%" src="images/logInButton.png"
+                    alt="loginButton" onclick="document.location='login.html'">
+                    <figcaption>
+                        Login
+                    </figcaption>
+                </div>
+                <!-- /LoginButton -->
+                <!-- myGGC Banner -->
+                <div id="bannerDivHome">
+                    <img alt="bannerImage" src="images/bannerImage.png" width="100%"
+                    height="100%">
+                </div>
+            </div>
+            <!-- Top Content -->
+
+            <!-- Icons -->
+            <div id="iconWrapper" style="margin: 0px auto">
+                <div id="icons" style="margin: 0px auto">
+                    <!-- First Row of Icons -->
+                    <div class="iconRow">
+                        <!-- mySchedule Button -->
+                        <div style="float: left">
+                            <img class="icon" onclick="document.location='mySchedule.html'"
+                            src="images/homeIcons/myScheduleIcon.png" alt="scheduleIcon">
+                            <figcaption>
+                                mySchedule
+                            </figcaption>
+                        </div>
+                        <!-- myMentor Button -->
+                        <div style="float: right">
+                            <img class="icon" onclick="document.location='myMentor.html'"
+                            src="images/homeIcons/myMentorIcon.png" alt="mentorIcon">
+                            <figcaption>
+                                myMentor
+                            </figcaption>
+                        </div>
+                    </div>
+                    <!-- Second Row of Icons -->
+                    <div class="iconRow">
+                        <!-- Campus Map Button -->
+                        <div style="float: left">
+                            <img class="icon" onclick="document.location='campusMap.html'"
+                            src="images/homeIcons/campusMapIcon.png" alt="campusMapIcon">
+                            <figcaption>
+                                Campus
+                                <br>
+                                Map
+                            </figcaption>
+                        </div>
+                        <!-- What's Happening Button -->
+                        <div style="float: right">
+                            <img class="icon"
+                            onclick="document.location='whatsHappening.html'"
+                            src="images/homeIcons/whatsHappeningIcon.png"
+                            alt="whatsHappeningIcon">
+                            <figcaption>
+                                What's
+                                <br>
+                                Happening
+                            </figcaption>
+                        </div>
+                    </div>
+                    <!-- /SecondRowIcons -->
+
+                    <!-- Third Row of Icons -->
+                    <div class="iconRow" style="padding-top: 12%">
+                        <!-- Needs some extra space because of the two line text above -->
+                        <!-- Directory Button -->
+                        <div style="float: left">
+                            <img class="icon" onclick="document.location='directory.html'"
+                            src="images/homeIcons/directoryIcon.png" alt="directoryIcon">
+                            <figcaption>
+                                Directory
+                            </figcaption>
+                        </div>
+                        <!-- GGC Apps Button -->
+                        <div style="float: right">
+                            <img class="icon" onclick="document.location='ggcApps.html'"
+                            src="images/homeIcons/ggcAppsIcon.png" alt="ggcAppsIcon">
+                            <figcaption>
+                                GGC Apps
+                            </figcaption>
+                        </div>
+                    </div>
+                    <!-- /ThirdRowIcons -->
+                </div>
+            </div>
+            <!-- /Icons -->
+            <!-- Ticker -->
+            <div id="tickerDiv">
+                <img src="images/icons.png" width="100%" height="100%">
+            </div>
+        </div>
+    </body>
+</html>

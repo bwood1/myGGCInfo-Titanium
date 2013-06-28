@@ -1,0 +1,329 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta name="viewport" content="width=320, user-scalable=no">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>mySchedule</title>
+<link rel="stylesheet" href="style.css" type="text/css" media="screen"
+	title="no title" charset="utf-8">
+<!-- <script type="text/javascript" charset="utf-8" src="js/wormhole.js"></script> -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<!-- <script src="js/jquery.js"></script> -->
+<script type="text/javascript">
+	
+	/**
+	Info to be pulled from either the server or local storage. These are temporary
+	variable holders while the information is retrieved and then passed on to the next method.
+	*/
+	
+	var mondayClassOne = "CHEM 1211K";
+	var mondayClassTwo = "MATH 1300";
+	var mondayClassThree = "MUSIC 1101";
+	var mondayClassFour = "ENGL 2203";
+
+	var mondayClassOneTime = "8:00 AM";
+	var mondayClassTwoTime = "11:00 AM";
+	var mondayClassThreeTime = "1:00 PM";
+	var mondayClassFourTime = "3:00 PM";
+
+	var tuesdayClassOne = "CHEM 1211K";
+	var tuesdayClassTwo = "MATH 1300";
+	var tuesdayClassThree = "MUSIC 1101";
+	var tuesdayClassFour = "ENGL 2203";
+
+	var tuesdayClassOneTime = "8:00 AM";
+	var tuesdayClassTwoTime = "11:00 AM";
+	var tuesdayClassThreeTime = "1:00 PM";
+	var tuesdayClassFourTime = "3:00 PM";
+
+	var wednesdayClassOne = "CHEM 1211K";
+	var wednesdayClassTwo = "MATH 1300";
+	var wednesdayClassThree = "MUSIC 1101";
+	var wednesdayClassFour = "ENGL 2203";
+
+	var wednesdayClassOneTime = "8:00 AM";
+	var wednesdayClassTwoTime = "11:00 AM";
+	var wednesdayClassThreeTime = "1:00 PM";
+	var wednesdayClassFourTime = "3:00 PM";
+
+	var thursdayClassOne = "CHEM 1211K";
+	var thursdayClassTwo = "MATH 1300";
+	var thursdayClassThree = "MUSIC 1101";
+	var thursdayClassFour = "ENGL 2203";
+
+	var thursdayClassOneTime = "8:00 AM";
+	var thursdayClassTwoTime = "11:00 AM";
+	var thursdayClassThreeTime = "1:00 PM";
+	var thursdayClassFourTime = "3:00 PM";
+
+	var fridayClassOne = "CHEM 12211";
+	var fridayClassTwo = "MATH 1300";
+	var fridayClassThree = "MUSIC 1101";
+	var fridayClassFour = "ENGL 2203";
+
+	var fridayClassOneTime = "8:00 AM";
+	var fridayClassTwoTime = "11:00 AM";
+	var fridayClassThreeTime = "1:00 PM";
+	var fridayClassFourTime = "3:00 PM";
+
+	/**
+	 *	Checks to see if the students schedule is saved to the device and is updated
+	 */
+	function checkScheduleInfo() {
+		//TODO check to see if the student's schedule is saved on the device 
+		//TODO check to see if the student's schedule is current 
+	}
+
+	/**
+	 *	Will retrieve the students schedule from the server and store it in variables
+	 */
+	function retreiveScheduleInfo() {
+		//TODO write a script that will request the student's schedule from the server 
+	}
+
+	/**
+	 *	Will save the student's schedule to local storage
+	 */
+	function saveScheduleInfo() {
+		//TODO write a script to save the schedule on the device 
+	}
+
+	/**
+	 *	Will get the student's schedule from the device and store it in variables
+	 */
+	function getScheduleInfo() {
+		//TODO write a script to get the student's schedule from local storage 
+	}
+
+	/**
+	 *	Will show the student's schedule on screen
+	 */
+	function showScheduleInfo() {
+		//TODO write a script to update the class fields with the information retreived 
+		
+		//Monday
+		$("#mondayClassOne").html(mondayClassOne);
+		$("#mondayClassTwo").html(mondayClassTwo);
+		$("#mondayClassThree").html(mondayClassThree);
+		$("#mondayClassFour").html(mondayClassFour);
+		
+		$("#mondayClassOneTime").html(mondayClassOneTime);
+		$("#mondayClassTwoTime").html(mondayClassTwoTime);
+		$("#mondayClassThreeTime").html(mondayClassThreeTime);
+		$("#mondayClassFourTime").html(mondayClassFourTime);
+		
+		//Tuesday
+		$("#tuesdayClassOne").html(tuesdayClassOne);
+		$("#tuesdayClassTwo").html(tuesdayClassTwo);
+		$("#tuesdayClassThree").html(tuesdayClassThree);
+		$("#tuesdayClassFour").html(tuesdayClassFour);
+		
+		$("#tuesdayClassOneTime").html(tuesdayClassOneTime);
+		$("#tuesdayClassTwoTime").html(tuesdayClassTwoTime);
+		$("#tuesdayClassThreeTime").html(tuesdayClassThreeTime);
+		$("#tuesdayClassFourTime").html(tuesdayClassFourTime);
+		
+		//Wednsday
+		$("#wednesdayClassOne").html(wednesdayClassOne);
+		$("#wednesdayClassTwo").html(wednesdayClassTwo);
+		$("#wednesdayClassThree").html(wednesdayClassThree);
+		$("#wednesdayClassFour").html(wednesdayClassFour);
+		
+		$("#wednesdayClassOneTime").html(wednesdayClassOneTime);
+		$("#wednesdayClassTwoTime").html(wednesdayClassTwoTime);
+		$("#wednesdayClassThreeTime").html(wednesdayClassThreeTime);
+		$("#wednesdayClassFourTime").html(wednesdayClassFourTime);
+		
+		//Thursday
+		$("#thursdayClassOne").html(thursdayClassOne);
+		$("#thursdayClassTwo").html(thursdayClassTwo);
+		$("#thursdayClassThree").html(thursdayClassThree);
+		$("#thursdayClassFour").html(thursdayClassFour);
+		
+		$("#thursdayClassOneTime").html(thursdayClassOneTime);
+		$("#thursdayClassTwoTime").html(thursdayClassTwoTime);
+		$("#thursdayClassThreeTime").html(thursdayClassThreeTime);
+		$("#thursdayClassFourTime").html(thursdayClassFourTime);
+		
+		//Friday
+		$("#fridayClassOne").html(fridayClassOne);
+		$("#fridayClassTwo").html(fridayClassTwo);
+		$("#fridayClassThree").html(fridayClassThree);
+		$("#fridayClassFour").html(fridayClassFour);
+		
+		$("#fridayClassOneTime").html(fridayClassOneTime);
+		$("#fridayClassTwoTime").html(fridayClassTwoTime);
+		$("#fridayClassThreeTime").html(fridayClassThreeTime);
+		$("#fridayClassFourTime").html(fridayClassFourTime);
+	}
+
+	// Go back to the GGC Apps screen when the back key is pressed.
+	document.addEventListener("backbutton", function() {
+		window.history.back();
+	}, true);
+    
+    $(document).ready( function() {
+        showScheduleInfo();
+    });
+</script>
+</head>
+<body>
+	<div id="screen">
+		<!-- Banner -->
+		<!-- Top content -->
+		<div style="padding: 5% 5% 10% 5%">
+			<!-- placeholder -->
+			<div id="topPlaceholder"></div>
+			<!-- LoginButton -->
+			<div id="backDiv">
+				<img width="100%" height="100%"
+					onclick="document.location='index.html'" src="images/icons.png"
+					alt="backButton">
+				<figcaption>Back</figcaption>
+			</div>
+			<!-- /LoginButton -->
+			<!-- myGGC Banner -->
+			<div id="bannerDiv">
+				<img alt="bannerImage" src="images/icons.png" width="100%"
+					height="100%">
+			</div>
+		</div>
+		<!-- /TopContent -->
+
+		<br>
+
+		<!-- scheduleContent -->
+		<div id="scheduleContent" style="padding-top: 8%; height: 100%">
+			<!-- monday -->
+			<div id="monday">
+				<div id="mondayLabel" style="text-align: left; margin-left: 20%">Monday</div>
+				<div id="mondayClasses" style="text-align: left; margin-left: 25%">
+					<div id="mondayClassOne" style="display: inline-block; width: 53%; text-align: left"></div>
+					<div id="mondayClassOneTime" style="display: inline-block; width: 33%; text-align: right"></div>
+					
+					<div id="mondayClassTwo" style="display: inline-block; width: 53%; text-align: left"></div>
+					<div id="mondayClassTwoTime" style="display: inline-block; width: 33%; text-align: right"></div>
+					
+					<div id="mondayClassThree" style="display: inline-block; width: 53%; text-align: left"></div>
+					<div id="mondayClassThreeTime" style="display: inline-block; width: 33%; text-align: right"></div>
+					
+					<div id="mondayClassFour" style="display: inline-block; width: 53%; text-align: left"></div>
+					<div id="mondayClassFourTime" style="display: inline-block; width: 33%; text-align: right"></div>
+					
+				</div>
+			</div>
+			<!-- /monday -->
+
+			<!-- tuesday -->
+			<div id="tuesday">
+				<div id="tuesdayLabel" style="text-align: left; margin-left: 20%">Tuesday</div>
+				<div id="tuesdayClasses" style="text-align: left; margin-left: 25%">
+					<div id="tuesdayClassOne"
+						style="display: inline-block; width: 53%; text-align: left"></div>
+					<div id="tuesdayClassOneTime"
+						style="display: inline-block; width: 33%; text-align: right"></div>
+					
+					<div id="tuesdayClassTwo"
+						style="display: inline-block; width: 53%; text-align: left"></div>
+					<div id="tuesdayClassTwoTime"
+						style="display: inline-block; width: 33%; text-align: right"></div>
+					
+					<div id="tuesdayClassThree"
+						style="display: inline-block; width: 53%; text-align: left"></div>
+					<div id="tuesdayClassThreeTime"
+						style="display: inline-block; width: 33%; text-align: right"></div>
+					
+					<div id="tuesdayClassFour"
+						style="display: inline-block; width: 53%; text-align: left"></div>
+					<div id="tuesdayClassFourTime"
+						style="display: inline-block; width: 33%; text-align: right"></div>
+					
+				</div>
+			</div>
+			<!-- /tuesday -->
+
+			<!-- wednesday -->
+			<div id="wednesday">
+				<div id="wednesdayLabel" style="text-align: left; margin-left: 20%">Wednesday</div>
+				<div id="wednesdayClasses"
+					style="text-align: left; margin-left: 25%">
+					<div id="wednesdayClassOne"
+						style="display: inline-block; width: 53%; text-align: left"></div>
+					<div id="wednesdayClassOneTime"
+						style="display: inline-block; width: 33%; text-align: right"></div>
+					
+					<div id="wednesdayClassTwo"
+						style="display: inline-block; width: 53%; text-align: left"></div>
+					<div id="wednesdayClassTwoTime"
+						style="display: inline-block; width: 33%; text-align: right"></div>
+					
+					<div id="wednesdayClassThree"
+						style="display: inline-block; width: 53%; text-align: left"></div>
+					<div id="wednesdayClassThreeTime"
+						style="display: inline-block; width: 33%; text-align: right"></div>
+					
+					<div id="wednesdayClassFour"
+						style="display: inline-block; width: 53%; text-align: left"></div>
+					<div id="wednesdayClassFourTime"
+						style="display: inline-block; width: 33%; text-align: right"></div>
+					
+				</div>
+			</div>
+			<!-- /wedensday -->
+
+			<!-- thursday -->
+			<div id="thursday">
+				<div id="thursdayLabel" style="text-align: left; margin-left: 20%">Thursday</div>
+				<div id="thursdayClasses" style="text-align: left; margin-left: 25%">
+					<div id="thursdayClassOne"
+						style="display: inline-block; width: 53%; text-align: left"></div>
+					<div id="thursdayClassOneTime"
+						style="display: inline-block; width: 33%; text-align: right"></div>
+					
+					<div id="thursdayClassTwo"
+						style="display: inline-block; width: 53%; text-align: left"></div>
+					<div id="thursdayClassTwoTime"
+						style="display: inline-block; width: 33%; text-align: right"></div>
+					
+					<div id="thursdayClassThree"
+						style="display: inline-block; width: 53%; text-align: left"></div>
+					<div id="thursdayClassThreeTime"
+						style="display: inline-block; width: 33%; text-align: right"></div>
+					
+					<div id="thursdayClassFour"
+						style="display: inline-block; width: 53%; text-align: left"></div>
+					<div id="thursdayClassFourTime"
+						style="display: inline-block; width: 33%; text-align: right"></div>
+					
+				</div>
+			</div>
+			<!-- /thursday -->
+
+			<!-- friday -->
+			<div id="friday">
+				<div id="fridayLabel" style="text-align: left; margin-left: 20%">Friday</div>
+				<div id="fridayClasses" style="text-align: left; margin-left: 25%">
+					<div id="fridayClassOne"
+						style="display: inline-block; width: 53%; text-align: left"></div>
+					<div id="fridayClassOneTime"
+						style="display: inline-block; width: 33%; text-align: right"></div>
+					<div id="fridayClassTwo"
+						style="display: inline-block; width: 53%; text-align: left"></div>
+					<div id="fridayClassTwoTime"
+						style="display: inline-block; width: 33%; text-align: right"></div>
+					<div id="fridayClassThree"
+						style="display: inline-block; width: 53%; text-align: left"></div>
+					<div id="fridayClassThreeTime"
+						style="display: inline-block; width: 33%; text-align: right"></div>
+					<div id="fridayClassFour" style="display: inline-block; width: 53%"></div>
+					<div id="fridayClassFourTime"
+						style="display: inline-block; width: 33%; text-align: right"></div>
+				</div>
+			</div>
+			<!-- /friday -->
+		</div>
+		<!-- /scheduleContent -->
+	</div>
+	<!-- /screen -->
+</body>
+</html>

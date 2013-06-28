@@ -1,0 +1,327 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <meta name="viewport" content="width=320, user-scalable=no">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Class Search</title>
+        <link rel="stylesheet" href="style.css" type="text/css" media="screen"
+        title="no title" charset="utf-8">
+        <!-- <script type="text/javascript" charset="utf-8" src="js/wormhole.js"></script> -->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+        <!-- <script src="js/jquery.js"></script> -->
+        <script>
+			// Go back to the previous screen when the back key is pressed.
+			document.addEventListener("backbutton", function() {
+				window.history.back();
+			}, true);
+
+			//Gets the current terms avalible from banner
+			function getAvalibleTerms() {
+				//TODO write script to get info
+			}
+
+			//gets the current subjects avalible based on the term selected
+			function getSubjects(semester) {
+				//TODO get the subjects
+			}
+
+			//gets the courses based on the semester and subject
+			function getCourses(semester, subject) {
+				//TODO get the courses
+			}
+
+			function getCourseInfo(course, section) {
+				//TODO get the info for the course selected
+			}
+
+			//fires when the user selects a term
+			function showSubject() {
+			    $("#subjectDiv").show();
+			}
+
+			//fires when the user selects a subject
+			function showCourses() {
+				$("#semesterDiv").hide();
+				$("#subjectDiv").hide();
+				$("#coursesAvalible").show();
+			}
+
+			//fires when the user selects view sections
+			function showSections() {
+				$("#coursesAvalible").hide();
+				$("#sectionsAvalible").show();
+			}
+			
+			function resetComboBox() {
+			    $("#semesterComboBox").val('1');
+			    $("#subjectComboBox").val('1');
+			    }
+			
+			//fires when the new search button is clicked
+			function newSearch() {
+			    $("#subjectDiv").hide();
+			    $("#coursesAvalible").hide();
+			    $("#sectionsAvalible").hide();
+			    $("#semesterDiv").show();
+			    resetComboBox();
+			}
+        </script>
+    </head>
+    <body>
+        <div id="Screen">
+            <!-- Banner -->
+            <!-- Top content -->
+            <div style="padding: 5% 5% 10% 5%">
+                <!-- backButton -->
+                <div id="backDiv">
+                    <img width="100%" height="100%"
+                    onclick="window.history.back();" src="images/icons.png"
+                    alt="backButton">
+                    <figcaption>
+                        Back
+                    </figcaption>
+                </div>
+                <!-- /backButton -->
+                <!-- myGGC Banner -->
+                <div id="bannerDiv">
+                    <img alt="bannerImage" src="images/icons.png" width="100%"
+                    height="100%">
+                </div>
+            </div>
+            <!-- /TopContent -->
+            <br />
+            <!-- newSearch -->
+            <div id="newSearchDiv" style="text-align: center; width: 20%;
+            height: 3%; float: right;">
+                <img alt="newSearchButton" src="images/backButton.png" width="100%" 
+                height="100%" onclick="newSearch();" />
+            </div>
+            
+            <!--/newSearch -->
+            <br />
+            <!-- semesterComboBox -->
+            <div id="semesterDiv" style="text-align: left; padding-top: 2%;">
+                <div class="classSearchLabel">
+                    Term:
+                </div>
+                <span class="classSearchSpan"></span>
+                <select id="semesterComboBox" name="semesterComboBox" class="clasSearchComboBox"
+                onchange="showSubject();">
+                    <option value="1">Pick a Semester</option>
+                    <option>------------</option>
+                    <option value="fall2013">Fall 2013</option>
+                    <option value="summer2013">Summer 2013</option>
+                    <option value="spring2012">Spring 2012</option>
+                </select>
+            </div>
+            <!--/semesterComboBox -->
+
+            <!-- subjectComboBox -->
+            <div id="subjectDiv" style="text-align: left; display: none">
+                <div class="classSearchLabel">
+                    Subject:
+                </div>
+                <span class="classSearchSpan"></span>
+                <select id="subjectComboBox" class="clasSearchComboBox"
+                onchange="showCourses();">
+                    <option value="1">Pick a Subject</option>
+                    <option>------------</option>
+                    <option value="ACCT">Accounting </option>
+                    <option value="ANTH">Anthropology </option>
+                    <option value="ARTS">Art </option>
+                    <option value="BCHM">Biochemistry </option>
+                    <option value="BIOL">Biology </option>
+                    <option value="BUSA">Business Administration </option>
+                    <option value="CHEM">Chemistry </option>
+                    <option value="CHIN">Chinese </option>
+                    <option value="COMM">Communications </option>
+                    <option value="CJCR">Criminal Justice/Criminology </option>
+                    <option value="ECED">Early Childhood Education </option>
+                    <option value="ECON">Economics </option>
+                    <option value="EDUC">Education </option>
+                    <option value="ENGL">English </option>
+                    <option value="ELAN">English Literature &amp; Language </option>
+                    <option value="EAP">English for Academic Purposes </option>
+                    <option value="EXSC">Exercise Science </option>
+                    <option value="FILM">Film </option>
+                    <option value="FINA">Finance </option>
+                    <option value="FREN">French </option>
+                    <option value="GEOG">Geography </option>
+                    <option value="HIST">History </option>
+                    <option value="HNRS">Honors </option>
+                    <option value="ITEC">Information Technology </option>
+                    <option value="ISCI">Integrated Science </option>
+                    <option value="LEAD">Leadership </option>
+                    <option value="MGMT">Management </option>
+                    <option value="MKTG">Marketing </option>
+                    <option value="MATH">Mathematics </option>
+                    <option value="MSL">Military Science &amp; Leadership </option>
+                    <option value="MUSC">Music </option>
+                    <option value="PHIL">Philosophy </option>
+                    <option value="PHED">Physical Education </option>
+                    <option value="PSCI">Physical Science </option>
+                    <option value="PHYS">Physics </option>
+                    <option value="POLS">Political Science </option>
+                    <option value="PSYC">Psychology </option>
+                    <option value="READ">Reading </option>
+                    <option value="RELN">Religion </option>
+                    <option value="STEC">Science &amp; Technology </option>
+                    <option value="SOCI">Sociology </option>
+                    <option value="SPAN">Spanish </option>
+                    <option value="SPED">Special Education </option>
+                    <option value="THEA">Theatre </option>
+                </select>
+            </div>
+            <!-- /subjectComboBox -->
+
+            <!-- coursesAvalible -->
+            <div id="coursesAvalible" style="text-align: left; padding-top: 2%; display: none">
+                <div id="courseNumber" style="padding-left: 5%; width: 15%; display: inline-block">
+                    1001
+                </div>
+                <span class="classSearchCoursesSpan"></span>
+                <div id="courseName" style="display:inline-block;">
+                    Intro to Computing
+                </div>
+                <span class="classSearchCoursesSpan"></span>
+                <button style="display:inline-block;" onclick="showSections();">
+                    View Sections
+                </button>
+            </div>
+            <!-- /coursesAvalible -->
+
+            <!-- sectionsAvalible -->
+            <div id="sectionsAvalible" style="text-align: left; display: none">
+                <TABLE  CLASS="datadisplaytable" SUMMARY="This layout table is used to present the sections found" width="100%">
+                    <CAPTION class="captiontext">
+                        Sections Found
+                    </CAPTION>
+                    <TR>
+                        <TH COLSPAN="20" CLASS="ddtitle" scope="colgroup" >Information Technology</TH>
+                    </TR>
+                    <TR>
+                        <TH CLASS="ddheader" scope="col" >Select</TH>
+                        <TH CLASS="ddheader" scope="col" ><ACRONYM title = "Course Reference Number">CRN</ACRONYM></TH>
+                        <TH CLASS="ddheader" scope="col" ><ABBR title = Subject>Subj</ABBR></TH>
+                        <TH CLASS="ddheader" scope="col" ><ABBR title = Course>Crse</ABBR></TH>
+                        <TH CLASS="ddheader" scope="col" ><ABBR title = Section>Sec</ABBR></TH>
+                        <TH CLASS="ddheader" scope="col" ><ABBR title = Campus>Cmp</ABBR></TH>
+                        <TH CLASS="ddheader" scope="col" ><ABBR title = "Credit Hours">Cred</ABBR></TH>
+                        <TH CLASS="ddheader" scope="col" >Title</TH>
+                        <TH CLASS="ddheader" scope="col" >Days</TH>
+                        <TH CLASS="ddheader" scope="col" >Time</TH>
+                        <TH CLASS="ddheader" scope="col" ><ABBR title = "Section Capacity">Cap</ABBR></TH>
+                        <TH CLASS="ddheader" scope="col" ><ABBR title = "Section Actual">Act</ABBR></TH>
+                        <TH CLASS="ddheader" scope="col" ><ABBR title = "Section Remaining">Rem</ABBR></TH>
+                        <TH CLASS="ddheader" scope="col" >Instructor</TH>
+                        <TH CLASS="ddheader" scope="col" >Date (<ABBR title = "month month">MM</ABBR>/<ABBR title = "day day">DD</ABBR>)</TH>
+                        <TH CLASS="ddheader" scope="col" >Location</TH>
+                        <TH CLASS="ddheader" scope="col" >Attribute</TH>
+                    </TR>
+                    <TR>
+                        <TD CLASS="dddefault">
+                        <INPUT TYPE="checkbox" NAME="sel_crn" VALUE="80090 201308" ID="action_id1">
+                        <LABEL for=action_id1><SPAN class="fieldlabeltextinvisible">add to worksheet</SPAN></LABEL>
+                        <INPUT TYPE="hidden" NAME="assoc_term_in" VALUE="201308">
+                        </TD>
+                        <TD CLASS="dddefault">80090</TD>
+                        <TD CLASS="dddefault">ITEC</TD>
+                        <TD CLASS="dddefault">1001</TD>
+                        <TD CLASS="dddefault">01</TD>
+                        <TD CLASS="dddefault">A</TD>
+                        <TD CLASS="dddefault">4.000</TD>
+                        <TD CLASS="dddefault">Introduction to Computing</TD>
+                        <TD CLASS="dddefault">MWF</TD>
+                        <TD CLASS="dddefault">08:00 am-09:15 am</TD>
+                        <TD CLASS="dddefault">26</TD>
+                        <TD CLASS="dddefault">25</TD>
+                        <TD CLASS="dddefault">1</TD>
+                        <TD CLASS="dddefault">Hongsik   Choi (<ABBR title= "Primary">P</ABBR>)</TD>
+                        <TD CLASS="dddefault">08/19-12/07</TD>
+                        <TD CLASS="dddefault">C 1125</TD>
+                        <TD CLASS="dddefault">Area B Institutional</TD>
+                    </TR>
+                    <TR>
+                        <TD CLASS="dddefault"><ABBR title = Closed>C</ABBR></TD>
+                        <TD CLASS="dddefault">80091</TD>
+                        <TD CLASS="dddefault">ITEC</TD>
+                        <TD CLASS="dddefault">1001</TD>
+                        <TD CLASS="dddefault">02</TD>
+                        <TD CLASS="dddefault">A</TD>
+                        <TD CLASS="dddefault">4.000</TD>
+                        <TD CLASS="dddefault">Introduction to Computing</TD>
+                        <TD CLASS="dddefault">MWF</TD>
+                        <TD CLASS="dddefault">09:30 am-10:45 am</TD>
+                        <TD CLASS="dddefault">26</TD>
+                        <TD CLASS="dddefault">26</TD>
+                        <TD CLASS="dddefault">0</TD>
+                        <TD CLASS="dddefault">Hongsik   Choi (<ABBR title= "Primary">P</ABBR>)</TD>
+                        <TD CLASS="dddefault">08/19-12/07</TD>
+                        <TD CLASS="dddefault">C 1125</TD>
+                        <TD CLASS="dddefault">Area B Institutional</TD>
+                    </TR>
+                    <TR>
+                        <TD CLASS="dddefault"><ABBR title = Closed>C</ABBR></TD>
+                        <TD CLASS="dddefault">80092</TD>
+                        <TD CLASS="dddefault">ITEC</TD>
+                        <TD CLASS="dddefault">1001</TD>
+                        <TD CLASS="dddefault">03</TD>
+                        <TD CLASS="dddefault">A</TD>
+                        <TD CLASS="dddefault">4.000</TD>
+                        <TD CLASS="dddefault">Introduction to Computing</TD>
+                        <TD CLASS="dddefault">MWF</TD>
+                        <TD CLASS="dddefault">11:00 am-12:15 pm</TD>
+                        <TD CLASS="dddefault">26</TD>
+                        <TD CLASS="dddefault">26</TD>
+                        <TD CLASS="dddefault">0</TD>
+                        <TD CLASS="dddefault">ChongWoo   Park (<ABBR title= "Primary">P</ABBR>)</TD>
+                        <TD CLASS="dddefault">08/19-12/07</TD>
+                        <TD CLASS="dddefault">C 1125</TD>
+                        <TD CLASS="dddefault">Area B Institutional</TD>
+                    </TR>
+                    <TR>
+                        <TD CLASS="dddefault"><ABBR title = Closed>C</ABBR></TD>
+                        <TD CLASS="dddefault">80093</TD>
+                        <TD CLASS="dddefault">ITEC</TD>
+                        <TD CLASS="dddefault">1001</TD>
+                        <TD CLASS="dddefault">04</TD>
+                        <TD CLASS="dddefault">A</TD>
+                        <TD CLASS="dddefault">4.000</TD>
+                        <TD CLASS="dddefault">Introduction to Computing</TD>
+                        <TD CLASS="dddefault">MWF</TD>
+                        <TD CLASS="dddefault">12:30 pm-01:45 pm</TD>
+                        <TD CLASS="dddefault">26</TD>
+                        <TD CLASS="dddefault">26</TD>
+                        <TD CLASS="dddefault">0</TD>
+                        <TD CLASS="dddefault">Sunyoung   Cho (<ABBR title= "Primary">P</ABBR>)</TD>
+                        <TD CLASS="dddefault">08/19-12/07</TD>
+                        <TD CLASS="dddefault">C 1125</TD>
+                        <TD CLASS="dddefault">Area B Institutional</TD>
+                    </TR>
+                    <TR>
+                        <TD CLASS="dddefault"><ABBR title = Closed>C</ABBR></TD>
+                        <TD CLASS="dddefault">80094</TD>
+                        <TD CLASS="dddefault">ITEC</TD>
+                        <TD CLASS="dddefault">1001</TD>
+                        <TD CLASS="dddefault">05</TD>
+                        <TD CLASS="dddefault">A</TD>
+                        <TD CLASS="dddefault">4.000</TD>
+                        <TD CLASS="dddefault">Introduction to Computing</TD>
+                        <TD CLASS="dddefault">MW</TD>
+                        <TD CLASS="dddefault">02:00 pm-03:45 pm</TD>
+                        <TD CLASS="dddefault">26</TD>
+                        <TD CLASS="dddefault">26</TD>
+                        <TD CLASS="dddefault">0</TD>
+                        <TD CLASS="dddefault">Yi   Ding (<ABBR title= "Primary">P</ABBR>)</TD>
+                        <TD CLASS="dddefault">08/19-12/07</TD>
+                        <TD CLASS="dddefault">C 1125</TD>
+                        <TD CLASS="dddefault">Area B Institutional</TD>
+                    </TR>
+
+                </TABLE>
+            </div>
+            <!-- /sections Avalible -->
+        </div>
+
+    </body>
+</html>

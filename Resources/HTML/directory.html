@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta name="viewport" content="width=320, user-scalable=no">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Directory</title>
+<link rel="stylesheet" href="style.css" type="text/css" media="screen"
+	title="no title" charset="utf-8">
+<!-- <script type="text/javascript" charset="utf-8" src="js/wormhole.js"></script> -->
+<script>
+	// Go back to the GGC Apps screen when the back key is pressed.
+	document.addEventListener("backbutton", function() {
+		window.history.back();
+	}, true);
+
+	/**
+	 * Takes the values entered into the search fields and sends a request to the server for results
+	 */
+	function search() {
+		var fName = document.getElementById('firstName').value;
+		var lName = document.getElementById('lastName').value;
+
+		if (fName.value != "" && lName.value != "") {
+			alert('Searching for ' + fName + ' ' + lName)
+		} else if (fName.value != "") {
+			alert('Searching for ' + fName);
+		}
+		else if (lName.value != "") {
+			alert('Searching for ' + lName)
+		}
+		else
+			alert('Please enter something into either text box.')
+	}
+</script>
+</head>
+<body>
+	<div id="Screen">
+		<!-- Banner -->
+		<!-- Top content -->
+		<div style="padding: 5% 5% 10% 5%">
+			<!-- LoginButton -->
+			<div id="backDiv">
+				<img width="100%" height="100%"
+					onclick="document.location='index.html'" src="images/icons.png"
+					alt="backButton">
+				<figcaption>Back</figcaption>
+			</div>
+			<!-- /LoginButton -->
+			<!-- myGGC Banner -->
+			<div id="bannerDiv">
+				<img alt="bannerImage" src="images/icons.png" width="100%"
+					height="100%">
+			</div>
+		</div>
+		<!-- /TopContent -->
+
+		<!-- searchContent -->
+		<div id="searchContent">
+			<div id="inputFields" style="width: 90%">
+				<form action="">
+					<div style="display: inline-block; width: 90%">
+						<div style="display: inline-block; width: 30%; text-align: right">
+							First name:</div>
+						<div style="display: inline-block; width: 40%">
+							<input type="text" id="firstName" name="firstName"
+								style="width: 90%">
+						</div>
+					</div>
+					<div style="display: inline-block; width: 90%">
+						<div style="display: inline-block; width: 30%; text-align: right">
+							Last Name:</div>
+						<div style="display: inline-block; width: 40%">
+							<input type="text" id="lastName" name="lastName"
+								style="width: 90%">
+						</div>
+					</div>
+				</form>
+				<button type="button" onclick="search();">Search</button>
+			</div>
+			<br>
+
+			<!-- results go here -->
+			<div id="searchResults"></div>
+			<!-- /results -->
+		</div>
+		<!-- /searchContent -->
+	</div>
+
+</body>
+</html>
