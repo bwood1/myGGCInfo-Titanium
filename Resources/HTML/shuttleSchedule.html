@@ -1,74 +1,87 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<head>
-<meta name="viewport" content="width=320, user-scalable=no">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Shuttle Schedule</title>
-<link rel="stylesheet" href="style.css" type="text/css" media="screen"
-	title="no title" charset="utf-8">
-<!-- <script type="text/javascript" charset="utf-8" src="js/wormhole.js"></script> -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-<script>
-	
-	function calculateArrivalTime() {
-	    alert('Use the phone GPS to determine the closest bus stop and let the' +
-	       'user know when the shuttle will be arriving at that stop');
-	    $("#shuttleArrivalTime").html("The shuttle will be arriving in 5 minutes");
-        
-	}
-</script>
-</head>
-<body>
-	<div id="Screen">
-		<!-- Banner -->
-		<!-- Top content -->
-		<div style="padding: 5% 5% 10% 5%">
-			<!-- placeholder -->
-			<div id="topPlaceholder"></div>
-			<!-- LoginButton -->
-			<div id="backDiv">
-				<img width="100%" height="100%" onclick="window.history.back();"
+    <head>
+        <meta name="viewport" content="width=320, user-scalable=yes">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Shuttle Schedule</title>
+        <link rel="stylesheet" href="style.css" type="text/css" media="screen"
+        title="no title" charset="utf-8">
+        <!-- <script type="text/javascript" charset="utf-8" src="js/wormhole.js"></script> -->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+        <script>
+			function calculateArrivalTime() {
+				alert('Use the phone GPS to determine the closest bus stop and let the' + 'user know when the shuttle will be arriving at that stop');
+				$("#shuttleArrivalTime").html("The shuttle will be arriving in 5 minutes");
+
+			}
+			
+			$(document).ready(function() {
+                setScreenDimentions();
+            });
+            
+            function setScreenDimentions() {
+                var mapHeight = ($(window).height()) - (($(window).height())*.25);
+                $("#screen").height($(window).height());
+                $("#mapContent").height(mapHeight);
+            }
+        </script>
+    </head>
+    <body>
+        <div id="screen" style="text-align: center;">
+            <!-- Banner -->
+            <!-- Top content -->
+            <div style="padding: 5% 5% 10% 5%">
+                <!-- LoginButton -->
+                <div id="backDiv">
+                    <img width="100%" height="100%" onclick="window.history.back();"
                     src="images/icons.png" alt="backButton">
-				<figcaption>Back</figcaption>
-			</div>
-			<!-- /LoginButton -->
-			<!-- myGGC Banner -->
-			<div id="bannerDiv">
-				<img alt="bannerImage" src="images/icons.png" width="100%"
-					height="100%">
-			</div>
-        </div>
-        <!-- /TopContent -->
-		
-<div id="location">
+                    <figcaption>
+                        Back
+                    </figcaption>
+                </div>
+                <!-- /LoginButton -->
+                <!-- myGGC Banner -->
+                <div id="bannerDiv">
+                    <img alt="bannerImage" src="images/icons.png" width="100%"
+                    height="100%">
+                </div>
+            </div>
+            <!-- /TopContent -->
+
+            <!-- locationControls -->
+            <div id="userLocation">
                 <div id="stopsComboBox">
                     <select style="width: 80%; font-size: 20px">
                         <option value="stopA">A Building</option>
                         <option value="stopB">B Building</option>
-                        <option value="stopC">C Building</option>
+                        <option value="stopC">C Building</option>]
+                        <option value="library">Library</option>
                         <option value="housingParking">Housing Parking Lot</option>
                     </select>
                 </div>
                 <!-- /comboBox -->
-                
+
                 <!-- findMeButton -->
                 <div id="findMe" style="text-align: right; padding-right: 10%">
-                    <button id="findMeButton" style="font-size: 20px" onclick="calculateArrivalTime();">Find Me</button>
+                    <button id="findMeButton" style="font-size: 20px" onclick="calculateArrivalTime();">
+                        Find Me
+                    </button>
                 </div>
+                <!-- /findeMeButton -->
             </div>
-            <!-- /findMeButton -->
-            
+            <!-- /locationControls -->
+
             <!-- mapContent -->
-            <div id="mapFrame" style="height: 60%; width: 90%; padding: 5% 5% 5% 5%; text-align: center">
-                <iframe style="border: 0; height: 100%; width: 100%" src="mapContent.html" sandbox="allow-top-navigation allow-scripts">
-                </iframe>
+            <div id="mapContent" style=" width: 99%;">
+                Map goes here
             </div>
             <!-- /mapContent -->
             <br />
             <!-- arrivalTime -->
-            <div id="shuttleArrivalTime" style="width 90%; font-size: 100">
-            </div>
+            <footer>
+                <div id="shuttleArrivalTime" style="width 90%; font-size: 100"></div>
+            </footer>
             <!-- /arrivalTime -->
-	</div>
-</body>
+        </div>
+    </body>
 </html>
