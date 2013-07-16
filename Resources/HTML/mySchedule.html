@@ -10,7 +10,7 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 <!-- <script src="js/jquery.js"></script> -->
 <script type="text/javascript">
-	
+	var scheduleArray;
 	/**
 	Info to be pulled from either the server or local storage. These are temporary
 	variable holders while the information is retrieved and then passed on to the next method.
@@ -79,6 +79,21 @@
 	 */
 	function retreiveScheduleInfo() {
 		//TODO write a script that will request the student's schedule from the server 
+		
+		var scheduleRequest = new XMLHttpRequest();
+				
+		scheduleRequest.onreadystatechange = function(a,b,c) {
+			if(scheduleRequest.readyState == 4) {
+				alert('got the schedule');
+				scheduleArray = scheduleRequest.responseText;
+				showScheduleInfo();
+			}
+		}
+		
+		scheduleRequest.open("GET", "http://10.0.179.202/brandon/test.php?user=bwood1&session=Summer&year=2013&key=cfcd208495d565ef66e7dff9f98764da");
+		scheduleRequest.send();
+
+		
 	}
 
 	/**
@@ -100,6 +115,8 @@
 	 */
 	function showScheduleInfo() {
 		//TODO write a script to update the class fields with the information retreived 
+		
+		alert(scheduleArray);
 		
 		//Monday
 		$("#mondayClassOne").html(mondayClassOne);
@@ -158,7 +175,8 @@
 	}
     
     $(document).ready( function() {
-        showScheduleInfo();
+        // showScheduleInfo();
+        retreiveScheduleInfo();
     });
 </script>
 </head>

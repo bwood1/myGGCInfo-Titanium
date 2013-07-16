@@ -3,23 +3,57 @@
     <head>
         <meta name="viewport" content="width=320, user-scalable=no">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Shuttle Schedule</title>
+        <title>Login</title>
         <link rel="stylesheet" href="style.css" type="text/css" media="screen"
         title="no title" charset="utf-8">
-        <!-- <script type="text/javascript" charset="utf-8" src="js/wormhole.js"></script> -->
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
         <script src="js/login.js"></script>
         <script>
-			
-
-			function getTextFields() {
-				//TODO get the information from the text fields to pass to server
-			}
-
+        	var isLoggedIn;
+        	//gets the username and password and passes them to the authentication method
 			function logIn() {
-				isLoggedIn = 1;
-				window.location.href = "index.html";
+				// isLoggedIn = 1;
+				// window.location.href = "index.html";
+				var uName = document.getElementById('userNameField').value;
+				var pWord = document.getElementById('passwordField').value;
+				authenticateMe(uName, pWord);
 			}
+			
+			//checks the response of the authentication request
+			function checkResponse(response) {
+				
+			}
+			
+			//generates the authentiacation request returns "ok" or "error"
+			function authenticateMe(uName, pWord) {
+				$("#myFrame").attr('src', "http://10.0.179.202/brandon/request.php?request=login&user=" + uName + "&pass=" + pWord);
+				
+				var request = new XMLHttpRequest();
+				request.onreadystatechange = function(a,b,c) {
+					if(request.readyState == 4) {
+						// alert('request finished, response: ' + request.responseText);
+						console.log('request finished, response: ', a,b,c);
+						if(request.responseText == "no"){
+							alert('Username or password incorrect');
+						}
+						if(request.responseText == "empty"){
+							alert('Must fill out both fields');
+						}
+						else{
+							alert('You have successfully logged in');
+							window.location.href = "index.html";
+						}
+					}
+					
+				}
+				request.open("GET", "http://10.0.179.202/brandon/request.php?request=login&user=" + uName + "&pass=" + pWord, true);
+				request.send();
+				
+			}
+			
+			$(document).ready(function() {
+				
+			});
         </script>
     </head>
     <body>
@@ -27,8 +61,6 @@
             <!-- Banner -->
             <!-- Top content -->
             <div style="padding: 5% 5% 10% 5%">
-                <!-- placeholder -->
-                <div id="topPlaceholder"></div>
                 <!-- LoginButton -->
                 <div id="backDiv">
                     <img width="100%" height="100%" onclick="window.history.back();"
@@ -56,7 +88,7 @@
                             User Name:
                         </div>
                         <span style="width: 10%; display: inline-block"></span>
-                        <input name="userNameField" type="text" style="width: 30%; display: 
+                        <input id="userNameField" type="text" style="width: 30%; display: 
                             inline-block;" />
                     </div>
                     <!-- /username -->
@@ -66,7 +98,7 @@
                             Password:
                         </div>
                         <span style="width: 10%; display: inline-block"></span>
-                        <input name="passwordField" type="password" style="width: 30%; display: 
+                        <input id="passwordField" type="password" style="width: 30%; display: 
                             inline-block;" />
                     </div>
                     <!-- /password -->
@@ -78,6 +110,9 @@
                 </div>
             </div>
             <!--/content -->
+            <div id="hiddeniFrame" >
+            	<iframe id="myFrame" src=""></iframe>
+            </div>
         </div>
     </body>
 </html>
