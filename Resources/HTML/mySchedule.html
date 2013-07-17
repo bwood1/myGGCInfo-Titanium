@@ -11,6 +11,70 @@
 <!-- <script src="js/jquery.js"></script> -->
 <script type="text/javascript">
 	var scheduleArray;
+	
+	var JSONObject = { "dayOfWeek": [
+    {"day" : "Monday", "classes": [
+    {"subject": "CHEM", "courseNum": "1211K", "section": "01", "startTime": "08:00 AM",
+         "endTime": "08:50 AM", "building": "A", "roomNum": "1100", "professor": "Professor A"},
+    {"subject": "MATH", "courseNum": "1300", "section": "05", "startTime": "11:00 AM", 
+        "endTime": "11:50 AM", "building": "B", "roomNum": "1100", "professor": "Professor B"},
+    {"subject": "MUSIC", "courseNum": "1101", "section": "02", "startTime": "01:00 PM", 
+        "endTime": "01:50 PM", "building": "C", "roomNum": "2200", "professor": "Professor C"},
+    {"subject": "ENGL", "courseNum": "2203", "section": "04", "startTime": "03:00 PM",
+        "endTime": "04:15 PM", "building": "A", "roomNum": "1550", "professor": "Professor D"}
+    ]},
+    {"day" : "Tuesday", "classes": [
+    {"subject": "CHEM", "courseNum": "1211K", "section": "-01", "startTime": "8:00 AM",
+         "endTime": "8:50 AM", "building": "A", "roomNum": "1100", "professor": "Professor A"},
+    {"subject": "MATH", "courseNum": "1300", "section": "-05", "startTime": "11:00 AM", 
+        "endTime": "11:50 AM", "building": "B", "roomNum": "1100", "professor": "Professor B"},
+    {"subject": "MUSIC", "courseNum": "1101", "section": "-02", "startTime": "1:00 PM", 
+        "endTime": "1:50 PM", "building": "C", "roomNum": "2200", "professor": "Professor C"},
+    {"subject": "ENGL", "courseNum": "2203", "section": "-04", "startTime": "3:00 PM",
+        "endTime": "4:15 PM", "building": "A", "roomNum": "1550", "professor": "Professor D"}
+    ]},
+    {"day" : "Wedensday", "classes": [
+    {"subject": "CHEM", "courseNum": "1211K", "section": "-01", "startTime": "8:00 AM",
+         "endTime": "8:50 AM", "building": "A", "roomNum": "1100", "professor": "Professor A"},
+    {"subject": "MATH", "courseNum": "1300", "section": "-05", "startTime": "11:00 AM", 
+        "endTime": "11:50 AM", "building": "B", "roomNum": "1100", "professor": "Professor B"},
+    {"subject": "MUSIC", "courseNum": "1101", "section": "-02", "startTime": "1:00 PM", 
+        "endTime": "1:50 PM", "building": "C", "roomNum": "2200", "professor": "Professor C"},
+    {"subject": "ENGL", "courseNum": "2203", "section": "-04", "startTime": "3:00 PM",
+        "endTime": "4:15 PM", "building": "A", "roomNum": "1550", "professor": "Professor D"}
+    ]},
+    {"day" : "Thursday", "classes": [
+    {"subject": "CHEM", "courseNum": "1211K", "section": "-01", "startTime": "8:00 AM",
+         "endTime": "8:50 AM", "building": "A", "roomNum": "1100", "professor": "Professor A"},
+    {"subject": "MATH", "courseNum": "1300", "section": "-05", "startTime": "11:00 AM", 
+        "endTime": "11:50 AM", "building": "B", "roomNum": "1100", "professor": "Professor B"},
+    {"subject": "MUSIC", "courseNum": "1101", "section": "-02", "startTime": "1:00 PM", 
+        "endTime": "1:50 PM", "building": "C", "roomNum": "2200", "professor": "Professor C"},
+    {"subject": "ENGL", "courseNum": "2203", "section": "-04", "startTime": "3:00 PM",
+        "endTime": "4:15 PM", "building": "A", "roomNum": "1550", "professor": "Professor D"}
+    ]},
+    {"day" : "Friday", "classes": [
+    {"subject": "CHEM", "courseNum": "1211K", "section": "-01", "startTime": "8:00 AM",
+         "endTime": "8:50 AM", "building": "A", "roomNum": "1100", "professor": "Professor A"},
+    {"subject": "MATH", "courseNum": "1300", "section": "-05", "startTime": "11:00 AM", 
+        "endTime": "11:50 AM", "building": "B", "roomNum": "1100", "professor": "Professor B"},
+    {"subject": "MUSIC", "courseNum": "1101", "section": "-02", "startTime": "1:00 PM", 
+        "endTime": "1:50 PM", "building": "C", "roomNum": "2200", "professor": "Professor C"},
+    {"subject": "ENGL", "courseNum": "2203", "section": "-04", "startTime": "3:00 PM",
+        "endTime": "4:15 PM", "building": "A", "roomNum": "1550", "professor": "Professor D"}
+    ]},
+    {"day" : "Saturday", "classes": [
+    {"subject": "CHEM", "courseNum": "1211K", "section": "-01", "startTime": "8:00 AM",
+         "endTime": "8:50 AM", "building": "A", "roomNum": "1100", "professor": "Professor A"},
+    {"subject": "MATH", "courseNum": "1300", "section": "-05", "startTime": "11:00 AM", 
+        "endTime": "11:50 AM", "building": "B", "roomNum": "1100", "professor": "Professor B"},
+    {"subject": "MUSIC", "courseNum": "1101", "section": "-02", "startTime": "1:00 PM", 
+        "endTime": "1:50 PM", "building": "C", "roomNum": "2200", "professor": "Professor C"},
+    {"subject": "ENGL", "courseNum": "2203", "section": "-04", "startTime": "3:00 PM",
+        "endTime": "4:15 PM", "building": "A", "roomNum": "1550", "professor": "Professor D"}
+    ]},
+    ]};
+	
 	/**
 	Info to be pulled from either the server or local storage. These are temporary
 	variable holders while the information is retrieved and then passed on to the next method.
@@ -80,18 +144,18 @@
 	function retreiveScheduleInfo() {
 		//TODO write a script that will request the student's schedule from the server 
 		
-		var scheduleRequest = new XMLHttpRequest();
-				
-		scheduleRequest.onreadystatechange = function(a,b,c) {
-			if(scheduleRequest.readyState == 4) {
-				alert('got the schedule');
-				scheduleArray = scheduleRequest.responseText;
-				showScheduleInfo();
-			}
-		}
-		
-		scheduleRequest.open("GET", "http://10.0.179.202/brandon/test.php?user=bwood1&session=Summer&year=2013&key=cfcd208495d565ef66e7dff9f98764da");
-		scheduleRequest.send();
+		// var scheduleRequest = new XMLHttpRequest();
+// 				
+		// scheduleRequest.onreadystatechange = function(a,b,c) {
+			// if(scheduleRequest.readyState == 4) {
+				// alert('got the schedule');
+				// scheduleArray = scheduleRequest.responseText;
+				// showScheduleInfo();
+			// }
+		// }
+// 		
+		// scheduleRequest.open("GET", "http://10.0.179.202/brandon/test.php?user=bwood1&session=Summer&year=2013&key=cfcd208495d565ef66e7dff9f98764da");
+		// scheduleRequest.send();
 
 		
 	}
@@ -116,7 +180,37 @@
 	function showScheduleInfo() {
 		//TODO write a script to update the class fields with the information retreived 
 		
-		alert(scheduleArray);
+		// alert(scheduleArray);
+		
+		//TODO make for loops to go through json object
+		for(var i=0; i<6; i++){           //for each day
+		    for(var j=0; j<5; j++){       //for each class
+		        // console.log('The length of the day array is ' + JSONObject.dayOfWeek.length);
+		        // console.log('The length of the classes array is ' + JSONObject.dayOfWeek[i].classes.length);
+		        // alert(JSONObject.dayOfWeek[i].classes[j].subject);
+		        $("#"+i+"-"+j+"-0").html(JSONObject.dayOfWeek[i].classes[j].subject);
+		        $("#"+i+"-"+j+"-1").html(JSONObject.dayOfWeek[i].classes[j].courseNum + "-" + 
+                                         JSONObject.dayOfWeek[i].classes[j].section);
+                $("#"+i+"-"+j+"-2").html(JSONObject.dayOfWeek[i].classes[j].building + "-" + 
+                                         JSONObject.dayOfWeek[i].classes[j].roomNum);
+                $("#"+i+"-"+j+"-3").html(JSONObject.dayOfWeek[i].classes[j].startTime + " - " + 
+                                         JSONObject.dayOfWeek[i].classes[j].endTime);
+                $("#"+i+"-"+j+"-4").html(JSONObject.dayOfWeek[i].classes[j].professor);
+                console.log('class ' + j + ": " + JSONObject.dayOfWeek[i].classes[j].subject + JSONObject.dayOfWeek[i].classes[j].courseNum + 
+                    JSONObject.dayOfWeek[i].classes[j].section + JSONObject.dayOfWeek[i].classes[j].building + 
+                    JSONObject.dayOfWeek[i].classes[j].roomNum + JSONObject.dayOfWeek[i].classes[j].startTime +
+                    JSONObject.dayOfWeek[i].classes[j].endTime + JSONObject.dayOfWeek[i].classes[j].professor);
+		    }
+		}
+		
+		// $("#0-0-0").html(JSONObject.dayOfWeek[0].classes[0].subject);
+		// $("#0-0-1").html(JSONObject.dayOfWeek[0].classes[0].courseNum + "-" + 
+		                 // JSONObject.dayOfWeek[0].classes[0].section);
+		// $("#0-0-2").html(JSONObject.dayOfWeek[0].classes[0].building + "-" + 
+                         // JSONObject.dayOfWeek[0].classes[0].roomNum);
+        // $("#0-0-3").html(JSONObject.dayOfWeek[0].classes[0].startTime + "-" + 
+                         // JSONObject.dayOfWeek[0].classes[0].endTime);
+        // $("#0-0-4").html(JSONObject.dayOfWeek[0].classes[0].professor);
 		
 		//Monday
 		$("#mondayClassOne").html(mondayClassOne);
@@ -175,8 +269,9 @@
 	}
     
     $(document).ready( function() {
-        // showScheduleInfo();
-        retreiveScheduleInfo();
+        showScheduleInfo();
+        // retreiveScheduleInfo();
+        // alert('The day of week is ' + JSONObject.dayOfWeek[0].classes[0].subject);
     });
 </script>
 </head>
@@ -211,7 +306,7 @@
 			<div id="monday">
 				<div id="mondayLabel" style="text-align: left; margin-left: 20%">Monday</div>
 				<div id="mondayClasses" style="text-align: left; margin-left: 25%">
-					<div id="mondayClassOne" style="display: inline-block; width: 53%; text-align: left"></div>
+					<!-- <div id="mondayClassOne" style="display: inline-block; width: 53%; text-align: left"></div>
 					<div id="mondayClassOneTime" style="display: inline-block; width: 33%; text-align: right"></div>
 					
 					<div id="mondayClassTwo" style="display: inline-block; width: 53%; text-align: left"></div>
@@ -221,8 +316,37 @@
 					<div id="mondayClassThreeTime" style="display: inline-block; width: 33%; text-align: right"></div>
 					
 					<div id="mondayClassFour" style="display: inline-block; width: 53%; text-align: left"></div>
-					<div id="mondayClassFourTime" style="display: inline-block; width: 33%; text-align: right"></div>
-					
+					<div id="mondayClassFourTime" style="display: inline-block; width: 33%; text-align: right"></div> -->
+					<table border="1" style="border-color: white">
+					    <tr>
+					        <td id="0-0-0"> </td>      <!-- dayOfWeek(Monday)-class(CHEM)-column(Subject) -->
+					        <td id="0-0-1"> </td>      <!-- courseNum and sectionNum -->
+					        <td id="0-0-2"> </td>      <!-- building and roomNum -->
+					        <td id="0-0-3"> </td>      <!-- startTime and endTime -->
+					        <td id="0-0-4"> </td>      <!-- professor -->
+					    </tr>
+					    <tr>
+					        <td id="0-1-0"> </td>      <!-- dayOfWeek(Monday)-class(CHEM)-column(Subject) -->
+                            <td id="0-1-1"> </td>      <!-- courseNum and sectionNum -->
+                            <td id="0-1-2"> </td>      <!-- building and roomNum -->
+                            <td id="0-1-3"> </td>      <!-- startTime and endTime -->
+                            <td id="0-1-4"> </td>      <!-- professor -->
+					    </tr>
+					    <tr>
+                            <td id="0-2-0"> </td>      <!-- dayOfWeek(Monday)-class(CHEM)-column(Subject) -->
+                            <td id="0-2-1"> </td>      <!-- courseNum and sectionNum -->
+                            <td id="0-2-2"> </td>      <!-- building and roomNum -->
+                            <td id="0-2-3"> </td>      <!-- startTime and endTime -->
+                            <td id="0-2-4"> </td>      <!-- professor -->
+                        </tr>
+                        <tr>
+                            <td id="0-3-0"> </td>      <!-- dayOfWeek(Monday)-class(CHEM)-column(Subject) -->
+                            <td id="0-3-1"> </td>      <!-- courseNum and sectionNum -->
+                            <td id="0-3-2"> </td>      <!-- building and roomNum -->
+                            <td id="0-3-3"> </td>      <!-- startTime and endTime -->
+                            <td id="0-3-4"> </td>      <!-- professor -->
+                        </tr>
+					</table>
 				</div>
 			</div>
 			<!-- /monday -->
