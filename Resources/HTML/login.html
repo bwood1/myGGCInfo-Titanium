@@ -7,6 +7,7 @@
         <link rel="stylesheet" href="style.css" type="text/css" media="screen"
         title="no title" charset="utf-8">
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+        <script src="/js/jquery.cookie.js"></script>
         <script src="js/login.js"></script>
         <script>
         	var isLoggedIn;
@@ -24,30 +25,58 @@
 				
 			}
 			
-			//generates the authentiacation request returns "ok" or "error"
+			function getCookie(c_name){
+				var c_value = document.cookie;
+				var c_start = c_value.indexOf(" " + c_name + "=");
+				if (c_start == -1)
+  				{
+					c_value = null;
+				}
+				else
+  				{
+  					c_start = c_value.indexOf("=", c_start) + 1;
+  					var c_end = c_value.indexOf(";", c_start);
+  					if (c_end == -1)
+    				{
+    					c_end = c_value.length;
+    				}
+  					c_value = unescape(c_value.substring(c_start,c_end));
+  				}
+			return c_value;
+			}
+			
+			//generates the authentiacation request returns "yes", "no", or "empty"
 			function authenticateMe(uName, pWord) {
-				$("#myFrame").attr('src', "http://10.0.179.202/brandon/request.php?request=login&user=" + uName + "&pass=" + pWord);
+				// $("#myFrame").attr('src', "http://10.0.179.202/brandon/request.php?request=login&user=" + uName + "&pass=" + pWord);
 				
 				var request = new XMLHttpRequest();
+				request.onload = function() {
+					var content = this.getResponseHeader('Content-Length');
+					console.log(content);
+				}
 				request.onreadystatechange = function(a,b,c) {
 					if(request.readyState == 4) {
 						// alert('request finished, response: ' + request.responseText);
-						console.log('request finished, response: ', a,b,c);
+						// console.log('request finished, response: ', a,b,c);
 						if(request.responseText == "no"){
 							alert('Username or password incorrect');
 						}
-						if(request.responseText == "empty"){
+						else if(request.responseText == "empty"){
 							alert('Must fill out both fields');
 						}
 						else{
 							alert('You have successfully logged in');
-							window.location.href = "index.html";
+							// alert(request.getResponseHeader("Server"));
+
+							// window.location.href = "index.html";
 						}
 					}
 					
 				}
 				request.open("GET", "http://10.0.179.202/brandon/request.php?request=login&user=" + uName + "&pass=" + pWord, true);
 				request.send();
+				
+				
 				
 			}
 			
@@ -110,9 +139,9 @@
                 </div>
             </div>
             <!--/content -->
-            <div id="hiddeniFrame" >
+            <!-- <div id="hiddeniFrame" >
             	<iframe id="myFrame" src=""></iframe>
-            </div>
+            </div> -->
         </div>
     </body>
 </html>
