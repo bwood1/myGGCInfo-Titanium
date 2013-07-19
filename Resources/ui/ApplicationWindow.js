@@ -69,6 +69,91 @@ function ApplicationWindow() {
     });
     self.add(webView);
 
+	//stores the user name into the properties table
+	Ti.App.addEventListener('app:addUNameToProperties', function(e) {
+		// Ti.API.info('username stored as: ' + e.username);
+		Ti.App.Properties.setString('username', e.username);
+	});
+	
+	//gets the username from properties table
+	Ti.App.addEventListener('app:getUNameFromProperties', function() {
+		// Ti.API.info('Getting the username from the database');
+		//Ti.App.fireEvent('app:addUNameToProperties', {username: 'bwood1'});
+		var uName = Ti.App.Properties.getString('username');
+		// Ti.API.info('The userName being returned is: ' + uName);
+		Ti.App.fireEvent('app:sendUsername', {username: uName});
+		Ti.API.info('ApplicationWindow.js says "username sent"');
+	});
+	
+	function checkLoginResponse(response) {
+				if(response =="no"){
+					// Ti.API.info('login.html says "the response is ' + response + '"');
+					alert('Username or password incorrect');
+				}
+				else if(response == "empty"){
+					// Ti.API.info('login.html says "the response is ' + response + '"');
+					alert('Must fill out both fields');
+				}
+				else{
+					// Ti.API.info('login.html says "the response is ' + response + '"');
+					alert('You have successfully logged in');
+					// saveUname();
+					// window.location.href = "index.html";
+				}
+			}
+	
+	//creates a request for the user to log in
+	Ti.App.addEventListener('app:openLoginRequest', function(e) {
+		var url = 'http://10.0.179.202/brandon/request.php?request=login&user=';
+		
+		var client = Ti.Network.createHTTPClient({
+    		 // function called when the response data is available
+    		 onload : function(f) {
+    		     Ti.API.info("Received text: " + this.responseText);
+    		     checkLoginResponse(this.responseText);
+    		     Ti.API.info('response headers: ' + this.getResponseHeaders());
+    		 },
+    		 // function called when an error occurs, including a timeout
+    		 onerror : function(f) {
+    		     Ti.API.debug(f.error);
+    		     alert('error');
+    		 },
+    		 withCredentials: true,
+    		 timeout : 5000  // in milliseconds
+		 });
+		//prepare the connection
+		Ti.API.info('the request is: ' + url + e.username + "&pass=" + e.password);
+		client.open("GET", url + e.username + "&pass=" + e.password);
+		//send the request
+		client.send();
+	});
+	
+	//creates a request for the schedule
+	Ti.App.addEventListener('app:openScheduleRequest', function(e) {
+		var url = 'http://10.0.179.202/brandon/request.php?request=schedule&user=bwood1&session=';
+		
+		var client = Ti.Network.createHTTPClient({
+    		 // function called when the response data is available
+    		 onload : function(f) {
+    		     Ti.API.info("Received text: " + this.responseText);
+    		     // alert('success');
+    		     Ti.App.fireEvent("app:sendJSON", {object: this.responseText});
+    		 },
+    		 // function called when an error occurs, including a timeout
+    		 onerror : function(f) {
+    		     Ti.API.debug(f.error);
+    		     alert('error');
+    		 },
+    		 withCredentials: true,
+    		 timeout : 5000  // in milliseconds
+		 });
+		//prepare the connection
+		Ti.API.info('the request is: ' + url + e.session + "&year=" + e.year);
+		client.open("GET", url + e.session + "&year=" + e.year);
+		//send the request
+		client.send();
+	});
+
     if (animationsOn) {
         setTimeout(function() {
             webView.animate(Ti.UI.createAnimation({

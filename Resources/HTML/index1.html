@@ -6,150 +6,139 @@
 * device services from JavaScript using the Wormhole library.
 -->
 <html>
-<head>
-<meta name="viewport" content="width=720, user-scalable=no">
-<meta http-equiv="Content-type" content="text/html; charset=utf-8">
-<title>myGGC Info</title>
-<link rel="stylesheet" href="style.css" type="text/css" media="screen"
-	title="no title" charset="utf-8">
-<!-- <script type="text/javascript" charset="utf-8" src="js/wormhole.js"></script> -->
-<script
-	src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-<script
-	src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-<script type="text/javascript">
-	var windowWidth = 0;
-	var windowHeight = 0;
+    <head>
+        <meta name="viewport" content="user-scalable=no">
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+        <title>myGGC Info</title>
+        <link rel="stylesheet" href="style.css" type="text/css" media="screen"
+        title="no title" charset="utf-8">
+        <!-- <script type="text/javascript" charset="utf-8" src="js/wormhole.js"></script> -->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+        <script src="js/login.js"></script>
+        <script type="text/javascript">
+			var screenWidth = 0;
+			var screenHeight = 0;
 
-	$(document).ready(function() {
-		setScreenWidth();
-	});
+			$(document).ready(function() {
+				setScreenDimentions();
+			});
 
-	function setScreenWidth() {
-		windowWidth = window.innerWidth;
-		windowHeight = window.innerHeight;
-		console.log("The screen width is: " + windowWidth);
-		document.getElementById("screen").setAttribute('width', windowWidth);
-		document.getElementById("iconWrapper").setAttribute('width',
-				windowWidth);
-		document.getElementById("iconWrapper").setAttribute('height',
-				windowHeight);
-	}
+			function loadWhatsHappening() {
+				$("#iconWrapper").hide();
+				$("#loginDiv").hide();
+				$("footer").hide();
+				$("#backDiv").show();
+				$("#bannerDivHome").css("float", "left");
+				$("#bannerDivHome").css("float", "left");
+				$("#bannerDivHome").css("padding-left", "17.5%");
+				$("#content").load("whatsHappening.html #newsContent");
+				$("#content").show();
+			}
 
-	/**
-	 * Vibrate device.
-	 */
-	function vibrate() {
-		navigator.notification.vibrate(500);
-	}
+        </script>
+    </head>
+    <body>
+        <div id="screen">
+            <!-- Top content -->
+            <div style="padding: 5% 5% 10% 5%">
+                <!-- LoginButton -->
+                <div id="loginDiv">
+                    <img width="100%" height="100%" src="images/logInButton.png"
+                    alt="loginButton" onclick="document.location='login.html'">
+                    <figcaption>
+                        Login
+                    </figcaption>
+                </div>
+                <!-- /LoginButton -->
+                <!-- myGGC Banner -->
+                <div id="bannerDivHome">
+                    <img alt="bannerImage" src="images/bannerImage.png" width="100%"
+                    height="100%">
+                </div>
 
-	/**
-	 * Play one beep sound.
-	 */
-	function beep() {
-		navigator.notification.beep(1);
-	}
+            </div>
+            <!-- Top Content -->
 
-	// Register event listeners.
+            <!-- content -->
+            <!-- Icons -->
+            <div id="iconWrapper" style="margin: 0px auto">
+                <div id="icons" style="margin: 0px auto">
+                    <!-- First Row of Icons -->
+                    <div class="iconRow">
+                        <!-- mySchedule Button -->
+                        <div style="float: left">
+                            <img class="icon" onclick="document.location='mySchedule.html'"
+                            src="images/homeIcons/myScheduleIcon.png" alt="scheduleIcon">
+                            <figcaption>
+                                mySchedule
+                            </figcaption>
+                        </div>
+                        <!-- myMentor Button -->
+                        <div style="float: right">
+                            <img class="icon" onclick="document.location='myMentor.html'"
+                            src="images/homeIcons/myMentorIcon.png" alt="mentorIcon">
+                            <figcaption>
+                                myMentor
+                            </figcaption>
+                        </div>
+                    </div>
+                    <!-- Second Row of Icons -->
+                    <div class="iconRow">
+                        <!-- Campus Map Button -->
+                        <div style="float: left">
+                            <img class="icon" onclick="document.location='campusMap.html'"
+                            src="images/homeIcons/campusMapIcon.png" alt="campusMapIcon">
+                            <figcaption>
+                                Campus
+                                <br>
+                                Map
+                            </figcaption>
+                        </div>
+                        <!-- What's Happening Button -->
+                        <div style="float: right">
+                            <img class="icon" onclick="document.location='whatsHappening.html'"
+                            src="images/homeIcons/whatsHappeningIcon.png"
+                            alt="whatsHappeningIcon">
+                            <figcaption>
+                                What's
+                                <br>
+                                Happening
+                            </figcaption>
+                        </div>
+                    </div>
+                    <!-- /SecondRowIcons -->
 
-	// The "deviceready" event is sent when the system
-	// has finished loading.
-	document.addEventListener("deviceready", setScreenWidth, true);
+                    <!-- Third Row of Icons -->
+                    <div class="iconRow" style="padding-top: 12%">
+                        <!-- Needs some extra space because of the two line text above -->
+                        <!-- Directory Button -->
+                        <div style="float: left">
+                            <img class="icon" onclick="document.location='directory.html'"
+                            src="images/homeIcons/directoryIcon.png" alt="directoryIcon">
+                            <figcaption>
+                                Directory
+                            </figcaption>
+                        </div>
+                        <!-- GGC Apps Button -->
+                        <div style="float: right">
+                            <img class="icon" onclick="document.location='ggcApps.html'"
+                            src="images/homeIcons/ggcAppsIcon.png" alt="ggcAppsIcon">
+                            <figcaption>
+                                GGC Apps
+                            </figcaption>
+                        </div>
+                    </div>
+                    <!-- /ThirdRowIcons -->
+                </div>
+            </div>
+            <!-- /Icons -->
 
-	// Close the application when the back key is pressed.
-	document.addEventListener("backbutton", function() {
-		mosync.app.exit();
-	}, true);
-</script>
-</head>
-<body>
-	<div id="screen">
-		<!-- Content for the home screen -->
-		<div id="homeContent">
-			<!-- Top content -->
-			<div style="padding: 5% 5% 10% 5%; border: 1px solid; border-color: white">
-				<!-- placeholder -->
-				<div id="topPlaceholder">
-				</div>
-				<!-- myGGC Banner -->
-				<div style="border:1px solid blue; float:left; height:5%; width:25%">
-					<img alt="bannerImage" src="images/icons.png" width="100%"
-						height="100%">
-				</div>
-				<!-- LoginButton -->
-				<div id="loginDiv">
-					<img width="100%" height="100%" src="images/icons.png"
-						alt="loginButton">
-						<figcaption>Login</figcaption>
-				</div>
-				<!-- /LoginButton -->
-			</div>
-			<!-- Icons -->
-			<div id="iconWrapper" style="margin: 0px auto">
-				<div id="icons" style="margin: 0px auto">
-					<!-- First Row of Icons -->
-					<div class="iconRow">
-						<!-- mySchedule Button -->
-						<div style="float: left; width:30%; height: 100%">
-							<img class="icon" onclick="document.location='mySchedule.html'"
-								src="images/icons.png" alt="scheduleIcon">
-							<figcaption>mySchedule</figcaption>
-						</div>
-						<!-- myMentor Button -->
-						<div style="float: right; width:30%; height: 100%">
-							<img class="icon" onclick="document.location='myMentor.html'"
-								src="images/icons.png" alt="mentorIcon">
-							<figcaption>myMentor</figcaption>
-						</div>
-					</div>
-					<!-- Second Row of Icons -->
-					<div class="iconRow">
-						<!-- GGC Map Button -->
-						<div style="float: left; width:30%; height: 100%">
-							<img class="icon" onclick="document.location='map.html'"
-								src="images/icons.png" alt="campusMapIcon">
-							<figcaption>
-								Campus<br>Map
-							</figcaption>
-						</div>
-						<!-- What's Happening Button -->
-						<div style="float: right; width:30%; height: 100%">
-							<img class="icon"
-								onclick="document.location='whatsHappening.html'"
-								src="images/icons.png" alt="whatsHappeningIcon">
-							<figcaption>
-								What's<br>Happening
-							</figcaption>
-						</div>
-					</div>
-					<!-- /SecondRowIcons -->
-
-					<!-- Third Row of Icons -->
-					<div class="iconRow" style="padding-top: 12%"> <!-- Needs some extra space because of the two line text above -->
-						<!-- Directory Button -->
-						<div style="float: left; width:30%; height: 100%">
-							<img class="icon" onclick="document.location='directory.html'"
-								src="images/icons.png" alt="directoryIcon">
-							<figcaption>Directory</figcaption>
-						</div>
-						<!-- GGC Apps Button -->
-						<div style="float: right; width:30%; height: 100%">
-							<img class="icon" onclick="document.location='ggcApps.html'"
-								src="images/icons.png" alt="ggcAppsIcon">
-							<figcaption>GGC Apps</figcaption>
-						</div>
-					</div>
-					<!-- /ThirdRowIcons -->
-				</div>
-			</div>
-			<!-- /Icons -->
-		</div>
-		<!-- End home content -->
-	</div>
-	<!-- Ticker -->
-	<div id="tickerDiv">
-		<img src="images/icons.png" width="100%" height="100%">
-	</div>
-
-</body>
+            <!-- Ticker -->
+            <footer>
+                <div id="tickerDiv">
+                    <img src="images/icons.png" width="100%" height="100%">
+                </div>
+            </footer>
+        </div>
+    </body>
 </html>

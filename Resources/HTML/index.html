@@ -18,9 +18,17 @@
         <script type="text/javascript">
 			var screenWidth = 0;
 			var screenHeight = 0;
+			var username;
+			
+			//add event listeners
+			Ti.App.addEventListener('app:sendUsername', function(e) {
+				// Ti.API.info('username received: ' + e.username);
+				username = e.username;
+			});
 
 			$(document).ready(function() {
-				setScreenDimentions();
+				// setScreenDimentions();
+				Ti.App.fireEvent('app:getUNameFromProperties');
 			});
 
 			function loadWhatsHappening() {
@@ -84,16 +92,15 @@
                     </div>
                     <!-- Second Row of Icons -->
                     <div class="iconRow">
-                        <!-- Campus Map Button -->
+                        <!-- ggcNewsButton -->
                         <div style="float: left">
-                            <img class="icon" onclick="document.location='campusMap.html'"
+                            <img class="icon" onclick="document.location='ggcNews.html'"
                             src="images/homeIcons/campusMapIcon.png" alt="campusMapIcon">
                             <figcaption>
-                                Campus
-                                <br>
-                                Map
+                                GGC News
                             </figcaption>
                         </div>
+                        <!-- /ggcNewsButton -->
                         <!-- What's Happening Button -->
                         <div style="float: right">
                             <img class="icon" onclick="document.location='whatsHappening.html'"
@@ -107,38 +114,9 @@
                         </div>
                     </div>
                     <!-- /SecondRowIcons -->
-
-                    <!-- Third Row of Icons -->
-                    <div class="iconRow" style="padding-top: 12%">
-                        <!-- Needs some extra space because of the two line text above -->
-                        <!-- Directory Button -->
-                        <div style="float: left">
-                            <img class="icon" onclick="document.location='directory.html'"
-                            src="images/homeIcons/directoryIcon.png" alt="directoryIcon">
-                            <figcaption>
-                                Directory
-                            </figcaption>
-                        </div>
-                        <!-- GGC Apps Button -->
-                        <div style="float: right">
-                            <img class="icon" onclick="document.location='ggcApps.html'"
-                            src="images/homeIcons/ggcAppsIcon.png" alt="ggcAppsIcon">
-                            <figcaption>
-                                GGC Apps
-                            </figcaption>
-                        </div>
-                    </div>
-                    <!-- /ThirdRowIcons -->
                 </div>
             </div>
             <!-- /Icons -->
-
-            <!-- Ticker -->
-            <footer>
-                <div id="tickerDiv">
-                    <img src="images/icons.png" width="100%" height="100%">
-                </div>
-            </footer>
         </div>
     </body>
 </html>

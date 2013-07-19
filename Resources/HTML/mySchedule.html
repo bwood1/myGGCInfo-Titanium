@@ -6,15 +6,22 @@
 <title>mySchedule</title>
 <link rel="stylesheet" href="style.css" type="text/css" media="screen"
 	title="no title" charset="utf-8">
-<!-- <script type="text/javascript" charset="utf-8" src="js/wormhole.js"></script> -->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-<!-- <script src="js/jquery.js"></script> -->
 <script type="text/javascript">
 	var scheduleArray;
-
-;
 	var semester;
 	var year;
+	var userName;
+	
+	//add event listeners
+	Ti.App.addEventListener('app:sendUsername', function(e) {
+		// Ti.API.info('The username received: ' + e.username);
+		userName = e.username;
+	});
+	Ti.App.addEventListener('app:sendJSON', function(e) {
+		scheduleArray = eval('(' + e.object + ')');
+		showScheduleInfo();
+	});
 
 	/**
 	 *	Checks to see if the students schedule is saved to the device and is updated
@@ -32,22 +39,7 @@
 		getSemester();
 		
 		//TODO write a script that will request the student's schedule from the server 
-		
-		var scheduleRequest = new XMLHttpRequest();
-				
-		scheduleRequest.onreadystatechange = function(a,b,c) {
-			if(scheduleRequest.readyState == 4) {
-				// alert('got the schedule: ' + scheduleRequest.responseText);
-				scheduleArray = eval('(' + scheduleRequest.responseText + ')');
-				// alert(JSONObject);
-				// alert(scheduleArray);
-				showScheduleInfo();
-			}
-		}
-		scheduleRequest.open("GET", "http://10.0.179.202/brandon/request.php?request=schedule&user=bwood1&session=" + 
-			semester + "&year=" + year + "&key=cfcd208495d565ef66e7dff9f98764da");
-		scheduleRequest.send();
-
+		Ti.App.fireEvent('app:openScheduleRequest', {username: 'bwood1', session: semester, year: year});
 	}
 
 	/**
@@ -55,6 +47,7 @@
 	 */
 	function saveScheduleInfo() {
 		//TODO write a script to save the schedule on the device 
+		Ti.App.Properties.setString('studentSchedule', JSON.stringify(scheduleArray));
 	}
 
 	/**
@@ -106,13 +99,12 @@
                                          scheduleArray.dayOfWeek[i].classes[j].roomNum);
                 $("#"+i+"-"+j+"-3").html(scheduleArray.dayOfWeek[i].classes[j].startTime); // + " - " + 
                                          //JSONObject.dayOfWeek[i].classes[j].endTime);
-                // $("#"+i+"-"+j+"-4").html(scheduleArray.dayOfWeek[i].classes[j].professor);
+                $("#"+i+"-"+j+"-4").html(scheduleArray.dayOfWeek[i].classes[j].INSTRUCTOR_NAME);
 		    }
 		}
 	}
     
     $(document).ready( function() {
-        // showScheduleInfo();
         retreiveScheduleInfo();
     });
 </script>
