@@ -6,14 +6,14 @@
 <title>myMentor</title>
 <link rel="stylesheet" href="style.css" type="text/css" media="screen"
 	title="no title" charset="utf-8">
-<!-- <script type="text/javascript" charset="utf-8" src="js/wormhole.js"></script> -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 <script type="text/javascript">
-
-	var mentorName="First Last";
-	var mentorPhoneOne="999-999-9999";
-	var mantorPhoneTwo="888-888-8888";
-	var mentorOffice="Z 9999";
-	var mentorEmail="mmentor@ggc.edu";
+	var mentorArray;
+	// var mentorName="First Last";
+	// var mentorPhoneOne="999-999-9999";
+	// var mantorPhoneTwo="888-888-8888";
+	// var mentorOffice="Z 9999";
+	// var mentorEmail="mmentor@ggc.edu";
 	
 	/**
 	*	Checks to see if the mentor's information is saved to the device and is updated
@@ -28,6 +28,15 @@
 	*/
 	function retreiveMentorInfo() {
 		//TODO write a script that will request the mentor information from the server 
+		var mentorRequest = new XMLHttpRequest();
+		mentorRequest.onreadystatechange = function(a,b,c) {
+			if(mentorRequest.readyState ==4) {
+				mentorArray = eval('(' + mentorRequest.responseText + ')');
+				showMentorInfo();
+			}
+		}
+		mentorRequest.open("GET", "http://10.0.179.202/brandon/request.php?request=mentor&user=bwood1&key=04cbe9668f3db2974c4efc1e6f9abe7c");
+		mentorRequest.send();
 	}
 	
 	/**
@@ -48,22 +57,27 @@
 	*	Will show the mentor information on screen
 	*/
 	function showMentorInfo() {
-		document.getElementById("mentorName").innerHTML = mentorName;
-		document.getElementById("mentorPhoneOne").innerHTML = mentorPhoneOne;
-		document.getElementById("mentorPhoneTwo").innerHTML = mantorPhoneTwo;
-		document.getElementById("mentorOffice").innerHTML = mentorOffice;
-		document.getElementById("mentorEmail").innerHTML = mentorEmail;
+		$("#mentorPicture").attr("src", 
+			"http://10.0.179.202/brandon/pics.php?size=200&user=bwood1&faculty=" + 
+			mentorArray.FACULTY_USERNAME + "&key=04cbe9668f3db2974c4efc1e6f9abe7c");
+		$("#mentorName").html(mentorArray.FULL_NAME);
+		$("#mentorPhone").attr("href", "tel:" + mentorArray.PHONE);
+		$("#mentorPhone").html(mentorArray.PHONE.substring(0,3) + "-" + mentorArray.PHONE.substring(3,6) + "-" + mentorArray.PHONE.substring(6));
+		$("#mentorOffice").html(mentorArray.BUILDING_NAME + ' ' + 
+								mentorArray.OFFICE_NUMBER);
+		$("#mentorEmail").attr("href", "mailto:" + mentorArray.FACULTY_USERNAME + '@ggc.edu');
+		$("#mentorEmail").html(mentorArray.FACULTY_USERNAME + '@ggc.edu');
+		// document.getElementById("mentorName").innerHTML = mentorName;
+		// document.getElementById("mentorPhoneOne").innerHTML = mentorPhoneOne;
+		// document.getElementById("mentorPhoneTwo").innerHTML = mantorPhoneTwo;
+		// document.getElementById("mentorOffice").innerHTML = mentorOffice;
+		// document.getElementById("mentorEmail").innerHTML = mentorEmail;
 	}
+		
 	
-	// The "deviceready" event is sent when the system
-    // has finished loading. Here we initialise the UI.
-    document.addEventListener(
-        "deviceready",
-        function()
-        {
-            showMentorInfo();
-        },
-        true);
+	$(document).ready(function() {
+		retreiveMentorInfo();
+	})
 </script>
 </head>
 <body>
@@ -89,9 +103,8 @@
 
 		<!-- mentorContent -->
 		<div id="mentorContent">
-			<div id="mentorPicture"
-				style="padding: 5% 20% 5% 20%; width: 60%; height: 45%">
-				<img src="" height=100% width=100%>
+			<div style="padding: 5% 20% 5% 20%; width: 60%; height: 45%">
+				<img id="mentorPicture" src="" height=100% width=100%>
 			</div>
 			<!-- /mentorPicture -->
 			
@@ -118,13 +131,13 @@
 					</div>
 					<span style="display: inline-block; width: 10%"></span>
 					<div style="display: inline-block; width: 40%; text-align: left">
-						<label id="mentorPhoneOne"></label>
+						<a id="mentorPhone" href=""></a>
 					</div>
 				</div>
 				<!-- /phoneRow -->
-				<br>
+				<!-- <br> -->
 				<!-- phoneTwoRow -->
-				<div id="phoneTwoRow" style="width: 100%; height: 20%">
+				<!-- <div id="phoneTwoRow" style="width: 100%; height: 20%">
 					<div style="display: inline-block; width: 30%; text-align: right">
 						<label id="phoneTwoLabel">Phone 2:</label>
 					</div>
@@ -132,7 +145,7 @@
 					<div style="display: inline-block; width: 40%; text-align: left">
 						<label id="mentorPhoneTwo"></label>
 					</div>
-				</div>
+				</div> -->
 				<!-- /phoneTwoRow -->
 				<br>
 				<!-- officeRow -->
@@ -154,7 +167,7 @@
 					</div>
 					<span style="display: inline-block; width: 10%"></span>
 					<div style="display: inline-block; width: 40%; text-align: left">
-						<label id="mentorEmail"></label>
+						<a id="mentorEmail" href=""></a>
 					</div>
 				</div>
 				<!-- /email Row -->
