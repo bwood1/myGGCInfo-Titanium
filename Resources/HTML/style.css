@@ -3,9 +3,9 @@ html,body {
 	padding: 0;
 	width: 100%;
 	height: 100%;
-	background-color: #336600;
+	background-color: #FFFFFF;
 	font-family: sans-serif;
-	color: #FFFFFF;
+	color: #336600;
 	text-align: center;
 	text-size: 200%;
 	/* Disable text selection. */
@@ -16,6 +16,16 @@ html,body {
 	-ms-user-select: none;
 	-o-user-select: none;
 	user-select: none;
+}
+
+#socialMedia {
+	position: fixed;
+	bottom: -70px;
+	left: 0;
+	width: 100%;
+	height: 100px;
+	color: #336600;
+	background-color: #E8EAEB; 
 }
 
 #heading {
@@ -111,6 +121,11 @@ html,body {
 .icon {
 	width: 90px;
 	height: 90px;
+}
+
+.socialMediaIcon {
+	width: 35px;
+	height: 35px;
 }
 
 /* -------------------------------------mySchedule.html------------------------------*/

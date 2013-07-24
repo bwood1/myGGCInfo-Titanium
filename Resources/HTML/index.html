@@ -27,32 +27,53 @@
 				loadLogInOutButton();
 			});
 			
+			/**
+			 * Checks to see if the user is logged in. If so then displays the log out button.
+			 * If not, displays the log in button.
+			 */
 			function loadLogInOutButton() {
 				if( isLoggedIn) {
 					$("#logInOutButton").attr({
 						alt: 'logOutButton',
-						onClick: 'Ti.App.fireEvent("index:logoutRequest")'
+						onClick: 'logOut();'
 					});
 					$("#logInOutCaption").html('Log Out');
 				} else {
 					$("#logInOutButton").attr({
 						alt: 'logInButton',
 						onClick: 'document.location="login.html"'
-						// onClick: 'openLogin()'
 					});
-					$("#logInOutCaption").html('Log In');
+					$("#logInOutCaption").html('Log In');				
 				}
 			}
 			
-			function openLogin() {
-				$("body").load('login.html');
+			/**
+			 * Fires the log out event to send the log out request to the server and then 
+			 * displays the log in button.
+			 */
+			function logOut() {
+				Ti.App.fireEvent("index:logoutRequest");
+				$("#logInOutButton").attr({
+					alt: 'logInButton',
+					onClick: 'document.location="login.html"'
+				});
+				$("#logInOutCaption").html('Log In');
+			}
+			
+			function showSocialMedia() {
+				if($("#socialMedia").css("bottom") == "-70px") {
+					$("#socialMedia").animate({bottom: "-20px"}, 500);
+				} else {
+					$("#socialMedia").animate({bottom: "-70px"}, 500)
+				}
+			}
+			
+			function openFacebook() {
+				
 			}
 
 			$(document).ready(function() {
 				Ti.App.fireEvent('index:getLoggedInStatus');
-				// loadLogInOutButton();
-				// setScreenDimentions();
-				// Ti.App.fireEvent('app:getUNameFromProperties');
 			});
 
         </script>
@@ -79,7 +100,7 @@
 
             <!-- content -->
             <!-- Icons -->
-            <div id="iconWrapper" style="margin: 0px auto">
+            <div id="iconWrapper" style="margin: 0px auto;">
                 <div id="icons" style="margin: 0px auto">
                     <!-- First Row of Icons -->
                     <div class="iconRow">
@@ -100,12 +121,13 @@
                             </figcaption>
                         </div>
                     </div>
+                    <br>
                     <!-- Second Row of Icons -->
                     <div class="iconRow">
                         <!-- ggcNewsButton -->
                         <div style="float: left">
                             <img class="icon" onclick="document.location='ggcNews.html'"
-                            src="images/homeIcons/campusMapIcon.png" alt="campusMapIcon">
+                            src="images/homeIcons/ggcNewsIcon.png" alt="campusMapIcon">
                             <figcaption>
                                 GGC News
                             </figcaption>
@@ -127,6 +149,23 @@
                 </div>
             </div>
             <!-- /Icons -->
+        </div>
+        <div id="socialMedia">
+        	<a href="#socialMedia", class=".toggle" onclick="showSocialMedia();">Social Media</a>
+        	<br>
+        	<div id="socialMediaIcons" style="padding-top: 4%">
+        	<a onclick="Ti.App.fireEvent('index:openFacebook')">
+        		<img class="socialMediaIcon" src="images/socialMediaIcons/facebook.png" />
+        	</a>
+        	<span style="width: 10%; display: inline-block"></span>
+        	<a onclick="Ti.App.fireEvent('index:openTwitter')">
+        		<img class="socialMediaIcon" src="images/socialMediaIcons/twitter.png" />
+        	</a>
+        	<span style="width: 10%; display: inline-block"></span>
+        	<a onclick="Ti.App.fireEvent('index:openYouTube')">
+        		<img class="socialMediaIcon" src="images/socialMediaIcons/youtube.png" />
+        	</a>
+        	</div>
         </div>
     </body>
 </html>

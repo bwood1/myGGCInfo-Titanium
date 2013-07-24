@@ -342,7 +342,7 @@ function ApplicationWindow() {
 	}
 	
 	
-	/* -----------------------Event listeners for myMentor.html-----------------------*/
+	/* -----------------------Event listeners for index.html-----------------------*/
 	
 	Ti.App.addEventListener('index:getLoggedInStatus', function() {
 		Ti.App.fireEvent('index:sendLoggedInStatus', {status: isLoggedIn});
@@ -377,6 +377,18 @@ function ApplicationWindow() {
 		client.send();
 	}
 	
+	Ti.App.addEventListener('index:openFacebook', function () {
+		Ti.Platform.openURL("http://www.facebook.com/georgiagwinnett");
+	});
+
+	Ti.App.addEventListener('index:openTwitter', function() {
+		Ti.Platform.openURL("http://twitter.com/GeorgiaGwinnett");
+	});
+	
+	Ti.App.addEventListener('index:openYouTube', function (){ 
+		Ti.Platform.openURL("http://www.youtube.com/user/GeorgiaGwinnett");
+	});
+
 	// Dont think I need this anymore
 	// //gets the username from properties table
 	// Ti.App.addEventListener('app:getUNameFromProperties', function() {
