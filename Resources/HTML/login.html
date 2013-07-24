@@ -11,105 +11,45 @@
         <!-- <script src="/js/jquery.cookie.js"></script> -->
         <!-- <script src="js/login.js"></script> -->
         <script>
-        	var uName;
-        	var pWord;
+        	var isLoggedIn;
+        	var uName = null;
+        	var pWord = null;
         	
         	//add listeners for Ti events
-        	// Ti.App.addEventListener('app:sendUsername', function(e) {
-				// Ti.API.info('username received: ' + e.username);
-			// });
+        	//is fired when the user logs in successfully
+			Ti.App.addEventListener('login:loginSuccess', function() {
+				window.location.href = "index.html";
+			});
+			
+			//is fired when the user name is requested from the server
+			Ti.App.addEventListener('login:sendUsername', function(e) {
+				Ti.API.info('username received as: ' + e.username);
+				uName = e.username;
+				$("#userNameField").attr('value', uName);
+			});
 		
-        	var isLoggedIn;
-        	//gets the username and password and passes them to the authentication method
+			/**
+			 *   gets the username and password and passes them to the authentication method
+			 */
 			function logIn() {
 				// window.location.href = "index.html";
 				uName = document.getElementById('userNameField').value;
 				pWord = document.getElementById('passwordField').value;
-				
-				authenticateMe(uName, pWord);
+				Ti.App.fireEvent('login:openLoginRequest', {username: uName, password: pWord});
+				// authenticateMe(uName, pWord);
 			}
 			
-			//saves the username to the properties file
-			function saveUname() {
-				Ti.API.info('login.html says "add user name to properties"');
-				Ti.App.fireEvent('app:addUNameToProperties', {username: uName});
-				// Ti.API.info('get username from properties');
-				Ti.App.fireEvent('app:getUNameFromProperties');
-			}
-			
-			//checks the response of the authentication request
-			function checkResponse(response) {
-				if(response =="no"){
-					// Ti.API.info('login.html says "the response is ' + response + '"');
-					alert('Username or password incorrect');
-				}
-				else if(response == "empty"){
-					// Ti.API.info('login.html says "the response is ' + response + '"');
-					alert('Must fill out both fields');
-				}
-				else{
-					// Ti.API.info('login.html says "the response is ' + response + '"');
-					alert('You have successfully logged in');
-					// saveUname();
-					window.location.href = "index.html";
-					
-				}
-			}
-			
-			// function getCookie(c_name){
-				// var c_value = document.cookie;
-				// var c_start = c_value.indexOf(" " + c_name + "=");
-				// if (c_start == -1)
-  				// {
-					// c_value = null;
-				// }
-				// else
-  				// {
-  					// c_start = c_value.indexOf("=", c_start) + 1;
-  					// var c_end = c_value.indexOf(";", c_start);
-  					// if (c_end == -1)
-    				// {
-    					// c_end = c_value.length;
-    				// }
-  					// c_value = unescape(c_value.substring(c_start,c_end));
-  				// }
-			// return c_value;
-			// }
-			
-			//generates the authentiacation request returns "yes", "no", or "empty"
-			function authenticateMe(uName, pWord) {		
-				Ti.App.fireEvent('app:openLoginRequest', {username: uName, password: pWord});
-				// var request = new XMLHttpRequest();
-				// request.onload = function() {
-					// var content = this.getResponseHeader('Content-Length');
-					// console.log(content);
-				// }
-				// request.onreadystatechange = function(a,b,c) {
-					// if(request.readyState == 4) {
-						// // alert('request finished, response: ' + request.responseText);
-						// // console.log('request finished, response: ', a,b,c);
-						// checkResponse(request.responseText);
-						// // if(request.responseText == "no"){
-							// // alert('Username or password incorrect');
-						// // }
-						// // else if(request.responseText == "empty"){
-							// // alert('Must fill out both fields');
-						// // }
-						// // else{
-							// // alert('You have successfully logged in');
-							// // // alert(request.getResponseHeader("Server"));
-// // 
-							// // // window.location.href = "index.html";
-						// // }
-					// }
-// 					
-				// }
-				// request.open("GET", "http://10.0.179.202/brandon/request.php?request=login&user=" + uName + "&pass=" + pWord, true);
-				// request.send();
+			/**
+			 * Checks to see if the username is saved in the properties file.
+			 * If it is then auto populates the username field.
+			 */
+			function checkUsername() {
+				Ti.App.fireEvent('login:getUNameFromProperties');
 			}
 			
 			$(document).ready(function() {
-				
+				// Ti.API.info('Login.html opened');
+				checkUsername();
 			});
         </script>
     </head>
@@ -145,8 +85,8 @@
                             User Name:
                         </div>
                         <span style="width: 10%; display: inline-block"></span>
-                        <input id="userNameField" type="text" style="width: 30%; display: 
-                            inline-block;" />
+                        <input id="userNameField" type="text" style="width: 30%;
+                         display: inline-block;" />
                     </div>
                     <!-- /username -->
                     <!-- password -->

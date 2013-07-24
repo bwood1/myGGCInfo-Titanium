@@ -9,74 +9,45 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 <script type="text/javascript">
 	var mentorArray;
-	// var mentorName="First Last";
-	// var mentorPhoneOne="999-999-9999";
-	// var mantorPhoneTwo="888-888-8888";
-	// var mentorOffice="Z 9999";
-	// var mentorEmail="mmentor@ggc.edu";
 	
-	/**
-	*	Checks to see if the mentor's information is saved to the device and is updated
-	*/
-	function checkMentorInfo() {
-		//TODO check to see if the mentors information is saved on the device 
-		//TODO check to see if the mentors information is current 
-	}
+	//Add event listeners
+	Ti.App.addEventListener('myMentor:sendMentor', function(e) {
+		mentorArray = e.mentor;
+		showMentorInfo(e.mentor);
+	});
+	
+	Ti.App.addEventListener('myMentor:sendMentorPicDir', function(e) {
+		$("#mentorPicture").attr('src', e.imgDir);
+	});
 	
 	/**
 	*	Will retrieve the mentors information from the server and store it in variables
 	*/
-	function retreiveMentorInfo() {
+	function loadMentorInfo() {
 		//TODO write a script that will request the mentor information from the server 
-		var mentorRequest = new XMLHttpRequest();
-		mentorRequest.onreadystatechange = function(a,b,c) {
-			if(mentorRequest.readyState ==4) {
-				mentorArray = eval('(' + mentorRequest.responseText + ')');
-				showMentorInfo();
-			}
-		}
-		mentorRequest.open("GET", "http://10.0.179.202/brandon/request.php?request=mentor&user=bwood1&key=04cbe9668f3db2974c4efc1e6f9abe7c");
-		mentorRequest.send();
-	}
-	
-	/**
-	*	Will save the mentors information to local storage
-	*/
-	function saveMentorInfo() {
-		//TODO write a script to save the mentor information on the device 
-	}
-	
-	/**
-	*	Will get the mentors information from the device and store it in variables
-	*/
-	function getMentorInfo() {
-		//TODO write a script to get the mentor information from local storage 
+		Ti.App.fireEvent('myMentor:loadMentorInfo');
 	}
 	
 	/**
 	*	Will show the mentor information on screen
 	*/
-	function showMentorInfo() {
-		$("#mentorPicture").attr("src", 
-			"http://10.0.179.202/brandon/pics.php?size=200&user=bwood1&faculty=" + 
-			mentorArray.FACULTY_USERNAME + "&key=04cbe9668f3db2974c4efc1e6f9abe7c");
-		$("#mentorName").html(mentorArray.FULL_NAME);
-		$("#mentorPhone").attr("href", "tel:" + mentorArray.PHONE);
-		$("#mentorPhone").html(mentorArray.PHONE.substring(0,3) + "-" + mentorArray.PHONE.substring(3,6) + "-" + mentorArray.PHONE.substring(6));
-		$("#mentorOffice").html(mentorArray.BUILDING_NAME + ' ' + 
-								mentorArray.OFFICE_NUMBER);
-		$("#mentorEmail").attr("href", "mailto:" + mentorArray.FACULTY_USERNAME + '@ggc.edu');
-		$("#mentorEmail").html(mentorArray.FACULTY_USERNAME + '@ggc.edu');
-		// document.getElementById("mentorName").innerHTML = mentorName;
-		// document.getElementById("mentorPhoneOne").innerHTML = mentorPhoneOne;
-		// document.getElementById("mentorPhoneTwo").innerHTML = mantorPhoneTwo;
-		// document.getElementById("mentorOffice").innerHTML = mentorOffice;
-		// document.getElementById("mentorEmail").innerHTML = mentorEmail;
+	function showMentorInfo(aMentor) {
+		//format like this - http://10.0.179.202/brandon/request.php?request=pics&size=200&user=bwood1&faculty=tim
+		// Ti.API.info('mentor username: ' + aMentor.FACULTY_USERNAME);
+		// $("#mentorPicture").attr("src", Ti.App.fireEvent('myMentor:getMentorFilePath'));
+		Ti.App.fireEvent('myMentor:getMentorFilePath');
+		$("#mentorName").html(aMentor.FULL_NAME);
+		$("#mentorPhone").attr("href", "tel:" + aMentor.PHONE);
+		$("#mentorPhone").html(aMentor.PHONE.substring(0,3) + "-" + aMentor.PHONE.substring(3,6) + "-" + aMentor.PHONE.substring(6));
+		$("#mentorOffice").html(aMentor.BUILDING_NAME + ' ' + 
+								aMentor.OFFICE_NUMBER);
+		$("#mentorEmail").attr("href", "mailto:" + aMentor.FACULTY_USERNAME + '@ggc.edu');
+		$("#mentorEmail").html(aMentor.FACULTY_USERNAME + '@ggc.edu');
 	}
 		
 	
 	$(document).ready(function() {
-		retreiveMentorInfo();
+		loadMentorInfo();
 	})
 </script>
 </head>

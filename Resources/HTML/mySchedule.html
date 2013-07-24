@@ -11,51 +11,88 @@
 	var scheduleArray;
 	var semester;
 	var year;
-	var userName;
+	var todaysDate;
+	var uName;
 	
 	//add event listeners
-	Ti.App.addEventListener('app:sendUsername', function(e) {
-		// Ti.API.info('The username received: ' + e.username);
-		userName = e.username;
+	Ti.App.addEventListener('mySchedule:sendUsername', function(e) {
+		Ti.API.info('The username received: ' + e.username);
+		uName = e.username;
 	});
-	Ti.App.addEventListener('app:sendJSON', function(e) {
+	
+	Ti.App.addEventListener('mySchedule:sendSchedule', function(e) {
 		scheduleArray = eval('(' + e.object + ')');
+		Ti.API.info('The schedule object is: ' + scheduleArray);
+		// saveScheduleInfo();
 		showScheduleInfo();
 	});
+	
+	/* we are not going to save the schedule currently
+	// Ti.App.addEventListener('mySchedule:sendSchedule', function(e) {
+		// scheduleArray = e.schedule;
+		// // alert(scheduleArray);
+		// showScheduleInfo();
+	// });
+	*/
 
-	/**
+	/** We are not going to save the schedule currently
 	 *	Checks to see if the students schedule is saved to the device and is updated
-	 */
-	function checkScheduleInfo() {
+	 
+	function checkSchedule() {
 		//TODO check to see if the student's schedule is saved on the device 
+		openSchedule();
+		if(scheduleArray == null){
+			alert('Schedule is null');
+			retreiveScheduleInfo();
+		}
+		else{
+			
+		}
+		showScheduleInfo();
 		//TODO check to see if the student's schedule is current 
 	}
+	*/
 
 	/**
 	 *	Will retrieve the students schedule from the server and store it in variables
 	 */
-	function retreiveScheduleInfo() {
+	function requestScheduleInfoFromServer() {
 		//get the date first
 		getSemester();
 		
 		//TODO write a script that will request the student's schedule from the server 
-		Ti.App.fireEvent('app:openScheduleRequest', {username: 'bwood1', session: semester, year: year});
+		Ti.App.fireEvent('mySchedule:openScheduleRequest', {username: uName, session: semester, 
+			year: year, theDate: todaysDate});
 	}
-
+	
+    /* we are not going to save the schecule currently
 	/**
 	 *	Will save the student's schedule to local storage
-	 */
+	 
 	function saveScheduleInfo() {
 		//TODO write a script to save the schedule on the device 
-		Ti.App.Properties.setString('studentSchedule', JSON.stringify(scheduleArray));
+		// Ti.App.Properties.setString('studentSchedule', JSON.stringify(scheduleArray));
+		Ti.App.fireEvent('mySchedule:saveSchedule', {scheduleObject: scheduleArray});
 	}
 
 	/**
 	 *	Will get the student's schedule from the device and store it in variables
-	 */
-	function getScheduleInfo() {
+	 
+	function openSchedule() {
 		//TODO write a script to get the student's schedule from local storage 
+		// Ti.API.info('open schedule file');
+		Ti.App.fireEvent('mySchedule:openSchedule');
+	}	*/
+	
+	/**
+	 * Gets the current date and returns it as a string
+	 */
+	function getDate() {
+		todaysDate = new Date();
+		var today = (date.getMonth() +1) + '/' + date.getDate() + '/' + date.getFullYear();
+		// Ti.API.info('todays date is ' + today);
 	}
+	
 	/**
 	 * Determines which semester and year to display
 	 */
@@ -86,7 +123,6 @@
 			else classesLength = scheduleArray.dayOfWeek[i].classes.length;
 			
 		    for(var j=0; j < classesLength; j++){       //for each class
-		        
 		        console.log('day: ' + scheduleArray.dayOfWeek[i].day + ' class ' + j + ": " + 
 		        	scheduleArray.dayOfWeek[i].classes[j].subject + scheduleArray.dayOfWeek[i].classes[j].courseNum + 
                     scheduleArray.dayOfWeek[i].classes[j].section + scheduleArray.dayOfWeek[i].classes[j].building + 
@@ -105,7 +141,8 @@
 	}
     
     $(document).ready( function() {
-        retreiveScheduleInfo();
+    	Ti.App.fireEvent('mySchedule:getUNameFromProperties');
+        requestScheduleInfoFromServer();
     });
 </script>
 </head>
@@ -114,16 +151,14 @@
 		<!-- Banner -->
 		<!-- Top content -->
 		<div style="padding: 5% 5% 10% 5%">
-			<!-- placeholder -->
-			<div id="topPlaceholder"></div>
-			<!-- LoginButton -->
+			<!-- backButton -->
 			<div id="backDiv">
 				<img width="100%" height="100%"
 					onclick="document.location='index.html'" src="images/icons.png"
 					alt="backButton">
 				<figcaption>Back</figcaption>
 			</div>
-			<!-- /LoginButton -->
+			<!-- /backButton -->
 			<!-- myGGC Banner -->
 			<div id="bannerDiv">
 				<img alt="bannerImage" src="images/icons.png" width="100%"

@@ -14,21 +14,20 @@
         title="no title" charset="utf-8">
         <!-- <script type="text/javascript" charset="utf-8" src="js/wormhole.js"></script> -->
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-        <script src="js/login.js"></script>
         <script type="text/javascript">
 			var screenWidth = 0;
 			var screenHeight = 0;
 			var username;
 			
 			//add event listeners
-			Ti.App.addEventListener('app:sendUsername', function(e) {
-				// Ti.API.info('username received: ' + e.username);
-				username = e.username;
-			});
+			// Ti.App.addEventListener('app:sendUsername', function(e) {
+				// // Ti.API.info('username received: ' + e.username);
+				// username = e.username;
+			// });
 
 			$(document).ready(function() {
 				// setScreenDimentions();
-				Ti.App.fireEvent('app:getUNameFromProperties');
+				// Ti.App.fireEvent('app:getUNameFromProperties');
 			});
 
 			function loadWhatsHappening() {
