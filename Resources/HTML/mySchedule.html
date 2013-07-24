@@ -16,13 +16,13 @@
 	
 	//add event listeners
 	Ti.App.addEventListener('mySchedule:sendUsername', function(e) {
-		Ti.API.info('The username received: ' + e.username);
+		// Ti.API.info('The username received: ' + e.username);
 		uName = e.username;
 	});
 	
 	Ti.App.addEventListener('mySchedule:sendSchedule', function(e) {
 		scheduleArray = eval('(' + e.object + ')');
-		Ti.API.info('The schedule object is: ' + scheduleArray);
+		// Ti.API.info('The schedule object is: ' + scheduleArray);
 		// saveScheduleInfo();
 		showScheduleInfo();
 	});

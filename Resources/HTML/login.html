@@ -23,7 +23,7 @@
 			
 			//is fired when the user name is requested from the server
 			Ti.App.addEventListener('login:sendUsername', function(e) {
-				Ti.API.info('username received as: ' + e.username);
+				// Ti.API.info('username received as: ' + e.username);
 				uName = e.username;
 				$("#userNameField").attr('value', uName);
 			});

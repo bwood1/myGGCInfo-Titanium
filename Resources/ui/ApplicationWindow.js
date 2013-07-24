@@ -17,7 +17,7 @@ function ApplicationWindow() {
     var drawerOn = false;
 
     var osname = Ti.Platform.osname;
-    var isLoggedIn;
+    var isLoggedIn = false;
     var uName = null;
     
     //add event listeners for this class
@@ -112,6 +112,7 @@ function ApplicationWindow() {
     		 // function called when an error occurs, including a timeout
     		 onerror : function(f) {
     		     Ti.API.debug(f.error);
+    		     isLoggedIn = true;
     		     alert('Problem connecting to the server');
     		 },
     		 withCredentials: true,
@@ -341,7 +342,41 @@ function ApplicationWindow() {
 	}
 	
 	
-	/* -----------------------All other event listeners-----------------------*/
+	/* -----------------------Event listeners for myMentor.html-----------------------*/
+	
+	Ti.App.addEventListener('index:getLoggedInStatus', function() {
+		Ti.App.fireEvent('index:sendLoggedInStatus', {status: isLoggedIn});
+	});
+	
+	//creates a request to log out
+	Ti.App.addEventListener('index:logoutRequest', function() {
+		logoutRequest();
+	});
+	
+	function logoutRequest() {
+		var client = Ti.Network.createHTTPClient({
+    		 // function called when the response data is available
+    		 onload : function(f) {
+    		     // Ti.API.info("Received text: " + this.responseText);
+    		     isLoggedIn = false;
+    		     alert('You are now logged out');
+    		     // Ti.App.fireEvent("mySchedule:sendSchedule", {object: this.responseText});
+    		 },
+    		 // function called when an error occurs, including a timeout
+    		 onerror : function(f) {
+    		     Ti.API.debug(f.error);
+    		     isLoggedIn = false;
+    		     alert('Problem connecting to the server');
+    		 },
+    		 withCredentials: true,
+    		 timeout : 5000  // in milliseconds
+		 });
+		//prepare the connection
+		client.open("GET", "http://10.0.179.202/brandon/request.php?request=logoff");
+		//send the request
+		client.send();
+	}
+	
 	// Dont think I need this anymore
 	// //gets the username from properties table
 	// Ti.App.addEventListener('app:getUNameFromProperties', function() {
