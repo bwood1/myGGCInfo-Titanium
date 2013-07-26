@@ -18,7 +18,12 @@
         	//add listeners for Ti events
         	//is fired when the user logs in successfully
 			Ti.App.addEventListener('login:loginSuccess', function() {
-				window.location.href = "index.html";
+				window.location = "index.html";
+			});
+			
+			Ti.App.addEventListener('schedule:loginSuccess', function() {
+				
+				window.location.href = "mySchedule.html";
 			});
 			
 			//is fired when the user name is requested from the server
@@ -35,8 +40,9 @@
 				// window.location.href = "index.html";
 				uName = document.getElementById('userNameField').value;
 				pWord = document.getElementById('passwordField').value;
-				Ti.App.fireEvent('login:openLoginRequest', {username: uName, password: pWord});
-				// authenticateMe(uName, pWord);
+				
+				//TODO: Change this back
+				Ti.App.fireEvent('login:openLoginRequest', {username: 'bwood1', password: 'BOrd5621!!'});
 			}
 			
 			/**

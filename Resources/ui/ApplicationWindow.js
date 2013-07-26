@@ -19,17 +19,24 @@ function ApplicationWindow() {
     var osname = Ti.Platform.osname;
     var isLoggedIn = false;
     var uName = null;
+    Ti.App.Properties.setString('server', '10.0.179.202');					//The server to which the requests are being sent
+    Ti.App.Properties.setString('requestPath', '/brandon/request.php?'); 	//The path on the server to send the requests to
+    Ti.App.Properties.setBool('isLogggedIn', false);
     
-    //add event listeners for this class
-    //listens for mentor request
-	Ti.App.addEventListener('loadMentorInfo', function() {
-		// Ti.API.info('loadMentorInfo fired');
-		var mentorObject;
-		mentorObject = Ti.App.Properties.getObject('mentorInfo');
-		// Ti.API.info(mentorObject);
-		Ti.App.fireEvent('sendMentor', {mentor: mentorObject});
-		// Ti.API.info('Mentor info sent');
-	});
+    
+    
+    // //add event listeners for this class
+    // //listens for mentor request
+	// Ti.App.addEventListener('loadMentorInfo', function() {
+		// // Ti.API.info('loadMentorInfo fired');
+		// var mentorObject;
+		// mentorObject = Ti.App.Properties.getObject('mentorInfo');
+		// // Ti.API.info(mentorObject);
+		// Ti.App.fireEvent('sendMentor', {mentor: mentorObject});
+		// // Ti.API.info('Mentor info sent');
+	// });
+	
+	
 	
     // Create our main window
     var self = Ti.UI.createWindow({
@@ -80,6 +87,15 @@ function ApplicationWindow() {
         // Default assumes that all HTML is in the HTML folder and the first file is index.html, you can change the next line to suit your HTML.
         url : '/HTML/index.html'
     });
+    // self.addEventListener('android:back', function(e) {
+    	// if(webView.canGoBack()) {
+    		// // alert('webView can go back');
+    		// webView.goBack();
+    		// webView.reload();
+    	// } else {
+    		// self.close();
+    	// }
+	// });
     self.add(webView);
 
 	/* -----------------------Event listeners for login.html-----------------------*/
@@ -93,19 +109,23 @@ function ApplicationWindow() {
 		// Ti.App.Properties.getString('username') + ' sent"');
 	});
 
-	//creates a request for the user to log in
+	//
 	Ti.App.addEventListener('login:openLoginRequest', function(e) {
 		openLoginRequest(e);
 	});
 	
+	/**
+	 * creates a request for the user to log in
+	 */
 	function openLoginRequest(e) {
-		var url = 'http://10.0.179.202/brandon/request.php?request=login&user=';
+		var url = 'http://' + Ti.App.Properties.getString('server') + Ti.App.Properties.getString('requestPath') + 
+			'request=login&user=' + e.username.toLowerCase() + '&pass=' + e.password;
 		uName = e.username.toLowerCase();
 		// Ti.API.info('uName variable = ' + uName);
 		var client = Ti.Network.createHTTPClient({
     		 // function called when the response data is available
     		 onload : function(f) {
-    		     // Ti.API.info("Received text: " + this.responseText);
+    		     // alert("Login response is : " + this.responseText);
     		     checkLoginResponse(this.responseText);
     		     // Ti.API.info('response headers: ' + this.getResponseHeaders());
     		 },
@@ -119,8 +139,8 @@ function ApplicationWindow() {
     		 timeout : 5000  // in milliseconds
 		 });
 		//prepare the connection
-		// Ti.API.info('the request is: ' + url + e.username + "&pass=" + e.password);
-		client.open("GET", url + uName + "&pass=" + e.password);
+		// alert('The login request is: ' + url);
+		client.open("GET", url);
 		//send the request
 		client.send();
 	}
@@ -138,7 +158,8 @@ function ApplicationWindow() {
 		else if (aResponse = "yes") {
 			// Ti.API.info('login.html says "the response is ' + aResponse + '"');
 			// alert('You have successfully logged in');
-			isLoggedIn = true;
+			Ti.App.Properties.setBool('isLoggedIn', true);
+			// Ti.API.info('The logged in status is: ' + Ti.App.Properties.getBool('isLoggedIn'));
 			// Ti.App.fireEvent('login:loginSuccess');
 			loginSuccess();
 		}
@@ -180,7 +201,8 @@ function ApplicationWindow() {
 	 */
 	function getMentorInfoFromServer() {
 		// Ti.API.info('Getting mentor information from the server');
-		var url = 'http://10.0.179.202/brandon/request.php?request=mentor&user=';
+		var url = 'http://' + Ti.App.Properties.getString('server') + Ti.App.Properties.getString('requestPath') +
+			'request=mentor&user=' + Ti.App.Properties.getString('username');
 		
 		var client = Ti.Network.createHTTPClient({
     		 // function called when the response data is available
@@ -197,8 +219,8 @@ function ApplicationWindow() {
     		 timeout : 5000  // in milliseconds
 		 });
 		//prepare the connection
-		// Ti.API.info('the request is: ' + url + Ti.App.Properties.getString('username'));
-		client.open("GET", url + Ti.App.Properties.getString('username'));
+		// alert('The mentor request is: ' + url);
+		client.open("GET", url);
 		//send the request
 		client.send();
 	}
@@ -209,7 +231,7 @@ function ApplicationWindow() {
 	function checkMentorResponse(response) {
 		if(response =="no mentor"){
 			Ti.API.info("the response is: " + response);
-			var noMentorJSON = JSON.stringify({"PERSON_ID":"00000","USERNAME":"bwood1",
+			var noMentorJSON = JSON.stringify({"PERSON_ID":"00000","USERNAME":"uName",
 				"FULL_NAME":"No Mentor","FACULTY_USERNAME":"","OFFICE_NUMBER":"",
 				"BUILDING_NAME":"","PHONE":""});
 			Ti.App.Properties.setObject('mentorInfo', noMentorJSON);
@@ -222,8 +244,10 @@ function ApplicationWindow() {
 	}
 	
 	function getMentorPicture( aMentorArray) {
-		//http://10.0.179.202/brandon/request.php?request=pics&size=200&user=bwood1&faculty=tim
-		var url = 'http://10.0.179.202/brandon/request.php?request=pics&size=200&user=';
+		//http://' + Ti.App.Properties.getString('server') + '/brandon/request.php?request=pics&size=200&user=bwood1&faculty=tim
+		var url = 'http://' + Ti.App.Properties.getString('server') + 
+			Ti.App.Properties.getString('requestPath') + 'request=pics&size=200&user=' + 
+			Ti.App.Properties.getString('username') + '&faculty=' + aMentorArray.FACULTY_USERNAME;
 		
 		var client = Ti.Network.createHTTPClient({
     		 // function called when the response data is available
@@ -241,11 +265,7 @@ function ApplicationWindow() {
     		 timeout : 5000  // in milliseconds
 		 });
 		//prepare the connection
-		//TODO: set this stuff
-		// Ti.API.info('the request is: ' + url + Ti.App.Properties.getString('username')
-			 // + '&faculty=' + aMentorArray.FACULTY_USERNAME);
-		client.open("GET", url + Ti.App.Properties.getString('username')
-			 + '&faculty=' + aMentorArray.FACULTY_USERNAME);
+		client.open("GET", url);
 		//send the request
 		client.send();
 	}
@@ -267,6 +287,10 @@ function ApplicationWindow() {
 	});
 	
 	function openScheduleRequest(e) {
+		var url = 'http://' + Ti.App.Properties.getString('server') +
+			Ti.App.Properties.getString('requestPath') + '&request=schedule&user=' + 
+			Ti.App.Properties.getString('username') + '&session=' + e.session + '&year=' + e.year;
+		
 		var client = Ti.Network.createHTTPClient({
     		 // function called when the response data is available
     		 onload : function(f) {
@@ -282,15 +306,17 @@ function ApplicationWindow() {
     		 withCredentials: true,
     		 timeout : 5000  // in milliseconds
 		 });
+		 Ti.API.info('The schedule request is: ' + url);
 		//prepare the connection
-		client.open("GET", "http://10.0.179.202/brandon/request.php?request=schedule&user=bwood1&session=" + e.session + "&year=" + e.year);
+		client.open("GET", url);
 		//send the request
 		client.send();
 	}
 	
 	function checkSchedule(aResponse) {
 		if( aResponse == "not logged in" ) {
-			alert("You must log in to see your schedule");
+			Ti.App.fireEvent('schedule:mustLogIn');
+			alert('You must log in to see your schedule');
 		}
 		else {
 			Ti.App.fireEvent("mySchedule:sendSchedule", {object: aResponse});
@@ -345,7 +371,7 @@ function ApplicationWindow() {
 	/* -----------------------Event listeners for index.html-----------------------*/
 	
 	Ti.App.addEventListener('index:getLoggedInStatus', function() {
-		Ti.App.fireEvent('index:sendLoggedInStatus', {status: isLoggedIn});
+		Ti.App.fireEvent('index:sendLoggedInStatus', {status: Ti.App.Properties.getBool('isLoggedIn')});
 	});
 	
 	//creates a request to log out
@@ -359,20 +385,23 @@ function ApplicationWindow() {
     		 onload : function(f) {
     		     // Ti.API.info("Received text: " + this.responseText);
     		     isLoggedIn = false;
+    		     Ti.App.Properties.setBool('isLoggedIn', 'false');
     		     alert('You are now logged out');
     		     // Ti.App.fireEvent("mySchedule:sendSchedule", {object: this.responseText});
     		 },
     		 // function called when an error occurs, including a timeout
     		 onerror : function(f) {
     		     Ti.API.debug(f.error);
-    		     isLoggedIn = false;
+    		     // isLoggedIn = false;
     		     alert('Problem connecting to the server');
+    		     Ti.App.Properties.setBool('isLoggedIn', false);
+    		     Ti.API.info('isLogged in status: ' + Ti.App.Properties.getBool('isLoggedIn'));
     		 },
     		 withCredentials: true,
     		 timeout : 5000  // in milliseconds
 		 });
 		//prepare the connection
-		client.open("GET", "http://10.0.179.202/brandon/request.php?request=logoff");
+		client.open("GET", "http://" + Ti.App.Properties.getString('server') + "/brandon/request.php?request=logoff");
 		//send the request
 		client.send();
 	}
@@ -403,11 +432,7 @@ function ApplicationWindow() {
 		// // Ti.API.info('ApplicationWindow.js says "username ' + 
 		// // Ti.App.Properties.getString('username') + ' sent"');
 	// }
-	
-	
-	
-	
-	
+
     if (animationsOn) {
         setTimeout(function() {
             webView.animate(Ti.UI.createAnimation({

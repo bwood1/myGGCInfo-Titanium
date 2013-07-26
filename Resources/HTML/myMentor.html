@@ -32,7 +32,7 @@
 	*	Will show the mentor information on screen
 	*/
 	function showMentorInfo(aMentor) {
-		//format like this - http://10.0.179.202/brandon/request.php?request=pics&size=200&user=bwood1&faculty=tim
+		//format like this - http:///brandon/request.php?request=pics&size=200&user=bwood1&faculty=tim
 		// Ti.API.info('mentor username: ' + aMentor.FACULTY_USERNAME);
 		// $("#mentorPicture").attr("src", Ti.App.fireEvent('myMentor:getMentorFilePath'));
 		Ti.App.fireEvent('myMentor:getMentorFilePath');
@@ -48,7 +48,11 @@
 	
 	$(document).ready(function() {
 		loadMentorInfo();
-	})
+	});
+	
+	window.onbeforeunload = function() {
+		window.name = "reloader";
+	}
 </script>
 </head>
 <body>

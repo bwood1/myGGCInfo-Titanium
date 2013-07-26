@@ -75,6 +75,14 @@ html,body {
     display: inline-block;
 }
 
+#logoutDiv {
+	margin-left: auto;
+	margin-right: auto;
+    width: 20%;
+    height: 3%;
+    display: none;
+}
+
 #backDivHome {
 	margin-left: auto;
 	margin-right: auto;

@@ -1,5 +1,9 @@
 feed2js_ck = true;
 
+function aFunction() {
+	
+}
+
 //myGGC Banner
 document.write('<div id="bannerDiv" style="width: 100%; height: 25%">');
 document.write('<img src="images/icons.png" width="100%" height="25%">');

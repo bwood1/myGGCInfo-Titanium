@@ -20,12 +20,27 @@
 		uName = e.username;
 	});
 	
+	Ti.App.addEventListener('schedule:mustLogIn', function() {
+		// $("document").load('login.html');
+		location.href = 'login.html';		
+		// alert('You must log in to see your schedule');
+	});
+	
 	Ti.App.addEventListener('mySchedule:sendSchedule', function(e) {
 		scheduleArray = eval('(' + e.object + ')');
 		// Ti.API.info('The schedule object is: ' + scheduleArray);
 		// saveScheduleInfo();
 		showScheduleInfo();
 	});
+	
+	// Ti.App.addEventListener('androidBackPressed', function() {
+		// document.location = 'index.html';
+		// Ti.App.fireEvent('index:getLoggedInStatus');
+	// });
+	
+	// Ti.App.addEventListener('androidBackPressed', function() {
+		// backPressed();
+	// });
 	
 	/* we are not going to save the schedule currently
 	// Ti.App.addEventListener('mySchedule:sendSchedule', function(e) {
@@ -139,6 +154,14 @@
 		    }
 		}
 	}
+	
+	// What to do when the android back button is pressed
+	function backPressed() {
+		$('html').empty();
+		$('html').load('index.html');
+		// document.location='index.html';
+		// Ti.App.fireEvent('index:getLoggedInStatus');
+	}
     
     $(document).ready( function() {
     	Ti.App.fireEvent('mySchedule:getUNameFromProperties');
@@ -154,7 +177,7 @@
 			<!-- backButton -->
 			<div id="backDiv">
 				<img width="100%" height="100%"
-					onclick="document.location='index.html'" src="images/icons.png"
+					onclick="document.location = 'index.html'" src="images/icons.png"
 					alt="backButton">
 				<figcaption>Back</figcaption>
 			</div>

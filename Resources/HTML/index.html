@@ -14,6 +14,7 @@
         title="no title" charset="utf-8">
         <!-- <script type="text/javascript" charset="utf-8" src="js/wormhole.js"></script> -->
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+        <!-- <script src="js/checkLogInStatus.js"></script> -->
         <script type="text/javascript">
 			var screenWidth = 0;
 			var screenHeight = 0;
@@ -21,9 +22,10 @@
 			var isLoggedIn;
 			
 			//add event listeners
+			
 			Ti.App.addEventListener('index:sendLoggedInStatus', function(e) {
 				isLoggedIn = e.status;
-				// Ti.API.info('The logged in status is ' + isLoggedIn);
+				Ti.API.info('The logged in status is ' + isLoggedIn);
 				loadLogInOutButton();
 			});
 			
@@ -33,17 +35,13 @@
 			 */
 			function loadLogInOutButton() {
 				if( isLoggedIn) {
-					$("#logInOutButton").attr({
-						alt: 'logOutButton',
-						onClick: 'logOut();'
-					});
-					$("#logInOutCaption").html('Log Out');
+					Ti.API.info('Set Log out button to show');
+					$("#loginDiv").css('display', 'none');
+					$("#logoutDiv").css('display', 'inline-block');
 				} else {
-					$("#logInOutButton").attr({
-						alt: 'logInButton',
-						onClick: 'document.location="login.html"'
-					});
-					$("#logInOutCaption").html('Log In');				
+					Ti.API.info('Set Log In button to show');
+					$("#logoutDiv").css('display', 'none');
+					$("#loginDiv").css('display', 'inline-block');		
 				}
 			}
 			
@@ -52,53 +50,78 @@
 			 * displays the log in button.
 			 */
 			function logOut() {
+				isLoggedIn = false;
 				Ti.App.fireEvent("index:logoutRequest");
-				$("#logInOutButton").attr({
-					alt: 'logInButton',
-					onClick: 'document.location="login.html"'
-				});
-				$("#logInOutCaption").html('Log In');
+				Ti.API.info('Set Log In button to show');
+				$("#logoutDiv").css('display', 'none');
+				$("#loginDiv").css('display', 'inline-block');
+				// $("#logInOutButton").attr({
+					// alt: 'logInButton',
+					// onClick: 'document.location="login.html"'
+				// });
+				// $("#logInOutCaption").html('Log In');
 			}
 			
 			function showSocialMedia() {
-				if($("#socialMedia").css("bottom") == "-70px") {
+				if($("#socialMedia").css("bottom") == "-75px") {
 					$("#socialMedia").animate({bottom: "-20px"}, 500);
 				} else {
-					$("#socialMedia").animate({bottom: "-70px"}, 500)
+					$("#socialMedia").animate({bottom: "-75px"}, 500)
 				}
 			}
 			
-			function openFacebook() {
-				
+			
+			function getLoggedInStatus() {
+				// Ti.API.info('getLoggedInStatus called');
+				Ti.App.fireEvent('index:getLoggedInStatus');
 			}
 
 			$(document).ready(function() {
-				Ti.App.fireEvent('index:getLoggedInStatus');
+				getLoggedInStatus();
 			});
-
+			
+			// document.onload = window.getLoggedInStatus;
+		
+			// window.onbeforeunload = function(e) {
+				// // Ti.API.info('onunload called');
+			// }
+			// window.onpopstate = function(event) {
+				// Ti.API.info('onpopstate called');
+			// }
+			
+			if(window.name == "reloader") {
+				window.name = "no";
+				reloadPage();
+			}
         </script>
     </head>
     <body>
         <div id="screen">
             <!-- Top content -->
             <div style="padding: 5% 5% 10% 5%">
-                <!-- LoginButton -->
+                <!-- backButton -->
                 <div id="backDivHome">
                     <!-- <img id="backButton" width="100%" height="100%" src="images/logInButton.png"
                     	alt="" onclick="">
                     <figcaption></figcaption> -->
                 </div>
-                <!-- /LoginButton -->
+                <!-- /backButton -->
                 <!-- myGGC Banner -->
                 <div id="bannerDivHome">
-                    <img alt="bannerImage" src="images/banners/MyGGCMobile_Logo.png" width="100%"
+                    <img alt="bannerImage" src="images/banners/MyGGCMobile_Logo4.png" width="100%"
                     height="100%">
                 </div>
-                <!-- backButton -->
+                <!-- loginButton -->
                 <div id="loginDiv">
                     <img id="logInOutButton" width="100%" height="100%" src="images/backButton.png"
-                    	alt="" onclick="">
-                    <figcaption id="logInOutCaption"></figcaption>
+                    	alt="" onclick="document.location='login.html'">
+                    <figcaption>Log In</figcaption>
+                </div>
+                <!-- /loginButton -->
+                <!-- loginoutButton -->
+                <div id="logoutDiv" style="display: none;">
+                	<img id="logOutButton" width="100%" height="100%" src="" alt="logOutButton" onclick="logOut();" />
+                	<figcaption>Log Out</figcaption>
                 </div>
 
             </div>

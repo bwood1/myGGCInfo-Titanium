@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ti:app xmlns:ti="http://ti.appcelerator.org">
-    <id>com.ggc.myggcinfo</id>
-    <name>myGGCInfo</name>
+    <property name="ti.android.runtime">v8</property>
+    <id>com.ggc.myggc</id>
+    <name>myGGC</name>
     <version>1.0</version>
     <publisher>brandonwood</publisher>
     <url>http://</url>
@@ -37,9 +38,7 @@
         </splash>
         <theme>default</theme>
     </mobileweb>
-    <modules>
-        <module platform="android">ti.map</module>
-    </modules>
+    <modules/>
     <deployment-targets>
         <target device="android">true</target>
         <target device="blackberry">false</target>
