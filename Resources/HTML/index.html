@@ -70,10 +70,13 @@
 				}
 			}
 			
-			
 			function getLoggedInStatus() {
-				// Ti.API.info('getLoggedInStatus called');
+				alert('getLoggedInStatus called');
 				Ti.App.fireEvent('index:getLoggedInStatus');
+			}
+			
+			function openLoginPage() {
+				Ti.App.fireEvent('index:openLoginPage');
 			}
 
 			$(document).ready(function() {
@@ -113,8 +116,8 @@
                 </div>
                 <!-- loginButton -->
                 <div id="loginDiv">
-                    <img id="logInOutButton" width="100%" height="100%" src="images/backButton.png"
-                    	alt="" onclick="document.location='login.html'">
+                    <img id="logInOutButton" width="100%" height="100%" src=""
+                    	alt="" onclick="Ti.App.fireEvent('index:openLoginPage');">
                     <figcaption>Log In</figcaption>
                 </div>
                 <!-- /loginButton -->
@@ -135,7 +138,7 @@
                     <div class="iconRow">
                         <!-- mySchedule Button -->
                         <div style="float: left">
-                            <img class="icon" onclick="document.location='mySchedule.html'"
+                            <img class="icon" onclick="Ti.App.fireEvent('index:openSchedulePage');"
                             src="images/homeIcons/myScheduleIcon.png" alt="scheduleIcon">
                             <figcaption>
                                 mySchedule
@@ -143,7 +146,7 @@
                         </div>
                         <!-- myMentor Button -->
                         <div style="float: right">
-                            <img class="icon" onclick="document.location='myMentor.html'"
+                            <img class="icon" onclick="Ti.App.fireEvent('index:openMentorPage');"
                             src="images/homeIcons/myMentorIcon.png" alt="mentorIcon">
                             <figcaption>
                                 myMentor
@@ -155,7 +158,7 @@
                     <div class="iconRow">
                         <!-- ggcNewsButton -->
                         <div style="float: left">
-                            <img class="icon" onclick="document.location='ggcNews.html'"
+                            <img class="icon" onclick="Ti.App.fireEvent('index:openNewsPage');"
                             src="images/homeIcons/ggcNewsIcon.png" alt="campusMapIcon">
                             <figcaption>
                                 GGC News
@@ -164,7 +167,7 @@
                         <!-- /ggcNewsButton -->
                         <!-- What's Happening Button -->
                         <div style="float: right">
-                            <img class="icon" onclick="document.location='whatsHappening.html'"
+                            <img class="icon" onclick="Ti.App.fireEvent('index:openEventsPage');"
                             src="images/homeIcons/whatsHappeningIcon.png"
                             alt="whatsHappeningIcon">
                             <figcaption>

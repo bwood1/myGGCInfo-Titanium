@@ -75,7 +75,7 @@ function ApplicationWindow() {
     }
 
     // Create a WebView, this will host the HTML
-    var webView = Ti.UI.createWebView({
+    var homeWebView = Ti.UI.createWebView({
         left : gutter,
         top : gutter,
         right : gutter,
@@ -87,16 +87,161 @@ function ApplicationWindow() {
         // Default assumes that all HTML is in the HTML folder and the first file is index.html, you can change the next line to suit your HTML.
         url : '/HTML/index.html'
     });
+    
+    // webView for login page
+    var loginWebView = Ti.UI.createWebView({
+        	left : gutter,
+        	top : gutter,
+        	right : gutter,
+        	bottom : gutter,
+        	// This allows the translucent view and the background to shine through. You could set this to a standard RGB color and change the opacity if desired.
+        	backgroundColor : translucentViewOn ? 'transparent' : backgroundColor,
+        	opacity : animationsOn ? 0 : 1,
+        	enableZoomControls : false, // Android only
+        	// Default assumes that all HTML is in the HTML folder and the first file is index.html, you can change the next line to suit your HTML.
+        	url : '/HTML/login.html'
+    	});
+    	
+    	// webView for login page
+    	var scheduleWebView = Ti.UI.createWebView({
+        	left : gutter,
+        	top : gutter,
+        	right : gutter,
+        	bottom : gutter,
+        	// This allows the translucent view and the background to shine through. You could set this to a standard RGB color and change the opacity if desired.
+        	backgroundColor : translucentViewOn ? 'transparent' : backgroundColor,
+        	opacity : animationsOn ? 0 : 1,
+        	enableZoomControls : false, // Android only
+        	// Default assumes that all HTML is in the HTML folder and the first file is index.html, you can change the next line to suit your HTML.
+        	url : '/HTML/mySchedule.html'
+    	});
+    	
+    	// webView for schedule page
+   	 	var loginWebView = Ti.UI.createWebView({
+        	left : gutter,
+        	top : gutter,
+        	right : gutter,
+        	bottom : gutter,
+        	// This allows the translucent view and the background to shine through. You could set this to a standard RGB color and change the opacity if desired.
+        	backgroundColor : translucentViewOn ? 'transparent' : backgroundColor,
+        	opacity : animationsOn ? 0 : 1,
+        	enableZoomControls : false, // Android only
+        	// Default assumes that all HTML is in the HTML folder and the first file is index.html, you can change the next line to suit your HTML.
+        	url : '/HTML/login.html'
+    	});
+    	
+    	// webView for mentor page
+    	var mentorWebView = Ti.UI.createWebView({
+        	left : gutter,
+        	top : gutter,
+        	right : gutter,
+        	bottom : gutter,
+        	// This allows the translucent view and the background to shine through. You could set this to a standard RGB color and change the opacity if desired.
+        	backgroundColor : translucentViewOn ? 'transparent' : backgroundColor,
+        	opacity : animationsOn ? 0 : 1,
+        	enableZoomControls : false, // Android only
+        	// Default assumes that all HTML is in the HTML folder and the first file is index.html, you can change the next line to suit your HTML.
+        	url : '/HTML/myMentor.html'
+    	});
+    	
+    	// webView for news page
+    	var newsWebView = Ti.UI.createWebView({
+        	left : gutter,
+        	top : gutter,
+        	right : gutter,
+        	bottom : gutter,
+        	// This allows the translucent view and the background to shine through. You could set this to a standard RGB color and change the opacity if desired.
+        	backgroundColor : translucentViewOn ? 'transparent' : backgroundColor,
+        	opacity : animationsOn ? 0 : 1,
+        	enableZoomControls : false, // Android only
+        	// Default assumes that all HTML is in the HTML folder and the first file is index.html, you can change the next line to suit your HTML.
+        	url : '/HTML/ggcNews.html'
+    	});
+    	
+    	// webView for events page
+    	var eventsWebView = Ti.UI.createWebView({
+        	left : gutter,
+        	top : gutter,
+        	right : gutter,
+        	bottom : gutter,
+        	// This allows the translucent view and the background to shine through. You could set this to a standard RGB color and change the opacity if desired.
+        	backgroundColor : translucentViewOn ? 'transparent' : backgroundColor,
+        	opacity : animationsOn ? 0 : 1,
+        	enableZoomControls : false, // Android only
+        	// Default assumes that all HTML is in the HTML folder and the first file is index.html, you can change the next line to suit your HTML.
+        	url : '/HTML/whatsHappening.html'
+    	});
+    	
+    //TODO:find out the right way to do this hack
+    // Add event listeners to change pages
+    Ti.App.addEventListener('index:openLoginPage', function() {
+    	self.add(loginWebView);
+    	self.addEventListener('android:back', function() {
+    		Ti.App.fireEvent('login:backPressed');
+    	});
+    });
+    
+    Ti.App.addEventListener('login:backPressed', function () {
+    	self.remove(loginWebView);
+    	homeWebView.reload();
+    });
+    
+    Ti.App.addEventListener('index:openSchedulePage', function() {
+    	self.add(scheduleWebView);
+    	self.addEventListener('android:back', function() {
+    		Ti.App.fireEvent('schedule:backPressed');
+    	});
+    });
+    
+    Ti.App.addEventListener('schedule:backPressed', function () {
+    	self.remove(scheduleWebView);
+    	homeWebView.reload();
+    });
+    
+    Ti.App.addEventListener('index:openMentorPage', function() {
+    	self.add(mentorWebView);
+    	self.addEventListener('android:back', function() {
+    		Ti.App.fireEvent('mentor:backPressed');
+    	});
+    });
+    
+    Ti.App.addEventListener('mentor:backPressed', function () {
+    	self.remove(mentorWebView);
+    	homeWebView.reload();
+    });
+    
+    Ti.App.addEventListener('index:openNewsPage', function() {
+    	self.add(newsWebView);
+    	self.addEventListener('android:back', function() {
+    		Ti.App.fireEvent('news:backPressed');
+    	});
+    });
+    
+    Ti.App.addEventListener('news:backPressed', function () {
+    	self.remove(newsWebView);
+    	homeWebView.reload();
+    });
+    
+    Ti.App.addEventListener('index:openEventsPage', function() {
+    	self.add(eventsWebView);
+    	self.addEventListener('android:back', function() {
+    		Ti.App.fireEvent('events:backPressed');
+    	});
+    });
+    
+    Ti.App.addEventListener('events:backPressed', function () {
+    	self.remove(eventsWebView);
+    	homeWebView.reload();
+    });
+    
     // self.addEventListener('android:back', function(e) {
     	// if(webView.canGoBack()) {
-    		// // alert('webView can go back');
-    		// webView.goBack();
-    		// webView.reload();
+//     		
     	// } else {
     		// self.close();
     	// }
 	// });
-    self.add(webView);
+    self.add(homeWebView);
 
 	/* -----------------------Event listeners for login.html-----------------------*/
 	//gets the username from properties table
@@ -435,7 +580,7 @@ function ApplicationWindow() {
 
     if (animationsOn) {
         setTimeout(function() {
-            webView.animate(Ti.UI.createAnimation({
+            homeWebView.animate(Ti.UI.createAnimation({
                 opacity : 1,
                 duration : 2000
             }));
@@ -450,7 +595,7 @@ function ApplicationWindow() {
     } else {
         ApplicationWindowPlatform = require('ui/ApplicationWindowPlatform');
     }
-    ApplicationWindowPlatform(self, webView, titleBarOn, drawerOn);
+    ApplicationWindowPlatform(self, homeWebView, titleBarOn, drawerOn);
 
     return self;
 }
