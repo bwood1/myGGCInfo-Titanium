@@ -8,7 +8,256 @@
 	title="no title" charset="utf-8">
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 <script type="text/javascript">
-	var scheduleArray;
+	var scheduleArray = {
+    "dayOfWeek": [
+        {
+            "day": "Monday",
+            "classes": [
+                {
+                    "subject": "CHEM",
+                    "courseNum": "1211K",
+                    "section": "-01",
+                    "startTime": "8:00 AM",
+                    "endTime": "8:50 AM",
+                    "building": "A",
+                    "roomNum": "1100"
+                },
+                {
+                    "subject": "MATH",
+                    "courseNum": "1300",
+                    "section": "-05",
+                    "startTime": "11:00 AM",
+                    "endTime": "11:50 AM",
+                    "building": "B",
+                    "roomNum": "1100"
+                },
+                {
+                    "subject": "MUSIC",
+                    "courseNum": "1101",
+                    "section": "-02",
+                    "startTime": "1:00 PM",
+                    "endTime": "1:50 PM",
+                    "building": "C",
+                    "roomNum": "2200"
+                },
+                {
+                    "subject": "ENGL",
+                    "courseNum": "2203",
+                    "section": "-04",
+                    "startTime": "3:00 PM",
+                    "endTime": "4:15 PM",
+                    "building": "A",
+                    "roomNum": "1550"
+                }
+            ]
+        },
+        {
+            "day": "Tuesday",
+            "classes": [
+                {
+                    "subject": "CHEM",
+                    "courseNum": "1211K",
+                    "section": "-01",
+                    "startTime": "8:00 AM",
+                    "endTime": "8:50 AM",
+                    "building": "A",
+                    "roomNum": "1100"
+                },
+                {
+                    "subject": "MATH",
+                    "courseNum": "1300",
+                    "section": "-05",
+                    "startTime": "11:00 AM",
+                    "endTime": "11:50 AM",
+                    "building": "B",
+                    "roomNum": "1100"
+                },
+                {
+                    "subject": "MUSIC",
+                    "courseNum": "1101",
+                    "section": "-02",
+                    "startTime": "1:00 PM",
+                    "endTime": "1:50 PM",
+                    "building": "C",
+                    "roomNum": "2200"
+                },
+                {
+                    "subject": "ENGL",
+                    "courseNum": "2203",
+                    "section": "-04",
+                    "startTime": "3:00 PM",
+                    "endTime": "4:15 PM",
+                    "building": "A",
+                    "roomNum": "1550"
+                }
+            ]
+        },
+        {
+            "day": "Wensday",
+            "classes": [
+                {
+                    "subject": "CHEM",
+                    "courseNum": "1211K",
+                    "section": "-01",
+                    "startTime": "8:00 AM",
+                    "endTime": "8:50 AM",
+                    "building": "A",
+                    "roomNum": "1100"
+                },
+                {
+                    "subject": "MATH",
+                    "courseNum": "1300",
+                    "section": "-05",
+                    "startTime": "11:00 AM",
+                    "endTime": "11:50 AM",
+                    "building": "B",
+                    "roomNum": "1100"
+                },
+                {
+                    "subject": "MUSIC",
+                    "courseNum": "1101",
+                    "section": "-02",
+                    "startTime": "1:00 PM",
+                    "endTime": "1:50 PM",
+                    "building": "C",
+                    "roomNum": "2200"
+                },
+                {
+                    "subject": "ENGL",
+                    "courseNum": "2203",
+                    "section": "-04",
+                    "startTime": "3:00 PM",
+                    "endTime": "4:15 PM",
+                    "building": "A",
+                    "roomNum": "1550"
+                }
+            ]
+        },
+        {
+            "day": "Thursday",
+            "classes": [
+                {
+                    "subject": "CHEM",
+                    "courseNum": "1211K",
+                    "section": "-01",
+                    "startTime": "8:00 AM",
+                    "endTime": "8:50 AM",
+                    "building": "A",
+                    "roomNum": "1100"
+                },
+                {
+                    "subject": "MATH",
+                    "courseNum": "1300",
+                    "section": "-05",
+                    "startTime": "11:00 AM",
+                    "endTime": "11:50 AM",
+                    "building": "B",
+                    "roomNum": "1100"
+                },
+                {
+                    "subject": "MUSIC",
+                    "courseNum": "1101",
+                    "section": "-02",
+                    "startTime": "1:00 PM",
+                    "endTime": "1:50 PM",
+                    "building": "C",
+                    "roomNum": "2200"
+                },
+                {
+                    "subject": "ENGL",
+                    "courseNum": "2203",
+                    "section": "-04",
+                    "startTime": "3:00 PM",
+                    "endTime": "4:15 PM",
+                    "building": "A",
+                    "roomNum": "1550"
+                }
+            ]
+        },
+        {
+            "day": "Friday",
+            "classes": [
+                {
+                    "subject": "CHEM",
+                    "courseNum": "1211K",
+                    "section": "-01",
+                    "startTime": "8:00 AM",
+                    "endTime": "8:50 AM",
+                    "building": "A",
+                    "roomNum": "1100"
+                },
+                {
+                    "subject": "MATH",
+                    "courseNum": "1300",
+                    "section": "-05",
+                    "startTime": "11:00 AM",
+                    "endTime": "11:50 AM",
+                    "building": "B",
+                    "roomNum": "1100"
+                },
+                {
+                    "subject": "MUSIC",
+                    "courseNum": "1101",
+                    "section": "-02",
+                    "startTime": "1:00 PM",
+                    "endTime": "1:50 PM",
+                    "building": "C",
+                    "roomNum": "2200"
+                },
+                {
+                    "subject": "ENGL",
+                    "courseNum": "2203",
+                    "section": "-04",
+                    "startTime": "3:00 PM",
+                    "endTime": "4:15 PM",
+                    "building": "A",
+                    "roomNum": "1550"
+                }
+            ]
+        },
+        {
+            "day": "Saturday",
+            "classes": [
+                {
+                    "subject": "CHEM",
+                    "courseNum": "1211K",
+                    "section": "-01",
+                    "startTime": "8:00 AM",
+                    "endTime": "8:50 AM",
+                    "building": "A",
+                    "roomNum": "1100"
+                },
+                {
+                    "subject": "MATH",
+                    "courseNum": "1300",
+                    "section": "-05",
+                    "startTime": "11:00 AM",
+                    "endTime": "11:50 AM",
+                    "building": "B",
+                    "roomNum": "1100"
+                },
+                {
+                    "subject": "MUSIC",
+                    "courseNum": "1101",
+                    "section": "-02",
+                    "startTime": "1:00 PM",
+                    "endTime": "1:50 PM",
+                    "building": "C",
+                    "roomNum": "2200"
+                },
+                {
+                    "subject": "ENGL",
+                    "courseNum": "2203",
+                    "section": "-04",
+                    "startTime": "3:00 PM",
+                    "endTime": "4:15 PM",
+                    "building": "A",
+                    "roomNum": "1550"
+                }
+            ]
+        }
+    ]
+};
 	var semester;
 	var year;
 	var todaysDate;
@@ -20,11 +269,11 @@
 		uName = e.username;
 	});
 	
-	Ti.App.addEventListener('schedule:mustLogIn', function() {
-		// $("document").load('login.html');
-		location.href = 'login.html';		
-		// alert('You must log in to see your schedule');
-	});
+	// Ti.App.addEventListener('schedule:mustLogIn', function() {
+		// // $("document").load('login.html');
+		// location.href = 'login.html';		
+		// // alert('You must log in to see your schedule');
+	// });
 	
 	Ti.App.addEventListener('mySchedule:sendSchedule', function(e) {
 		scheduleArray = eval('(' + e.object + ')');
@@ -54,7 +303,6 @@
 	 *	Checks to see if the students schedule is saved to the device and is updated
 	 
 	function checkSchedule() {
-		//TODO check to see if the student's schedule is saved on the device 
 		openSchedule();
 		if(scheduleArray == null){
 			alert('Schedule is null');
@@ -64,7 +312,6 @@
 			
 		}
 		showScheduleInfo();
-		//TODO check to see if the student's schedule is current 
 	}
 	*/
 
@@ -75,7 +322,6 @@
 		//get the date first
 		getSemester();
 		
-		//TODO write a script that will request the student's schedule from the server 
 		Ti.App.fireEvent('mySchedule:openScheduleRequest', {username: uName, session: semester, 
 			year: year, theDate: todaysDate});
 	}
@@ -85,7 +331,6 @@
 	 *	Will save the student's schedule to local storage
 	 
 	function saveScheduleInfo() {
-		//TODO write a script to save the schedule on the device 
 		// Ti.App.Properties.setString('studentSchedule', JSON.stringify(scheduleArray));
 		Ti.App.fireEvent('mySchedule:saveSchedule', {scheduleObject: scheduleArray});
 	}
@@ -94,7 +339,6 @@
 	 *	Will get the student's schedule from the device and store it in variables
 	 
 	function openSchedule() {
-		//TODO write a script to get the student's schedule from local storage 
 		// Ti.API.info('open schedule file');
 		Ti.App.fireEvent('mySchedule:openSchedule');
 	}	*/
@@ -135,10 +379,13 @@
 			if (scheduleArray.dayOfWeek[i].classes == null){
 				classesLength = 0;
 			}
-			else classesLength = scheduleArray.dayOfWeek[i].classes.length;
+			else { 
+				$("#" + scheduleArray.dayOfWeek[i].day.toLowerCase()).css('display', 'inline');
+				classesLength = scheduleArray.dayOfWeek[i].classes.length;
+			}
 			
 		    for(var j=0; j < classesLength; j++){       //for each class
-		        console.log('day: ' + scheduleArray.dayOfWeek[i].day + ' class ' + j + ": " + 
+		        Ti.API.info('day: ' + scheduleArray.dayOfWeek[i].day + ' class ' + j + ": " + 
 		        	scheduleArray.dayOfWeek[i].classes[j].subject + scheduleArray.dayOfWeek[i].classes[j].courseNum + 
                     scheduleArray.dayOfWeek[i].classes[j].section + scheduleArray.dayOfWeek[i].classes[j].building + 
                     scheduleArray.dayOfWeek[i].classes[j].roomNum + scheduleArray.dayOfWeek[i].classes[j].startTime +
@@ -164,8 +411,10 @@
 	}
     
     $(document).ready( function() {
+    	//TODO: change this back
     	Ti.App.fireEvent('mySchedule:getUNameFromProperties');
         requestScheduleInfoFromServer();
+        // showScheduleInfo();
     });
 </script>
 </head>
@@ -195,7 +444,7 @@
 		<!-- scheduleContent -->
 		<div id="scheduleContent" style="padding-top: 8%; height: 100%">
 			<!-- monday -->
-			<div id="monday">
+			<div id="monday" style="display: none">
 				<div id="mondayLabel" style="text-align: left;">Monday</div>
 				<div id="mondayClasses" style="text-align: left;">
 					<table  style="border-color: white">
@@ -233,7 +482,7 @@
 			<!-- /monday -->
 
 			<!-- tuesday -->
-			<div id="tuesday">
+			<div id="tuesday" style="display: none">
 				<div id="tuesdayLabel" style="text-align: left;">Tuesday</div>
 				<div id="tuesdayClasses" style="text-align: left;">
 						<table  style="border-color: white">
@@ -272,7 +521,7 @@
 			<!-- /tuesday -->
 
 			<!-- wednesday -->
-			<div id="wednesday">
+			<div id="wednesday" style="display: none">
 				<div id="wednesdayLabel" style="text-align: left;">Wednesday</div>
 				<div id="wednesdayClasses" style="text-align: left;">
 						<table  style="border-color: white">
@@ -311,7 +560,7 @@
 			<!-- /wedensday -->
 
 			<!-- thursday -->
-			<div id="thursday">
+			<div id="thursday" style="display: none">
 				<div id="thursdayLabel" style="text-align: left;">Thursday</div>
 				<div id="thursdayClasses" style="text-align: left;">
 						<table  style="border-color: white">
@@ -350,7 +599,7 @@
 			<!-- /thursday -->
 
 			<!-- friday -->
-			<div id="friday">
+			<div id="friday" style="display: none">
 				<div id="fridayLabel" style="text-align: left;">Friday</div>
 				<div id="fridayClasses" style="text-align: left;">
 						<table  style="border-color: white">
@@ -388,7 +637,7 @@
 			<!-- /friday -->
 			
 			<!-- saturday -->
-			<div id="saturday">
+			<div id="saturday" style="display: none">
 				<div id="saturdayLabel" style="text-align: left;">Saturday</div>
 				<div id="saturdayClasses" style="text-align: left;">
 						<table  style="border-color: white">

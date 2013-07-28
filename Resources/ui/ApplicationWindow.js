@@ -462,6 +462,7 @@ function ApplicationWindow() {
 		if( aResponse == "not logged in" ) {
 			Ti.App.fireEvent('schedule:mustLogIn');
 			alert('You must log in to see your schedule');
+			
 		}
 		else {
 			Ti.App.fireEvent("mySchedule:sendSchedule", {object: aResponse});
