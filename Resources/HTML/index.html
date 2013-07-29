@@ -53,8 +53,8 @@
 				isLoggedIn = false;
 				Ti.App.fireEvent("index:logoutRequest");
 				Ti.API.info('Set Log In button to show');
-				$("#logoutDiv").css('display', 'none');
-				$("#loginDiv").css('display', 'inline-block');
+				// $("#logoutDiv").css('display', 'none');
+				// $("#loginDiv").css('display', 'inline-block');
 				// $("#logInOutButton").attr({
 					// alt: 'logInButton',
 					// onClick: 'document.location="login.html"'
@@ -65,8 +65,10 @@
 			function showSocialMedia() {
 				if($("#socialMedia").css("bottom") == "-75px") {
 					$("#socialMedia").animate({bottom: "-20px"}, 500);
+					$("#socialUpButton").attr('src', 'images/socialMediaIcons/Social_Media_down.png');
 				} else {
-					$("#socialMedia").animate({bottom: "-75px"}, 500)
+					$("#socialMedia").animate({bottom: "-75px"}, 500);
+					$("#socialUpButton").attr('src', 'images/socialMediaIcons/Social_Media_up.png');
 				}
 			}
 			
@@ -82,26 +84,12 @@
 			$(document).ready(function() {
 				getLoggedInStatus();
 			});
-			
-			// document.onload = window.getLoggedInStatus;
-		
-			// window.onbeforeunload = function(e) {
-				// // Ti.API.info('onunload called');
-			// }
-			// window.onpopstate = function(event) {
-				// Ti.API.info('onpopstate called');
-			// }
-			
-			if(window.name == "reloader") {
-				window.name = "no";
-				reloadPage();
-			}
         </script>
     </head>
     <body>
         <div id="screen">
             <!-- Top content -->
-            <div style="padding: 5% 5% 10% 5%">
+            <div style="padding: 5% 5% 0% 5%;">
                 <!-- backButton -->
                 <div id="backDivHome">
                     <!-- <img id="backButton" width="100%" height="100%" src="images/logInButton.png"
@@ -111,8 +99,7 @@
                 <!-- /backButton -->
                 <!-- myGGC Banner -->
                 <div id="bannerDivHome">
-                    <img alt="bannerImage" src="images/banners/MyGGCMobile_Logo4.png" width="100%"
-                    height="100%">
+                    <img alt="bannerImage" src="images/banners/MyInfoMobile_Logo.png">
                 </div>
                 <!-- loginButton -->
                 <div id="loginDiv">
@@ -159,7 +146,7 @@
                         <!-- ggcNewsButton -->
                         <div style="float: left">
                             <img class="icon" onclick="Ti.App.fireEvent('index:openNewsPage');"
-                            src="images/homeIcons/ggcNewsIcon.png" alt="campusMapIcon">
+                            src="images/homeIcons/news3.png" alt="ggcNewsIcon">
                             <figcaption>
                                 GGC News
                             </figcaption>
@@ -183,8 +170,11 @@
             <!-- /Icons -->
         </div>
         <div id="socialMedia">
-        	<a href="#socialMedia", class=".toggle" onclick="showSocialMedia();">Social Media</a>
-        	<br>
+        	<div id="socialUpDiv">
+        		<a href="#socialMedia", class=".toggle" onclick="showSocialMedia();">
+        			<img id="socialUpButton"src="images/socialMediaIcons/Social_Media_up.png" />
+        		</a>
+        	</div>
         	<div id="socialMediaIcons" style="padding-top: 4%">
         	<a onclick="Ti.App.fireEvent('index:openFacebook')">
         		<img class="socialMediaIcon" src="images/socialMediaIcons/facebook.png" />

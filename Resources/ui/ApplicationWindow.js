@@ -17,11 +17,11 @@ function ApplicationWindow() {
     var drawerOn = false;
 
     var osname = Ti.Platform.osname;
-    var isLoggedIn = false;
+    // var isLoggedIn = false;
     var uName = null;
     Ti.App.Properties.setString('server', '10.0.179.202');					//The server to which the requests are being sent
     Ti.App.Properties.setString('requestPath', '/brandon/request.php?'); 	//The path on the server to send the requests to
-    Ti.App.Properties.setBool('isLogggedIn', false);
+    Ti.App.Properties.setBool('isLoggedIn', false);
     
     
     
@@ -97,9 +97,7 @@ function ApplicationWindow() {
         	// This allows the translucent view and the background to shine through. You could set this to a standard RGB color and change the opacity if desired.
         	backgroundColor : translucentViewOn ? 'transparent' : backgroundColor,
         	opacity : animationsOn ? 0 : 1,
-        	enableZoomControls : false, // Android only
-        	// Default assumes that all HTML is in the HTML folder and the first file is index.html, you can change the next line to suit your HTML.
-        	url : '/HTML/login.html'
+        	enableZoomControls : false // Android only
     	});
     	
     	// webView for login page
@@ -111,9 +109,7 @@ function ApplicationWindow() {
         	// This allows the translucent view and the background to shine through. You could set this to a standard RGB color and change the opacity if desired.
         	backgroundColor : translucentViewOn ? 'transparent' : backgroundColor,
         	opacity : animationsOn ? 0 : 1,
-        	enableZoomControls : false, // Android only
-        	// Default assumes that all HTML is in the HTML folder and the first file is index.html, you can change the next line to suit your HTML.
-        	url : '/HTML/mySchedule.html'
+        	enableZoomControls : false // Android only
     	});
     	
     	// webView for schedule page
@@ -125,9 +121,7 @@ function ApplicationWindow() {
         	// This allows the translucent view and the background to shine through. You could set this to a standard RGB color and change the opacity if desired.
         	backgroundColor : translucentViewOn ? 'transparent' : backgroundColor,
         	opacity : animationsOn ? 0 : 1,
-        	enableZoomControls : false, // Android only
-        	// Default assumes that all HTML is in the HTML folder and the first file is index.html, you can change the next line to suit your HTML.
-        	url : '/HTML/login.html'
+        	enableZoomControls : false // Android only
     	});
     	
     	// webView for mentor page
@@ -140,8 +134,6 @@ function ApplicationWindow() {
         	backgroundColor : translucentViewOn ? 'transparent' : backgroundColor,
         	opacity : animationsOn ? 0 : 1,
         	enableZoomControls : false, // Android only
-        	// Default assumes that all HTML is in the HTML folder and the first file is index.html, you can change the next line to suit your HTML.
-        	url : '/HTML/myMentor.html'
     	});
     	
     	// webView for news page
@@ -154,8 +146,6 @@ function ApplicationWindow() {
         	backgroundColor : translucentViewOn ? 'transparent' : backgroundColor,
         	opacity : animationsOn ? 0 : 1,
         	enableZoomControls : false, // Android only
-        	// Default assumes that all HTML is in the HTML folder and the first file is index.html, you can change the next line to suit your HTML.
-        	url : '/HTML/ggcNews.html'
     	});
     	
     	// webView for events page
@@ -168,79 +158,129 @@ function ApplicationWindow() {
         	backgroundColor : translucentViewOn ? 'transparent' : backgroundColor,
         	opacity : animationsOn ? 0 : 1,
         	enableZoomControls : false, // Android only
-        	// Default assumes that all HTML is in the HTML folder and the first file is index.html, you can change the next line to suit your HTML.
-        	url : '/HTML/whatsHappening.html'
     	});
     	
-    //TODO:find out the right way to do this hack
-    // Add event listeners to change pages
+    //TODO:find out the right way to do this
+    /* -------------------------------- Open the login page from the home page ----------------------*/
     Ti.App.addEventListener('index:openLoginPage', function() {
     	self.add(loginWebView);
-    	self.addEventListener('android:back', function() {
-    		Ti.App.fireEvent('login:backPressed');
-    	});
+    	homeWebView.setHtml('');
+    	loginWebView.setUrl('/HTML/login.html');
+    	self.addEventListener('android:back', loginBackPressed);
     });
+    
+    function loginBackPressed() {
+    	Ti.App.fireEvent('login:backPressed');
+    }
     
     Ti.App.addEventListener('login:backPressed', function () {
+    	homeWebView.setUrl('/HTML/index.html');
+    	try {
+    		scheduleWebView.html('<html><body>The Schedule</body></html>');
+    		self.remove(scheduleWebView);
+    	} catch (e){}
     	self.remove(loginWebView);
-    	homeWebView.reload();
+    	loginWebView.setHtml('');
+    	self.removeEventListener('android:back', loginBackPressed);
     });
     
-    Ti.App.addEventListener('index:openSchedulePage', function() {
-    	self.add(scheduleWebView);
-    	self.addEventListener('android:back', function() {
-    		Ti.App.fireEvent('schedule:backPressed');
-    	});
+    /* -------------------------------- Open the login page from the schedule page ----------------------*/
+   Ti.App.addEventListener('schedule:openLoginPage', function() {
+    	loginWebView.setUrl('/HTML/login.html');
+    	self.add(loginWebView);
+    	// self.removeEventListener('android:back', scheduleBackPressed);
+    	// self.addEventListener('android:back', scheduleLoginBackPressed);
     });
+//     
+    // function scheduleLoginBackPressed() {
+    	// Ti.App.fireEvent('schedule:loginBackPressed');
+    // }
+//     
+    // Ti.App.addEventListener('schedule:loginBackPressed', function () {
+    	// scheduleWebView.setUrl('/HTML/mySchedule.html');
+    	// self.remove(loginWebView);
+    	// loginWebView.setHtml('');
+    	// self.removeEventListener('android:back', scheduleLoginBackPressed);
+    // });
+   
+    /* -------------------------------- Open the schedule page from the home page ----------------------*/
+    Ti.App.addEventListener('index:openSchedulePage', function() {
+    	scheduleWebView.setUrl('/HTML/mySchedule.html');
+    	self.add(scheduleWebView);
+    	homeWebView.setHtml('');
+    	self.addEventListener('android:back', scheduleBackPressed);
+    });
+    
+    function scheduleBackPressed() {
+    	Ti.App.fireEvent('schedule:backPressed');
+    }
     
     Ti.App.addEventListener('schedule:backPressed', function () {
+    	homeWebView.setUrl('/HTML/index.html');
     	self.remove(scheduleWebView);
-    	homeWebView.reload();
+    	scheduleWebView.setHtml('');
+    	self.removeEventListener('android:back', scheduleBackPressed);
     });
     
+    /* -------------------------------- Open the mentor page from the home page ----------------------*/
     Ti.App.addEventListener('index:openMentorPage', function() {
+    	homeWebView.setHtml('');
+    	mentorWebView.setUrl('/HTML/myMentor.html');
     	self.add(mentorWebView);
-    	self.addEventListener('android:back', function() {
-    		Ti.App.fireEvent('mentor:backPressed');
-    	});
+    	self.addEventListener('android:back', mentorBackPressed);
     });
+    
+    function mentorBackPressed() {
+    	Ti.App.fireEvent('mentor:backPressed');
+    }
     
     Ti.App.addEventListener('mentor:backPressed', function () {
+		homeWebView.setUrl('/HTML/index.html');
     	self.remove(mentorWebView);
-    	homeWebView.reload();
+    	mentorWebView.setHtml('');
+    	self.removeEventListener('android:back', mentorBackPressed);
     });
     
+    /* -------------------------------- Open the news page from the home page ----------------------*/
     Ti.App.addEventListener('index:openNewsPage', function() {
+    	homeWebView.setHtml('');
+    	newsWebView.setUrl('/HTML/ggcNews.html');
     	self.add(newsWebView);
-    	self.addEventListener('android:back', function() {
-    		Ti.App.fireEvent('news:backPressed');
-    	});
+    	self.addEventListener('android:back', newsBackPressed);
     });
+    
+    function newsBackPressed() {
+   		Ti.App.fireEvent('news:backPressed');
+    }
     
     Ti.App.addEventListener('news:backPressed', function () {
+    	homeWebView.setUrl('/HTML/index.html');
     	self.remove(newsWebView);
-    	homeWebView.reload();
+    	newsWebView.setHtml('');
+    	self.removeEventListener('android:back', newsBackPressed);
+    });
+   	   
+    /* -------------------------------- Open the events page from the home page ----------------------*/
+    Ti.App.addEventListener('index:openEventsPage', function() {
+    	homeWebView.setHtml('');
+    	eventsWebView.setUrl('/HTML/whatsHappening.html');
+    	self.add(eventsWebView);
+    	self.addEventListener('android:back', eventsBackPressed);
     });
     
-    Ti.App.addEventListener('index:openEventsPage', function() {
-    	self.add(eventsWebView);
-    	self.addEventListener('android:back', function() {
-    		Ti.App.fireEvent('events:backPressed');
-    	});
-    });
+    function eventsBackPressed() {
+    	    		Ti.App.fireEvent('events:backPressed');
+    }
     
     Ti.App.addEventListener('events:backPressed', function () {
+    	homeWebView.setUrl('/HTML/index.html');
     	self.remove(eventsWebView);
-    	homeWebView.reload();
+    	eventsWebView.setHtml('');
+    	self.removeEventListener('android:back', eventsBackPressed);
+    	// homeWebView.reload();
     });
     
-    // self.addEventListener('android:back', function(e) {
-    	// if(webView.canGoBack()) {
-//     		
-    	// } else {
-    		// self.close();
-    	// }
-	// });
+    //Add the home page to the window
     self.add(homeWebView);
 
 	/* -----------------------Event listeners for login.html-----------------------*/
@@ -277,7 +317,7 @@ function ApplicationWindow() {
     		 // function called when an error occurs, including a timeout
     		 onerror : function(f) {
     		     Ti.API.debug(f.error);
-    		     isLoggedIn = true;
+    		     // isLoggedIn = true;
     		     alert('Problem connecting to the server');
     		 },
     		 withCredentials: true,
@@ -313,6 +353,7 @@ function ApplicationWindow() {
 	function loginSuccess() {
 		saveUsername();
 		checkMentor();
+		scheduleWebView.reload();
 		Ti.App.fireEvent('login:loginSuccess');
 	}
 	
@@ -432,9 +473,10 @@ function ApplicationWindow() {
 	});
 	
 	function openScheduleRequest(e) {
+		//TODO: change the session back
 		var url = 'http://' + Ti.App.Properties.getString('server') +
 			Ti.App.Properties.getString('requestPath') + '&request=schedule&user=' + 
-			Ti.App.Properties.getString('username') + '&session=' + e.session + '&year=' + e.year;
+			Ti.App.Properties.getString('username') + '&session=Fall' /*+ e.session*/ + '&year=' + e.year;
 		
 		var client = Ti.Network.createHTTPClient({
     		 // function called when the response data is available
@@ -460,9 +502,8 @@ function ApplicationWindow() {
 	
 	function checkSchedule(aResponse) {
 		if( aResponse == "not logged in" ) {
-			Ti.App.fireEvent('schedule:mustLogIn');
+			Ti.App.fireEvent('schedule:openLoginPage');
 			alert('You must log in to see your schedule');
-			
 		}
 		else {
 			Ti.App.fireEvent("mySchedule:sendSchedule", {object: aResponse});
@@ -517,6 +558,7 @@ function ApplicationWindow() {
 	/* -----------------------Event listeners for index.html-----------------------*/
 	
 	Ti.App.addEventListener('index:getLoggedInStatus', function() {
+		// Ti.API.info('Getting the login status: ' + Ti.App.Properties.getBool('isLoggedIn'));
 		Ti.App.fireEvent('index:sendLoggedInStatus', {status: Ti.App.Properties.getBool('isLoggedIn')});
 	});
 	
@@ -530,8 +572,8 @@ function ApplicationWindow() {
     		 // function called when the response data is available
     		 onload : function(f) {
     		     // Ti.API.info("Received text: " + this.responseText);
-    		     isLoggedIn = false;
-    		     Ti.App.Properties.setBool('isLoggedIn', 'false');
+    		     Ti.App.Properties.setBool('isLoggedIn', false);
+    		     homeWebView.reload();
     		     alert('You are now logged out');
     		     // Ti.App.fireEvent("mySchedule:sendSchedule", {object: this.responseText});
     		 },
@@ -540,8 +582,8 @@ function ApplicationWindow() {
     		     Ti.API.debug(f.error);
     		     // isLoggedIn = false;
     		     alert('Problem connecting to the server');
-    		     Ti.App.Properties.setBool('isLoggedIn', false);
-    		     Ti.API.info('isLogged in status: ' + Ti.App.Properties.getBool('isLoggedIn'));
+    		     // Ti.App.Properties.setBool('isLoggedIn', false);
+    		     // Ti.API.info('isLogged in status: ' + Ti.App.Properties.getBool('isLoggedIn'));
     		 },
     		 withCredentials: true,
     		 timeout : 5000  // in milliseconds

@@ -19,7 +19,7 @@
         	//is fired when the user logs in successfully
 			Ti.App.addEventListener('login:loginSuccess', function() {
 				// window.location = "index.html";
-				// Ti.App.fireEvent('login:backPressed');
+				Ti.App.fireEvent('login:backPressed');
 			});
 			
 			Ti.App.addEventListener('schedule:loginSuccess', function() {
@@ -43,7 +43,7 @@
 				pWord = document.getElementById('passwordField').value;
 				
 				//TODO: Change this back
-				Ti.App.fireEvent('login:openLoginRequest', {username: 'bwood1', password: 'BOrd5621!!'});
+				Ti.App.fireEvent('login:openLoginRequest', {username: uName, password: pWord});
 			}
 			
 			/**

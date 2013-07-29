@@ -269,27 +269,12 @@
 		uName = e.username;
 	});
 	
-	// Ti.App.addEventListener('schedule:mustLogIn', function() {
-		// // $("document").load('login.html');
-		// location.href = 'login.html';		
-		// // alert('You must log in to see your schedule');
-	// });
-	
 	Ti.App.addEventListener('mySchedule:sendSchedule', function(e) {
 		scheduleArray = eval('(' + e.object + ')');
 		// Ti.API.info('The schedule object is: ' + scheduleArray);
 		// saveScheduleInfo();
 		showScheduleInfo();
 	});
-	
-	// Ti.App.addEventListener('androidBackPressed', function() {
-		// document.location = 'index.html';
-		// Ti.App.fireEvent('index:getLoggedInStatus');
-	// });
-	
-	// Ti.App.addEventListener('androidBackPressed', function() {
-		// backPressed();
-	// });
 	
 	/* we are not going to save the schedule currently
 	// Ti.App.addEventListener('mySchedule:sendSchedule', function(e) {
@@ -376,20 +361,29 @@
 		for(var i=0; i<6; i++){           //for each day
 			//check to make sure there are classes
 			var classesLength;
-			if (scheduleArray.dayOfWeek[i].classes == null){
+			if (scheduleArray.dayOfWeek[i].classes == null){  //if no classes for that day
 				classesLength = 0;
 			}
 			else { 
-				$("#" + scheduleArray.dayOfWeek[i].day.toLowerCase()).css('display', 'inline');
+				$("#" + scheduleArray.dayOfWeek[i].day.toLowerCase()).css('display', 'inline');  //Show the day of the week
 				classesLength = scheduleArray.dayOfWeek[i].classes.length;
 			}
 			
 		    for(var j=0; j < classesLength; j++){       //for each class
 		        Ti.API.info('day: ' + scheduleArray.dayOfWeek[i].day + ' class ' + j + ": " + 
-		        	scheduleArray.dayOfWeek[i].classes[j].subject + scheduleArray.dayOfWeek[i].classes[j].courseNum + 
-                    scheduleArray.dayOfWeek[i].classes[j].section + scheduleArray.dayOfWeek[i].classes[j].building + 
-                    scheduleArray.dayOfWeek[i].classes[j].roomNum + scheduleArray.dayOfWeek[i].classes[j].startTime +
-                    scheduleArray.dayOfWeek[i].classes[j].endTime);
+		        	scheduleArray.dayOfWeek[i].classes[j].subject + ' ' + scheduleArray.dayOfWeek[i].classes[j].courseNum + ' ' + 
+                    scheduleArray.dayOfWeek[i].classes[j].section + ' ' + scheduleArray.dayOfWeek[i].classes[j].building + ' ' + 
+                    scheduleArray.dayOfWeek[i].classes[j].roomNum + ' ' + scheduleArray.dayOfWeek[i].classes[j].startTime + ' ' +
+                    scheduleArray.dayOfWeek[i].classes[j].endTime); 
+                    
+                //create new TD cells for each element to be displayed
+                $("#" + i + "-" +j).html('<td id="'+i+'-'+j+'-0'+'"></td>' +
+					        '<td id="'+i+'-'+j+'-1'+'"></td>' +
+					        '<td id="'+i+'-'+j+'-2'+'"></td>' +
+					        '<td id="'+i+'-'+j+'-3'+'"></td>' +
+					        '<td id="'+i+'-'+j+'-4'+'"></td>');
+				
+				//populate TD with the data from the JSON
 		        $("#"+i+"-"+j+"-0").html(scheduleArray.dayOfWeek[i].classes[j].subject);
 		        $("#"+i+"-"+j+"-1").html(scheduleArray.dayOfWeek[i].classes[j].courseNum + "-" + 
                                          scheduleArray.dayOfWeek[i].classes[j].section);
@@ -400,14 +394,6 @@
                 $("#"+i+"-"+j+"-4").html(scheduleArray.dayOfWeek[i].classes[j].INSTRUCTOR_NAME);
 		    }
 		}
-	}
-	
-	// What to do when the android back button is pressed
-	function backPressed() {
-		$('html').empty();
-		$('html').load('index.html');
-		// document.location='index.html';
-		// Ti.App.fireEvent('index:getLoggedInStatus');
 	}
     
     $(document).ready( function() {
@@ -439,43 +425,17 @@
 		</div>
 		<!-- /TopContent -->
 
-		<br>
-
 		<!-- scheduleContent -->
-		<div id="scheduleContent" style="padding-top: 8%; height: 100%">
+		<div id="scheduleContent" style="padding-top: 5%; padding-bottom: 5%; height: 100%">
 			<!-- monday -->
 			<div id="monday" style="display: none">
 				<div id="mondayLabel" style="text-align: left;">Monday</div>
 				<div id="mondayClasses" style="text-align: left;">
-					<table  style="border-color: white">
-					    <tr>
-					        <td id="0-0-0"> </td>      <!-- dayOfWeek(Monday)-class(CHEM)-column(Subject) -->
-					        <td id="0-0-1"> </td>      <!-- courseNum and sectionNum -->
-					        <td id="0-0-2"> </td>      <!-- building and roomNum -->
-					        <td id="0-0-3"> </td>      <!-- startTime and endTime -->
-					        <td id="0-0-4"> </td>      <!-- professor -->
-					    </tr>
-					    <tr>
-					        <td id="0-1-0"> </td>      <!-- dayOfWeek(Monday)-class(CHEM)-column(Subject) -->
-                            <td id="0-1-1"> </td>      <!-- courseNum and sectionNum -->
-                            <td id="0-1-2"> </td>      <!-- building and roomNum -->
-                            <td id="0-1-3"> </td>      <!-- startTime and endTime -->
-                            <td id="0-1-4"> </td>      <!-- professor -->
-					    </tr>
-					    <tr>
-                            <td id="0-2-0"> </td>      <!-- dayOfWeek(Monday)-class(CHEM)-column(Subject) -->
-                            <td id="0-2-1"> </td>      <!-- courseNum and sectionNum -->
-                            <td id="0-2-2"> </td>      <!-- building and roomNum -->
-                            <td id="0-2-3"> </td>      <!-- startTime and endTime -->
-                            <td id="0-2-4"> </td>      <!-- professor -->
-                        </tr>
-                        <tr>
-                            <td id="0-3-0"> </td>      <!-- dayOfWeek(Monday)-class(CHEM)-column(Subject) -->
-                            <td id="0-3-1"> </td>      <!-- courseNum and sectionNum -->
-                            <td id="0-3-2"> </td>      <!-- building and roomNum -->
-                            <td id="0-3-3"> </td>      <!-- startTime and endTime -->
-                            <td id="0-3-4"> </td>      <!-- professor -->
-                        </tr>
+					<table id="0" border="1">
+					    <tr id="0-0"></tr>
+					    <tr id="0-1"></tr>
+					    <tr id="0-2"></tr>
+                        <tr id="0-3"></tr>
 					</table>
 				</div>
 			</div>
@@ -485,35 +445,11 @@
 			<div id="tuesday" style="display: none">
 				<div id="tuesdayLabel" style="text-align: left;">Tuesday</div>
 				<div id="tuesdayClasses" style="text-align: left;">
-						<table  style="border-color: white">
-					    <tr>
-					        <td id="1-0-0"> </td>      <!-- dayOfWeek(Monday)-class(CHEM)-column(Subject) -->
-					        <td id="1-0-1"> </td>      <!-- courseNum and sectionNum -->
-					        <td id="1-0-2"> </td>      <!-- building and roomNum -->
-					        <td id="1-0-3"> </td>      <!-- startTime and endTime -->
-					        <td id="1-0-4"> </td>      <!-- professor -->
-					    </tr>
-					    <tr>
-					        <td id="1-1-0"> </td>      <!-- dayOfWeek(Monday)-class(CHEM)-column(Subject) -->
-                            <td id="1-1-1"> </td>      <!-- courseNum and sectionNum -->
-                            <td id="1-1-2"> </td>      <!-- building and roomNum -->
-                            <td id="1-1-3"> </td>      <!-- startTime and endTime -->
-                            <td id="1-1-4"> </td>      <!-- professor -->
-					    </tr>
-					    <tr>
-                            <td id="1-2-0"> </td>      <!-- dayOfWeek(Monday)-class(CHEM)-column(Subject) -->
-                            <td id="1-2-1"> </td>      <!-- courseNum and sectionNum -->
-                            <td id="1-2-2"> </td>      <!-- building and roomNum -->
-                            <td id="1-2-3"> </td>      <!-- startTime and endTime -->
-                            <td id="1-2-4"> </td>      <!-- professor -->
-                        </tr>
-                        <tr>
-                            <td id="1-3-0"> </td>      <!-- dayOfWeek(Monday)-class(CHEM)-column(Subject) -->
-                            <td id="1-3-1"> </td>      <!-- courseNum and sectionNum -->
-                            <td id="1-3-2"> </td>      <!-- building and roomNum -->
-                            <td id="1-3-3"> </td>      <!-- startTime and endTime -->
-                            <td id="1-3-4"> </td>      <!-- professor -->
-                        </tr>
+						<table border="1">
+					    <tr id="1-0"></tr>
+					    <tr id="1-1"></tr>
+					    <tr id="1-2"></tr>
+                        <tr id="1-3"></tr>
 					</table>
 					
 				</div>
@@ -524,35 +460,11 @@
 			<div id="wednesday" style="display: none">
 				<div id="wednesdayLabel" style="text-align: left;">Wednesday</div>
 				<div id="wednesdayClasses" style="text-align: left;">
-						<table  style="border-color: white">
-					    <tr>
-					        <td id="2-0-0"> </td>      <!-- dayOfWeek(Monday)-class(CHEM)-column(Subject) -->
-					        <td id="2-0-1"> </td>      <!-- courseNum and sectionNum -->
-					        <td id="2-0-2"> </td>      <!-- building and roomNum -->
-					        <td id="2-0-3"> </td>      <!-- startTime and endTime -->
-					        <td id="2-0-4"> </td>      <!-- professor -->
-					    </tr>
-					    <tr>
-					        <td id="2-1-0"> </td>      <!-- dayOfWeek(Monday)-class(CHEM)-column(Subject) -->
-                            <td id="2-1-1"> </td>      <!-- courseNum and sectionNum -->
-                            <td id="2-1-2"> </td>      <!-- building and roomNum -->
-                            <td id="2-1-3"> </td>      <!-- startTime and endTime -->
-                            <td id="2-1-4"> </td>      <!-- professor -->
-					    </tr>
-					    <tr>
-                            <td id="2-2-0"> </td>      <!-- dayOfWeek(Monday)-class(CHEM)-column(Subject) -->
-                            <td id="2-2-1"> </td>      <!-- courseNum and sectionNum -->
-                            <td id="2-2-2"> </td>      <!-- building and roomNum -->
-                            <td id="2-2-3"> </td>      <!-- startTime and endTime -->
-                            <td id="2-2-4"> </td>      <!-- professor -->
-                        </tr>
-                        <tr>
-                            <td id="2-3-0"> </td>      <!-- dayOfWeek(Monday)-class(CHEM)-column(Subject) -->
-                            <td id="2-3-1"> </td>      <!-- courseNum and sectionNum -->
-                            <td id="2-3-2"> </td>      <!-- building and roomNum -->
-                            <td id="2-3-3"> </td>      <!-- startTime and endTime -->
-                            <td id="2-3-4"> </td>      <!-- professor -->
-                        </tr>
+						<table border="1">
+					    <tr id="2-0"></tr>
+					    <tr id="2-1"></tr>
+					    <tr id="2-2"></tr>
+                        <tr id="2-3"></tr>
 					</table>
 					
 				</div>
@@ -563,35 +475,11 @@
 			<div id="thursday" style="display: none">
 				<div id="thursdayLabel" style="text-align: left;">Thursday</div>
 				<div id="thursdayClasses" style="text-align: left;">
-						<table  style="border-color: white">
-					    <tr>
-					        <td id="3-0-0"> </td>      <!-- dayOfWeek(Monday)-class(CHEM)-column(Subject) -->
-					        <td id="3-0-1"> </td>      <!-- courseNum and sectionNum -->
-					        <td id="3-0-2"> </td>      <!-- building and roomNum -->
-					        <td id="3-0-3"> </td>      <!-- startTime and endTime -->
-					        <td id="3-0-4"> </td>      <!-- professor -->
-					    </tr>
-					    <tr>
-					        <td id="3-1-0"> </td>      <!-- dayOfWeek(Monday)-class(CHEM)-column(Subject) -->
-                            <td id="3-1-1"> </td>      <!-- courseNum and sectionNum -->
-                            <td id="3-1-2"> </td>      <!-- building and roomNum -->
-                            <td id="3-1-3"> </td>      <!-- startTime and endTime -->
-                            <td id="3-1-4"> </td>      <!-- professor -->
-					    </tr>
-					    <tr>
-                            <td id="3-2-0"> </td>      <!-- dayOfWeek(Monday)-class(CHEM)-column(Subject) -->
-                            <td id="3-2-1"> </td>      <!-- courseNum and sectionNum -->
-                            <td id="3-2-2"> </td>      <!-- building and roomNum -->
-                            <td id="3-2-3"> </td>      <!-- startTime and endTime -->
-                            <td id="3-2-4"> </td>      <!-- professor -->
-                        </tr>
-                        <tr>
-                            <td id="3-3-0"> </td>      <!-- dayOfWeek(Monday)-class(CHEM)-column(Subject) -->
-                            <td id="3-3-1"> </td>      <!-- courseNum and sectionNum -->
-                            <td id="3-3-2"> </td>      <!-- building and roomNum -->
-                            <td id="3-3-3"> </td>      <!-- startTime and endTime -->
-                            <td id="3-3-4"> </td>      <!-- professor -->
-                        </tr>
+						<table border="1">
+					    <tr id="3-0"></tr>
+					    <tr id="3-1"></tr>
+					    <tr id="3-2"></tr>
+                        <tr id="3-3"></tr>
 					</table>
 					
 				</div>
@@ -602,35 +490,11 @@
 			<div id="friday" style="display: none">
 				<div id="fridayLabel" style="text-align: left;">Friday</div>
 				<div id="fridayClasses" style="text-align: left;">
-						<table  style="border-color: white">
-					    <tr>
-					        <td id="4-0-0"> </td>      <!-- dayOfWeek(Monday)-class(CHEM)-column(Subject) -->
-					        <td id="4-0-1"> </td>      <!-- courseNum and sectionNum -->
-					        <td id="4-0-2"> </td>      <!-- building and roomNum -->
-					        <td id="4-0-3"> </td>      <!-- startTime and endTime -->
-					        <td id="4-0-4"> </td>      <!-- professor -->
-					    </tr>
-					    <tr>
-					        <td id="4-1-0"> </td>      <!-- dayOfWeek(Monday)-class(CHEM)-column(Subject) -->
-                            <td id="4-1-1"> </td>      <!-- courseNum and sectionNum -->
-                            <td id="4-1-2"> </td>      <!-- building and roomNum -->
-                            <td id="4-1-3"> </td>      <!-- startTime and endTime -->
-                            <td id="4-1-4"> </td>      <!-- professor -->
-					    </tr>
-					    <tr>
-                            <td id="4-2-0"> </td>      <!-- dayOfWeek(Monday)-class(CHEM)-column(Subject) -->
-                            <td id="4-2-1"> </td>      <!-- courseNum and sectionNum -->
-                            <td id="4-2-2"> </td>      <!-- building and roomNum -->
-                            <td id="4-2-3"> </td>      <!-- startTime and endTime -->
-                            <td id="4-2-4"> </td>      <!-- professor -->
-                        </tr>
-                        <tr>
-                            <td id="4-3-0"> </td>      <!-- dayOfWeek(Monday)-class(CHEM)-column(Subject) -->
-                            <td id="4-3-1"> </td>      <!-- courseNum and sectionNum -->
-                            <td id="4-3-2"> </td>      <!-- building and roomNum -->
-                            <td id="4-3-3"> </td>      <!-- startTime and endTime -->
-                            <td id="4-3-4"> </td>      <!-- professor -->
-                        </tr>
+						<table border="1">
+					    <tr id="4-0"></tr>
+					    <tr id="4-1"></tr>
+					    <tr id="4-2"></tr>
+                        <tr id="4-3"></tr>
 					</table>
 				</div>
 			</div>
@@ -640,35 +504,11 @@
 			<div id="saturday" style="display: none">
 				<div id="saturdayLabel" style="text-align: left;">Saturday</div>
 				<div id="saturdayClasses" style="text-align: left;">
-						<table  style="border-color: white">
-					    <tr>
-					        <td id="5-0-0"> </td>      <!-- dayOfWeek(Monday)-class(CHEM)-column(Subject) -->
-					        <td id="5-0-1"> </td>      <!-- courseNum and sectionNum -->
-					        <td id="5-0-2"> </td>      <!-- building and roomNum -->
-					        <td id="5-0-3"> </td>      <!-- startTime and endTime -->
-					        <td id="5-0-4"> </td>      <!-- professor -->
-					    </tr>
-					    <tr>
-					        <td id="5-1-0"> </td>      <!-- dayOfWeek(Monday)-class(CHEM)-column(Subject) -->
-                            <td id="5-1-1"> </td>      <!-- courseNum and sectionNum -->
-                            <td id="5-1-2"> </td>      <!-- building and roomNum -->
-                            <td id="5-1-3"> </td>      <!-- startTime and endTime -->
-                            <td id="5-1-4"> </td>      <!-- professor -->
-					    </tr>
-					    <tr>
-                            <td id="5-2-0"> </td>      <!-- dayOfWeek(Monday)-class(CHEM)-column(Subject) -->
-                            <td id="5-2-1"> </td>      <!-- courseNum and sectionNum -->
-                            <td id="5-2-2"> </td>      <!-- building and roomNum -->
-                            <td id="5-2-3"> </td>      <!-- startTime and endTime -->
-                            <td id="5-2-4"> </td>      <!-- professor -->
-                        </tr>
-                        <tr>
-                            <td id="5-3-0"> </td>      <!-- dayOfWeek(Monday)-class(CHEM)-column(Subject) -->
-                            <td id="5-3-1"> </td>      <!-- courseNum and sectionNum -->
-                            <td id="5-3-2"> </td>      <!-- building and roomNum -->
-                            <td id="5-3-3"> </td>      <!-- startTime and endTime -->
-                            <td id="5-3-4"> </td>      <!-- professor -->
-                        </tr>
+						<table border="1">
+					    <tr id="5-0"></tr>
+					    <tr id="5-1"></tr>
+					    <tr id="5-2"></tr>
+                        <tr id="5-3"></tr>
 					</table>
 				</div>
 			</div>

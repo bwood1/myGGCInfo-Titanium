@@ -28,6 +28,11 @@ html,body {
 	background-color: #E8EAEB; 
 }
 
+#socialUpDiv img{
+	padding-top: 3px;
+	height: 20px;
+}
+
 #heading {
 	background: #FF7F00; /*#FF7744;*/
 	color: #EEEEEE;
@@ -65,6 +70,11 @@ html,body {
 	margin-left: auto;
 	margin-right: auto;
 	display: inline-block;
+}
+
+#bannerDivHome img{
+	display:block;
+	width: 100%;
 }
 
 #loginDiv {
@@ -140,28 +150,8 @@ html,body {
 
 /* -------------------------------------mySchedule.html------------------------------*/
 
-.scheduleDay {
-	text-decoration: underline;
-	color: red;
-	font-size: 1em;
-	font-weight: bold;
-	font-family: arial, sans-serif;
-}
-
-.scheduleClass {
-	color: grey;
-	font-size: 1em;
-	font-weight: bold;
-	font-family: arial, sans-serif
-}
-
-.scheduleList {
-	border-style: groove;
-	border-width: 5px;
-	font-family: verdana, arial, sans-serif;
-	font-size: .90em;
-	font-weight: normal;
-	padding-bottom: 1em;
+table {
+	border-collapse: collapse;
 }
 
 /* ----------------------------------------gymInfo.html----------------------------------------------------- */
