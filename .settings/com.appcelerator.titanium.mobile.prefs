@@ -1,9 +1,9 @@
-android/ATTR_PROJECT_NAME=myGGCInfo
-android/abi=armeabi-v7a
+android/ATTR_PROJECT_NAME=myggcinfo-titanium
+android/abi=armeabi
 android/distribute_path=/Users/brandonwood/Desktop
-android/keystore_alias=gutiarist616
+android/keystore_alias=keystore
 android/keystore_password=bord5621
-android/keystore_path=/Users/brandonwood/Dropbox/Android Publishing/publication.keystore
+android/keystore_path=/Users/brandonwood/Desktop/keystore
 android/recent_output=/Users/brandonwood/Desktop
-android/sdk_version=Android 4.2.2
+android/sdk_version=Google APIs (Android 2.3.3)
 eclipse.preferences.version=1

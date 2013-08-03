@@ -45,7 +45,8 @@ function ApplicationWindow() {
         navBarHidden : !titleBarOn, // iOS only
  //       barColor : barColor,
         modal : true,
-        exitOnClose : true  // Android only
+        exitOnClose : true,  // Android only
+        orientationModes: [Titanium.UI.PORTRAIT]
     });
 
     if (translucentViewOn) {
@@ -473,10 +474,10 @@ function ApplicationWindow() {
 	});
 	
 	function openScheduleRequest(e) {
-		//TODO: change the session back
+		// TODO: change the session back
 		var url = 'http://' + Ti.App.Properties.getString('server') +
 			Ti.App.Properties.getString('requestPath') + '&request=schedule&user=' + 
-			Ti.App.Properties.getString('username') + '&session=Fall' /*+ e.session*/ + '&year=' + e.year;
+			Ti.App.Properties.getString('username') + '&session=' + e.session + '&year=' + e.year;
 		
 		var client = Ti.Network.createHTTPClient({
     		 // function called when the response data is available
