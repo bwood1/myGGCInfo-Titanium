@@ -38,17 +38,32 @@ function HomeView() {
         url : '/HTML/index.html'
     });
     
-    Ti.App.addEventListener('index:openFacebook', function () {
-        Ti.Platform.openURL("http://www.facebook.com/georgiagwinnett");
-    });
+    function addEventListeners() {
+        Ti.App.addEventListener('index:openFacebook', function () {
+            Ti.Platform.openURL("http://www.facebook.com/georgiagwinnett");
+        });
     
-    Ti.App.addEventListener('index:reloadView', function() {
-    	homeWebView.reload();
-    });
+        Ti.App.addEventListener('index:reloadView', function() {
+            homeWebView.reload();
+        });
+        
+        Ti.App.addEventListener('index:openFacebook', function() {
+            Ti.Platform.openURL("http://www.facebook.com/georgiagwinnett");
+        });
+        
+        Ti.App.addEventListener('index:openTwitter', function() {
+            Ti.Platform.openURL("http://twitter.com/GeorgiaGwinnett");
+        });
+        
+        Ti.App.addEventListener('index:openYouTube', function() {
+            Ti.Platform.openURL("http://www.youtube.com/user/GeorgiaGwinnett");
+        });
+    }
+    
+    addEventListeners();
     self.add(homeWebView);
     
     if(osname == 'mobileweb'){
-        alert('mobileweb');
     } else {
         self.addEventListener('swipe', function(e) {
            if(e.direction == 'up'){
