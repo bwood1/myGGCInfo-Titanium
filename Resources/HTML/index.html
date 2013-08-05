@@ -29,6 +29,14 @@
 				loadLogInOutButton();
 			});
 			
+			Ti.App.addEventListener('index:swipeUp', function() {
+				socialMediaUp();
+			});
+			
+			Ti.App.addEventListener('index:swipeDown', function() {
+				socialMediaDown();
+			});
+			
 			/**
 			 * Checks to see if the user is logged in. If so then displays the log out button.
 			 * If not, displays the log in button.
@@ -72,17 +80,23 @@
 				}
 			}
 			
+			function socialMediaUp() {
+				$("#socialMedia").animate({bottom: '-20px'}, 500);
+				$("#socialMediaUpButton").attr('src', 'images/socialMediaIcons/Social_Media_down.png');
+			}
+			
+			function socialMediaDown() {
+				$("#socialMedia").animate({bottom: '-75px'}, 500);
+				$("#socialMediaUpButton").attr('src', 'images/socialMediaIcons/Social_Media_up.png');
+			}
+			
 			function getLoggedInStatus() {
 				Ti.API.info('getLoggedInStatus called');
 				Ti.App.fireEvent('index:getLoggedInStatus');
 			}
-			
-			function openLoginPage() {
-				Ti.App.fireEvent('index:openLoginPage');
-			}
 
 			$(document).ready(function() {
-				getLoggedInStatus();
+				// getLoggedInStatus();
 			});
         </script>
     </head>
@@ -104,7 +118,7 @@
                 <!-- loginButton -->
                 <div id="loginDiv">
                     <img id="logInOutButton" width="100%" height="100%" src=""
-                    	alt="" onclick="Ti.App.fireEvent('index:openLoginPage');">
+                    	alt="" onclick="Ti.App.fireEvent('index:openLogin');">
                     <figcaption>Log In</figcaption>
                 </div>
                 <!-- /loginButton -->
@@ -125,7 +139,7 @@
                     <div class="iconRow">
                         <!-- mySchedule Button -->
                         <div style="float: left">
-                            <img class="icon" onclick="Ti.App.fireEvent('index:openSchedulePage');"
+                            <img class="icon" onclick="Ti.Platform.openURL('http://www.facebook.com/georgiagwinnett');"
                             src="images/homeIcons/myScheduleIcon.png" alt="scheduleIcon">
                             <figcaption>
                                 mySchedule
@@ -133,7 +147,7 @@
                         </div>
                         <!-- myMentor Button -->
                         <div style="float: right">
-                            <img class="icon" onclick="Ti.App.fireEvent('index:openMentorPage');"
+                            <img class="icon" onclick="Ti.App.fireEvent('index:openMentor');"
                             src="images/homeIcons/myMentorIcon.png" alt="mentorIcon">
                             <figcaption>
                                 myMentor
@@ -145,7 +159,7 @@
                     <div class="iconRow">
                         <!-- ggcNewsButton -->
                         <div style="float: left">
-                            <img class="icon" onclick="Ti.App.fireEvent('index:openNewsPage');"
+                            <img class="icon" onclick="Ti.App.fireEvent('index:openNews');"
                             src="images/homeIcons/news3.png" alt="ggcNewsIcon">
                             <figcaption>
                                 GGC News
@@ -154,7 +168,7 @@
                         <!-- /ggcNewsButton -->
                         <!-- What's Happening Button -->
                         <div style="float: right">
-                            <img class="icon" onclick="Ti.App.fireEvent('index:openEventsPage');"
+                            <img class="icon" onclick="Ti.App.fireEvent('index:openEvents');"
                             src="images/homeIcons/whatsHappeningIcon.png"
                             alt="whatsHappeningIcon">
                             <figcaption>
