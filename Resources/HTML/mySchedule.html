@@ -8,7 +8,8 @@
 	title="no title" charset="utf-8">
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 <script type="text/javascript">
-	var scheduleArray = {
+	var scheduleArray;
+	[{
     "dayOfWeek": [
         {
             "day": "Monday",
@@ -257,7 +258,7 @@
             ]
         }
     ]
-};
+	}];
 	var semester;
 	var year;
 	var todaysDate;
@@ -398,37 +399,33 @@
     
     $(document).ready( function() {
     	//TODO: change this back
-    	Ti.App.fireEvent('mySchedule:getUNameFromProperties');
+    	//Ti.App.fireEvent('mySchedule:getUNameFromProperties');
         requestScheduleInfoFromServer();
         // showScheduleInfo();
     });
 </script>
 </head>
 <body>
-	<div id="screen">
+	<div id="screen" style="margin: auto">
 		<!-- Banner -->
 		<!-- Top content -->
 		<div style="padding: 5% 5% 10% 5%">
 			<!-- backButton -->
-			<div id="backDiv">
+			<!-- Dont need this for HTML version -->
+			<!-- <div id="backDiv">
 				<img width="100%" height="100%"
 					onclick="Ti.App.fireEvent('schedule:backPressed');" src=""
 					alt="backButton">
 				<figcaption>Back</figcaption>
-			</div>
+			</div> -->
 			<!-- /backButton -->
-			<!-- myGGC Banner -->
-			<div id="bannerDiv">
-				<img alt="bannerImage" src="images/icons.png" width="100%"
-					height="100%">
-			</div>
 		</div>
 		<!-- /TopContent -->
 
 		<!-- scheduleContent -->
-		<div id="scheduleContent" style="padding-top: 5%; padding-bottom: 5%; height: 100%">
+		<div id="scheduleContent" style="margin: auto; height: 100%; padding-bottom: 1%;">
 			<!-- monday -->
-			<div id="monday" style="display: none">
+			<div id="monday" style="display: none" style="margin: auto;">
 				<div id="mondayLabel" style="text-align: left;">Monday</div>
 				<div id="mondayClasses" style="text-align: left;">
 					<table id="0" border="1">

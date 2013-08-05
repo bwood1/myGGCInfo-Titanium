@@ -19,6 +19,7 @@ function MentorWindow() {
         backgroundColor : '#FFFFFF',
         fullscreen:false,
         modal : false,
+        orientationModes: [Titanium.UI.PORTRAIT],
         exitOnClose : false  // Android only
     });
     

@@ -19,6 +19,7 @@ function LoginWindow() {
         backgroundColor : '#FFFFFF',
         fullscreen:false,
         modal : false,
+        orientationModes: [Titanium.UI.PORTRAIT],
         exitOnClose : false  // Android only
     });
 	
@@ -37,6 +38,13 @@ function LoginWindow() {
         // Default assumes that all HTML is in the HTML folder and the first file is index.html, you can change the next line to suit your HTML.
         url : '/HTML/login.html'
     });
+    
+    function addEventListeners() {
+       
+
+    }
+    
+    addEventListeners();
     self.add(loginWebView);
     return self;
 }

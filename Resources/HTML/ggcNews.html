@@ -8,40 +8,47 @@
         title="no title" charset="utf-8">
         <link rel="stylesheet" href="rss.css" type="text/css" media="screen"
         title="no title" charset="utf-8">
-        <!-- <script type="text/javascript" charset="utf-8" src="js/wormhole.js"></script> -->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+        <script type="text/javascript">
+        	$(document).ready(function() {
+				// writeStuff();
+			});
+			
+			function writeStuff() {
+				Ti.API.info('writing the stuff');
+				document.write('<div class="rss-box">');
+				document.write('<p class="rss-title"><a class="rss-title" href="" target="_self">News</a><br /><span class="rss-item"></span></p>');
+				document.write('<ul class="rss-items">');
+				document.write('<li class="rss-item"><a class="rss-item" href="" onclick="Ti.App.fireEvent(\'news:openLink\', {link: \'http://www.ggc.edu/about-ggc/news/News/2013/07/26/ggc-collaborating-with-lilburns-sister-city-efforts\'})" target="_self">GGC collaborating with Lilburnâ€™s Sister City efforts</a><br />');
+				document.write('Georgia Gwinnett College recently hosted a meeting between representatives of the college, the City of Lilburn and the City of Suhareka, Kosovo, in which discussions centered on GGCâ€™s involvement with a new Sister Cities relationship between Lilburn and Suhareka.');
+				document.write('</li>');
+				document.write('</ul>');
+				document.write('</div>');
+				Ti.API.info('stuff written');
+			}
+        </script>
     </head>
     <body>
         <div id="screen">
             <!-- Top content -->
-            <div style="padding: 5% 5% 10% 5%">
-                <!-- backButton -->
-                <div id="backDiv">
-                    <img width="100%" height="100%" onclick="Ti.App.fireEvent('news:backPressed');"
-                    src="" alt="backButton">
-                    <figcaption>
-                        Back
-                    </figcaption>
-                </div>
-                <!-- /LoginButton -->
-                <!-- myGGC Banner -->
-                <div id="bannerDiv">
-                    <img alt="bannerImage" src="images/icons.png" width="100%"
-                    height="100%">
-                </div>
-                <!-- /myGGCBanner -->
-            </div>
-            <!-- /TopContent -->
+		<div style="padding: 5% 5% 10% 5%">
+			<!-- backButton -->
+			<!-- Dont need this for HTML version -->
+			<!-- <div id="backDiv">
+				<img width="100%" height="100%"
+					onclick="Ti.App.fireEvent('schedule:backPressed');" src=""
+					alt="backButton">
+				<figcaption>Back</figcaption>
+			</div> -->
+			<!-- /backButton -->
+		</div>
+		<!-- /TopContent -->
 
             <!-- News Content -->
             <div id="newsContent" style="padding-top: 5%; height: 100%">
+            	<iframe src="newsRSS.html"></iframe>
 
-                <script type="text/javascript" 
-                    src="http://feed2js.org//feed2js.php?src=http%3A%2F%2Fwww.ggc.edu%2Fabout-ggc%2Fnews%2FNews%3Fformat%3Drss&chan=y&desc=1&utf=y"  
-                    charset="UTF-8" type="text/javascript"></script>
-
-                <noscript>
-                    <a href="http://feed2js.org//feed2js.php?src=http%3A%2F%2Fwww.ggc.edu%2Fabout-ggc%2Fnews%2FNews%3Fformat%3Drss&chan=y&desc=1&utf=y&html=y">View RSS feed</a>
-                </noscript>
+                
 
                 <!-- <iframe src="newsRSS.html" style="height: 80%; width: 95%"
                 sandbox="allow-top-navigation" name="iframe-news"> </iframe> -->

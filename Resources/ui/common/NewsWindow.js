@@ -19,6 +19,7 @@ function NewsWindow() {
         backgroundColor : '#FFFFFF',
         fullscreen:false,
         modal : false,
+        orientationModes: [Titanium.UI.PORTRAIT],
         exitOnClose : false  // Android only
     });
     
@@ -37,6 +38,19 @@ function NewsWindow() {
         // Default assumes that all HTML is in the HTML folder and the first file is index.html, you can change the next line to suit your HTML.
         url : '/HTML/ggcNews.html'
     });
+    
+    function addEventListeners() {
+        self.addEventListener('focus', function() {
+            newsWebView.reload(); 
+        });
+        
+        Ti.App.addEventListener('news:openLink', function(l) {
+            Ti.Platform.openURL(l.link);
+        });
+    }
+    
+    addEventListeners();
+    
     self.add(newsWebView);
     return self;
 }

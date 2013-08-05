@@ -19,6 +19,7 @@ function HomeView() {
         backgroundColor : '#FFFFFF',
         fullscreen: false,
         modal : true,
+        orientationModes: [Titanium.UI.PORTRAIT],
         exitOnClose : true  // Android only
     });
 	
@@ -47,10 +48,6 @@ function HomeView() {
             homeWebView.reload();
         });
         
-        Ti.App.addEventListener('index:openFacebook', function() {
-            Ti.Platform.openURL("http://www.facebook.com/georgiagwinnett");
-        });
-        
         Ti.App.addEventListener('index:openTwitter', function() {
             Ti.Platform.openURL("http://twitter.com/GeorgiaGwinnett");
         });
@@ -58,6 +55,82 @@ function HomeView() {
         Ti.App.addEventListener('index:openYouTube', function() {
             Ti.Platform.openURL("http://www.youtube.com/user/GeorgiaGwinnett");
         });
+        
+        Ti.App.addEventListener('index:getLoggedInStatus', function() {
+            getLoggedInStatus();
+            // Ti.App.fireEvent('index:sendLoggedInStatus', {status: Ti.App.Properties.getBool('isLoggedIn')});
+        });
+        
+        function getLoggedInStatus() {
+            var url = 'http://' + Ti.App.Properties.getString('server') +
+                Ti.App.Properties.getString('requestPath') + '&request=schedule&user=' + 
+                Ti.App.Properties.getString('username') + '&session=Fall&year=2000';
+                        
+            var client = Ti.Network.createHTTPClient({
+                 // function called when the response data is available
+                 onload : function(f) {
+                     // Ti.API.info("Received text: " + this.responseText);
+                     checkLoggedIn(this.responseText);
+                     // Ti.App.fireEvent("mySchedule:sendSchedule", {object: this.responseText});
+                 },
+                 // function called when an error occurs, including a timeout
+                 onerror : function(f) {
+                     Ti.API.debug(f.error);
+                     alert('Problem connecting to the server');
+                 },
+                 withCredentials: true,
+                 //TODO: change this back when we get a valid certificate
+                 validatesSecureCertificate: false,
+                 timeout : 5000  // in milliseconds
+             });
+             // Ti.API.info('The schedule request is: ' + url);
+            //prepare the connection
+            client.open("GET", url);
+            //send the request
+            client.send();
+        }
+        
+        function checkLoggedIn(status) {
+            if( status == 'not logged in'){
+                // alert('not logged in');
+                Ti.App.fireEvent('index:sendLoggedInStatus', {status: false});
+                // alert('fired sendLoggedInStatus');
+            } else {
+                Ti.App.fireEvent('index:sendLoggedInStatus', {status: true})
+            }
+        }
+        
+        //creates a request to log out
+        Ti.App.addEventListener('index:logoutRequest', function() {
+            logoutRequest();
+        });
+        
+        function logoutRequest() {
+            var client = Ti.Network.createHTTPClient({
+                 // function called when the response data is available
+                 onload : function(f) {
+                     // Ti.API.info("Received text: " + this.responseText);
+                     alert('You are now logged out');
+                     homeWebView.reload();
+                     // Ti.App.fireEvent("mySchedule:sendSchedule", {object: this.responseText});
+                 },
+                 // function called when an error occurs, including a timeout
+                 onerror : function(f) {
+                     Ti.API.debug(f.error);
+                     // isLoggedIn = false;
+                     alert('Problem connecting to the server');
+                 },
+                 withCredentials: true,
+                 //TODO: change this back when we get a valid certificate
+                 validatesSecureCertificate: false,
+                 timeout : 5000  // in milliseconds
+             });
+            //prepare the connection
+            client.open("GET", "http://" + Ti.App.Properties.getString('server') + "/brandon/request.php?request=logoff");
+            //send the request
+            client.send();
+        }
+
     }
     
     addEventListeners();
@@ -75,6 +148,10 @@ function HomeView() {
            }
         });
     }
+    
+    self.addEventListener('focus', function() {
+       homeWebView.reload(); 
+    });
     
     return self;
 }

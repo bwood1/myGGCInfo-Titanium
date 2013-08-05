@@ -60,40 +60,34 @@
 		<!-- Banner -->
 		<!-- Top content -->
 		<div style="padding: 5% 5% 10% 5%">
-			<!-- LoginButton -->
-			<div id="backDiv">
+			<!-- backButton -->
+			<!-- Dont need this for HTML version -->
+			<!-- <div id="backDiv">
 				<img width="100%" height="100%"
-					onclick="Ti.App.fireEvent('mentor:backPressed');" src=""
+					onclick="Ti.App.fireEvent('schedule:backPressed');" src=""
 					alt="backButton">
 				<figcaption>Back</figcaption>
-			</div>
-			<!-- /LoginButton -->
-			<!-- myGGC Banner -->
-			<div id="bannerDiv">
-				<img alt="bannerImage" src="images/icons.png" width="100%"
-					height="100%">
-			</div>
+			</div> -->
+			<!-- /backButton -->
 		</div>
 		<!-- /TopContent -->
 
 		<!-- mentorContent -->
 		<div id="mentorContent">
-			<div style="padding: 5% 20% 5% 20%; width: 60%; height: 45%">
+			<div  style="margin: auto; width: 200px; height: 276px">
 				<img id="mentorPicture" src="" height=100% width=100%>
 			</div>
 			<!-- /mentorPicture -->
 			
-			<br>
-			
 			<!-- mentorInfo -->
 			<div id="mentorInfo" style="width: 100%; height: 45%">
 				<!-- nameRow -->
-				<div id="nameRow" style="width: 100%; height: 20%">
-					<div style="display: inline-block; width: 30%; text-align: right">
+				<div id="nameRow" style="width: 100%; height: 20%;">
+					<div style="display: inline-block; width: 30%; text-align: right; border: 1px solid black">
 						<label id="nameLabel">Name:</label>
 					</div>
-					<span style="display: inline-block; width: 10%"></span>
-					<div style="display: inline-block; width: 40%; text-align: left">
+					<span style="display: inline-block; width: 10%; height: 20%; border: 1px solid blue"></span>
+					<div style="display: inline-block; width: 40%; text-align: left; border: 1px solid red">
 						<label id="mentorName"></label>
 					</div>
 				</div>
