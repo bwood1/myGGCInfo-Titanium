@@ -96,7 +96,7 @@ if (Ti.version < 1.8) {
                  // function called when an error occurs, including a timeout
                  onerror : function(f) {
                      Ti.API.debug(f.error);
-                     alert(f.error);
+                     // alert(f.error);
                      alert('Problem connecting to the server');
                  },
                  withCredentials: true,
