@@ -38,6 +38,17 @@ function EventsWindow() {
         // Default assumes that all HTML is in the HTML folder and the first file is index.html, you can change the next line to suit your HTML.
         url : '/HTML/whatsHappening.html'
     });
+    
+    function addEventListeners() {
+        self.addEventListener('android:back', function() {
+            if(eventsWebView.canGoBack()) {
+                eventsWebView.goBack();
+            } else {
+                self.close();
+            }
+       });
+    }
+    
     self.add(eventsWebView);
     return self;
 }

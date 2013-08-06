@@ -44,6 +44,14 @@ function NewsWindow() {
             newsWebView.reload(); 
         });
         
+        self.addEventListener('android:back', function() {
+            if(newsWebView.canGoBack()) {
+                newsWebView.goBack();
+            } else {
+                self.close();
+            }
+       });
+        
         Ti.App.addEventListener('news:openLink', function(l) {
             Ti.Platform.openURL(l.link);
         });
