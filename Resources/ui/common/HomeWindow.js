@@ -76,7 +76,6 @@ function HomeView() {
                  // function called when an error occurs, including a timeout
                  onerror : function(f) {
                      Ti.API.debug(f.error);
-                     alert('Problem connecting to the server');
                  },
                  withCredentials: true,
                  //TODO: change this back when we get a valid certificate
@@ -126,7 +125,8 @@ function HomeView() {
                  timeout : 5000  // in milliseconds
              });
             //prepare the connection
-            client.open("GET", "http://" + Ti.App.Properties.getString('server') + "/brandon/request.php?request=logoff");
+            client.open("GET", "http://" + Ti.App.Properties.getString('server') +
+                Ti.App.Properties.getString('requestPath') + "request=logoff");
             //send the request
             client.send();
         }
@@ -137,6 +137,7 @@ function HomeView() {
     self.add(homeWebView);
     
     if(osname == 'mobileweb'){
+        
     } else {
         self.addEventListener('swipe', function(e) {
            if(e.direction == 'up'){

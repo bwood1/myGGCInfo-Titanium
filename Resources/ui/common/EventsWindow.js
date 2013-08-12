@@ -40,15 +40,19 @@ function EventsWindow() {
     });
     
     function addEventListeners() {
+        self.addEventListener('focus', function() {
+            eventsWebView.reload(); 
+        });
+        
         self.addEventListener('android:back', function() {
             if(eventsWebView.canGoBack()) {
                 eventsWebView.goBack();
             } else {
                 self.close();
             }
-       });
+        });
     }
-    
+    addEventListeners();
     self.add(eventsWebView);
     return self;
 }

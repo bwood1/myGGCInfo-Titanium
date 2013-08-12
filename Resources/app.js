@@ -13,8 +13,8 @@
 if (Ti.version < 1.8) {
     alert('Sorry - this application template requires Titanium Mobile SDK 1.8 or later');
 } else {
-    Ti.App.Properties.setString('server', '10.0.179.202');                  //The server to which the requests are being sent
-    Ti.App.Properties.setString('requestPath', '/brandon/request.php?');    //The path on the server to send the requests to
+    Ti.App.Properties.setString('server', 'myinfo.dev.ggc.edu');                  //The server to which the requests are being sent
+    Ti.App.Properties.setString('requestPath', '/ss/request.php?');    //The path on the server to send the requests to
     Ti.App.Properties.setBool('isLoggedIn', false);
     
     // var self = Ti.UI.createWindow();

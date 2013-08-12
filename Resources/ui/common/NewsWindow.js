@@ -55,10 +55,8 @@ function NewsWindow() {
         Ti.App.addEventListener('news:openLink', function(l) {
             Ti.Platform.openURL(l.link);
         });
-    }
-    
+    }    
     addEventListeners();
-    
     self.add(newsWebView);
     return self;
 }
