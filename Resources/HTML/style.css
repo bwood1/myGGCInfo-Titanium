@@ -275,3 +275,39 @@ table {
     text-align: right;
     display: inline-block;
 }
+
+
+/* -------------------------------- whatsHappening.html ------------------------------*/
+.gfc-result {
+    width: 90%; border-top-left-radius: 0.6em;
+    border-top-right-radius: 0.6em;
+    background: grey;
+    border-bottom-left-radius: 0.6em;
+    border-bottom-right-radius: 0.6em;
+}
+
+.gfc-author, .gfc-space, .gfc-relativePublicheddate {
+    display: none;
+}
+
+.rssEntryContainer .rssEntry {
+    background-color: #DADDDF;
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+    color: #000000;
+    display: block;
+    padding: 10px 30px 10px 15px;
+    text-decoration: none;
+}
+
+.rssEntryContainer a:hover {
+    background-color: #C9CBCD;
+    margin-left: 0;
+    margin-right: 0;
+    max-width: 300px;
+}
+
+.rssEntry {
+    border-radius: 5px 5px 5px 5px;
+    margin: 0;
+}

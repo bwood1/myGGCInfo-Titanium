@@ -9,44 +9,58 @@
         <link rel="stylesheet" href="rss.css" type="text/css" media="screen"
         title="no title" charset="utf-8">
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+        <script src="http://www.google.com/jsapi?key=AIzaSyA5m1Nc8ws2BbmPRwKu5gFradvD_hgq6G0" type="text/javascript"></script>
+        <script src="http://www.google.com/uds/?file=feeds&amp;v=1" type="text/javascript"></script>
+        <link href="http://www.google.com/uds/api/feeds/1.0/e658fb253c8b588196cf534cc43ab319/default+en.css"
+            type="text/css" rel="stylesheet">
+        <script src="http://www.google.com/uds/api/feeds/1.0/e658fb253c8b588196cf534cc43ab319/default+en.I.js"
+            type="text/javascript"></script>
         <script type="text/javascript">
-        	$(document).ready(function() {
-				// writeStuff();
-			});
-			
-			function writeStuff() {
-				Ti.API.info('writing the stuff');
-				document.write('<div class="rss-box">');
-				document.write('<p class="rss-title"><a class="rss-title" href="" target="_self">News</a><br /><span class="rss-item"></span></p>');
-				document.write('<ul class="rss-items">');
-				document.write('<li class="rss-item"><a class="rss-item" href="" onclick="Ti.App.fireEvent(\'news:openLink\', {link: \'http://www.ggc.edu/about-ggc/news/News/2013/07/26/ggc-collaborating-with-lilburns-sister-city-efforts\'})" target="_self">GGC collaborating with Lilburnâ€™s Sister City efforts</a><br />');
-				document.write('Georgia Gwinnett College recently hosted a meeting between representatives of the college, the City of Lilburn and the City of Suhareka, Kosovo, in which discussions centered on GGCâ€™s involvement with a new Sister Cities relationship between Lilburn and Suhareka.');
-				document.write('</li>');
-				document.write('</ul>');
-				document.write('</div>');
-				Ti.API.info('stuff written');
-			}
+        	google.load("feeds", "1");
+            
+            // Our callback function for when a feed is loaded
+            function feedLoaded(result) {
+                if (!result.error) {
+                    // Grab the container we will put the resulsts into
+                    var container = document.getElementById("content");
+                    container.innerHTML = '';
+                    
+                    //Loop through the feeds, putting the titnels onto the page.
+                    // Check out the reulst object for a list of properties returned in each entry.
+                    for ( var i = 0; i < result.feed.entries.length; i++) {
+                        var entry = result.feed.entries[i];
+                        var div = document.createElement("div");
+                        div.className = "rssEntryContainer";
+                        
+                        var a = document.createElement("a");
+                        a.className = "rssEntry";
+                        a.href = entry.link;
+                        a.title = entry.title;
+                        a.innerHTML = entry.title;
+                        div.appendChild(a);
+                        
+                        container.appendChild(div);
+                        var spacer = document.createElement("br")
+                        container.appendChild(spacer);
+                    }
+                }
+            }
+            
+            function OnLoad(){
+                // Create a feed instance that will grab the ggc feed
+                var feed = new google.feeds.Feed("http://www.ggc.edu/about-ggc/news/News?format=rss");
+                
+                // Calling load sends the request off. It requires a callback function
+                feed.load(feedLoaded);
+            }
+            google.setOnLoadCallback(OnLoad);
         </script>
     </head>
     <body>
-        <div id="screen">
-            <!-- News Content -->
-            <div id="newsContent" style="padding-top: 5%; height: 100%">
-            	<!-- <iframe src="newsRSS.html"></iframe> -->
-
-                <script type="text/javascript" 
-    				src="http://feed2js.org//feed2js.php?src=http%3A%2F%2Fwww.ggc.edu%2Fabout-ggc%2Fnews%2FNews%3Fformat%3Drss&chan=y&desc=1&utf=y"  
-        			charset="UTF-8" type="text/javascript"></script>
-
-    			<noscript>
-    				<a href="http://feed2js.org//feed2js.php?src=http%3A%2F%2Fwww.ggc.edu%2Fabout-ggc%2Fnews%2FNews%3Fformat%3Drss&chan=y&desc=1&utf=y&html=y">View RSS feed</a>
-    			</noscript>
-
-                <!-- <iframe src="newsRSS.html" style="height: 80%; width: 95%"
-                sandbox="allow-top-navigation" name="iframe-news"> </iframe> -->
+    	<center>
+            <div id="content" style="padding-top: 25px; max-width: 300px; ">
+                Loading...
             </div>
-            <!-- /newsContent -->
-        </div>
-        <!-- /screen -->
+        </center>
     </body>
 </html>

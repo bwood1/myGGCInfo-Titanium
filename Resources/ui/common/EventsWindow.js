@@ -34,6 +34,7 @@ function EventsWindow() {
         // opacity : animationsOn ? 0 : 1,
         disableBounce: true,
         willHandleTouches: false,
+        ignoreSslError: true,
         enableZoomControls : false, // Android only
         // Default assumes that all HTML is in the HTML folder and the first file is index.html, you can change the next line to suit your HTML.
         url : '/HTML/whatsHappening.html'

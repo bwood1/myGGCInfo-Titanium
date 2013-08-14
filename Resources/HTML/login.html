@@ -41,7 +41,7 @@
 				// window.location.href = "index.html";
 				uName = document.getElementById('userNameField').value;
 				pWord = document.getElementById('passwordField').value;
-				
+				pWord = encodeURIComponent(pWord);
 				//TODO: Change this back
 				// createLoginRequest();
 				Ti.App.fireEvent('login:openLoginRequest', {username: uName, password: pWord});

@@ -83,8 +83,9 @@ if (Ti.version < 1.8) {
          */
         function openLoginRequest(e) {
             var url = 'http://' + Ti.App.Properties.getString('server') + Ti.App.Properties.getString('requestPath') + 
-                'request=login&user=' + e.username.toLowerCase() + '&pass=BOrd5621!!' /*+ e.password*/;
+                'request=login&user=' + e.username.toLowerCase();
             uName = e.username.toLowerCase();
+            var pwd = "pass=" + e.password;
             // Ti.API.info('uName variable = ' + uName);
             var client = Ti.Network.createHTTPClient({
                  // function called when the response data is available
@@ -106,9 +107,9 @@ if (Ti.version < 1.8) {
              });
             //prepare the connection
             // alert('The login request is: ' + url);
-            client.open("GET", url);
+            client.open("POST", url);
             //send the request
-            client.send();
+            client.send(pwd);
         }
         
         //reads the text of the login request and responds appropriatly.
