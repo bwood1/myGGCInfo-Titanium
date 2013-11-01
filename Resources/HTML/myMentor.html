@@ -1,141 +1,150 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!--
+* @file myMentor.html
+*
+-->
+
+<!-- 
+* Copyright 2013 Georgia Gwinnett College
+* This file is part of MyInfo.
+*
+* MyInfo is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* MyInfo is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser Public License for more details.
+*
+* You should have received a copy of the GNU Lesser Public License
+* along with MyInfo.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
 <html>
 <head>
-<meta name="viewport" content="width=320, user-scalable=no">
+<meta name="viewport" content="user-scalable=yes, width=device-width, minimum-scale=1, 
+	initial-scale=1, maximum-scale=4">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>myMentor</title>
 <link rel="stylesheet" href="style.css" type="text/css" media="screen"
 	title="no title" charset="utf-8">
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<script src="js/jquery1.10.1.js"></script>
 <script type="text/javascript">
-	var mentorArray;
-	
-	//Add event listeners
-	Ti.App.addEventListener('myMentor:sendMentor', function(e) {
-		mentorArray = e.mentor;
-		showMentorInfo(e.mentor);
-	});
-	
-	Ti.App.addEventListener('myMentor:sendMentorPicDir', function(e) {
-		$("#mentorPicture").attr('src', e.imgDir);
-	});
-	
-	/**
-	*	Will retrieve the mentors information from the server and store it in variables
-	*/
-	function loadMentorInfo() {
-		//TODO write a script that will request the mentor information from the server 
-		Ti.App.fireEvent('myMentor:loadMentorInfo');
+	var uName;
+	var mentorObject;
+
+	function addTIListeners() {
+        Ti.App.addEventListener('mentor:sendMentorInfo', function(e) {
+			uName = e.username;
+			showMentorInfo( e.mentorObject, e.mentorPicNativePath);
+		});
+		
+		Ti.App.addEventListener('mentor:deleteMentorPic', function() {
+		    Ti.API.info('mentor:deleteMentorPic heard');
+		    // $("#mentorPicture").attr('src', '');
+		});
 	}
 	
 	/**
 	*	Will show the mentor information on screen
 	*/
-	function showMentorInfo(aMentor) {
-		//format like this - http:///brandon/request.php?request=pics&size=200&user=bwood1&faculty=tim
-		// Ti.API.info('mentor username: ' + aMentor.FACULTY_USERNAME);
-		// $("#mentorPicture").attr("src", Ti.App.fireEvent('myMentor:getMentorFilePath'));
-		Ti.App.fireEvent('myMentor:getMentorFilePath');
+	function showMentorInfo(aMentor, aNativePath) {
+		$("#mentorPicture").attr('src', aNativePath);
 		$("#mentorName").html(aMentor.FULL_NAME);
-		$("#mentorPhone").attr("href", "tel:" + aMentor.PHONE);
-		$("#mentorPhone").html(aMentor.PHONE.substring(0,3) + "-" + aMentor.PHONE.substring(3,6) + "-" + aMentor.PHONE.substring(6));
-		$("#mentorOffice").html(aMentor.BUILDING_NAME + ' ' + 
-								aMentor.OFFICE_NUMBER);
-		$("#mentorEmail").attr("href", "mailto:" + aMentor.FACULTY_USERNAME + '@ggc.edu');
-		$("#mentorEmail").html(aMentor.FACULTY_USERNAME + '@ggc.edu');
-	}
 		
+		if (aMentor.PHONE == null) {
+			$("#mentorPhoneDiv").html('No Phone Number');
+			$("#mentorPhone").hide();
+		} else {
+			$("#mentorPhone").attr("href", "tel:" + aMentor.PHONE);
+			aMentor.PHONE = aMentor.PHONE + "";
+			$("#mentorPhone").html(aMentor.PHONE.substring(0,3) + "-" + aMentor.PHONE.substring(3,6) + "-" +
+				       aMentor.PHONE.substring(6));
+		}
+		if (aMentor.BUILDING_NAME == null || aMentor.OFFICE_NUMBER == null )
+			$("#mentorOffice").html("No Office");
+		else
+			$("#mentorOffice").html(aMentor.BUILDING_NAME + ' ' +  aMentor.OFFICE_NUMBER);
+		if (aMentor.FACULTY_USERNAME == null)
+			$("#mentorEmail").html("No email");
+		else {
+			$("#mentorEmail").attr("href", "mailto:" + aMentor.FACULTY_USERNAME + '@ggc.edu');
+			$("#mentorEmail").html(aMentor.FACULTY_USERNAME + '@ggc.edu');
+		}
+	}
 	
 	$(document).ready(function() {
-		loadMentorInfo();
+		addTIListeners();
+		Ti.App.fireEvent('mentor:getMentorInfo');
 	});
-	
-	window.onbeforeunload = function() {
-		window.name = "reloader";
-	}
 </script>
 </head>
 <body>
 	<div id="Screen">
-		<!-- Banner -->
 		<!-- Top content -->
-		<div style="padding: 5% 5% 10% 5%">
-			<!-- backButton -->
-			<!-- Dont need this for HTML version -->
-			<!-- <div id="backDiv">
-				<img width="100%" height="100%"
-					onclick="Ti.App.fireEvent('schedule:backPressed');" src=""
-					alt="backButton">
-				<figcaption>Back</figcaption>
-			</div> -->
-			<!-- /backButton -->
+		<div class="topDiv">
+		    <!-- myInfoBanner -->
+                <div id="bannerDivHome">
+                    <a onclick="Ti.App.fireEvent('mentor:closeWindow');"> 
+                        <img alt="bannerImage" src="images/banners/MyInfoMobile_Logo.png" /> 
+                    </a>
+                </div>
+            <!-- /myInfoBanner -->
 		</div>
-		<!-- /TopContent -->
+		<!-- Top Content -->
 
 		<!-- mentorContent -->
 		<div id="mentorContent">
-			<div  style="margin: auto; width: 200px; height: 276px">
-				<img id="mentorPicture" src="" height=100% width=100%>
-			</div>
+				<img id="mentorPicture" src="" height="40%">
 			<!-- /mentorPicture -->
-			
+			<br>
 			<!-- mentorInfo -->
-			<div id="mentorInfo" style="width: 100%; height: 45%">
+			<div id="mentorInfo">
 				<!-- nameRow -->
-				<div id="nameRow" style="width: 100%; height: 20%;">
-					<div style="display: inline-block; width: 30%; text-align: right;">
+				<div class="mentorInfoRow">
+					<div class="mentorLabelDiv">
 						<label id="nameLabel">Name:</label>
 					</div>
-					<span style="display: inline-block; width: 10%; height: 20%;"></span>
-					<div style="display: inline-block; width: 40%; text-align: left;">
+					<span class="mentorInfoSpan"></span>
+					<div class="mentorInfoDiv">
 						<label id="mentorName"></label>
 					</div>
 				</div>
 				<!-- /nameRow -->
 				<br>
 				<!-- phoneRow -->
-				<div id="phoneRow" style="width: 100%; height: 20%">
-					<div style="display: inline-block; width: 30%; text-align: right">
+				<div class="mentorInfoRow">
+				    <div class="mentorLabelDiv">
 						<label id="phoneOneLabel">Phone:</label>
 					</div>
-					<span style="display: inline-block; width: 10%"></span>
-					<div style="display: inline-block; width: 40%; text-align: left">
+					<span class="mentorInfoSpan"></span>
+					<div class="mentorInfoDiv">
 						<a id="mentorPhone" href=""></a>
 					</div>
 				</div>
-				<!-- /phoneRow -->
-				<!-- <br> -->
-				<!-- phoneTwoRow -->
-				<!-- <div id="phoneTwoRow" style="width: 100%; height: 20%">
-					<div style="display: inline-block; width: 30%; text-align: right">
-						<label id="phoneTwoLabel">Phone 2:</label>
-					</div>
-					<span style="display: inline-block; width: 10%"></span>
-					<div style="display: inline-block; width: 40%; text-align: left">
-						<label id="mentorPhoneTwo"></label>
-					</div>
-				</div> -->
-				<!-- /phoneTwoRow -->
 				<br>
 				<!-- officeRow -->
-				<div id="officeRow" style="width: 100%; height: 20%">
-					<div style="display: inline-block; width: 30%; text-align: right">
+				<div class="mentorInfoRow">
+				    <div class="mentorLabelDiv">
 						<label id="officeLabel">Office:</label>
 					</div>
-					<span style="display: inline-block; width: 10%"></span>
-					<div style="display: inline-block; width: 40%; text-align: left">
+					<span class="mentorInfoSpan"></span>
+					<div class="mentorInfoDiv">
 						<label id="mentorOffice"></label>
 					</div>
 				</div>
 				<!-- /officeRow -->
 				<br>
 				<!-- emailRow -->
-				<div id="emailRow" style="width: 100%; height: 20%">
-					<div style="display: inline-block; width: 30%; text-align: right">
+				<div class="mentorInfoRow">
+				    <div class="mentorLabelDiv">
 						<label id="emailLabel">Email:</label>
 					</div>
-					<span style="display: inline-block; width: 10%"></span>
-					<div style="display: inline-block; width: 40%; text-align: left">
+					<span class="mentorInfoSpan"></span>
+					<div class="mentorInfoDiv">
 						<a id="mentorEmail" href=""></a>
 					</div>
 				</div>

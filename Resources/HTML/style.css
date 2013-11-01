@@ -1,313 +1,349 @@
 html,body {
-	margin: 0;
-	padding: 0;
-	width: 100%;
-	height: 100%;
-	background-color: #FFFFFF;
-	font-family: sans-serif;
-	color: #336600;
-	text-align: center;
-	text-size: 200%;
-	/* Disable text selection. */
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	-o-user-select: none;
-	user-select: none;
+width:100%;
+height:100%;
+background-color:#FFF;
+font-family:sans-serif;
+color:#360;
+text-align:center;
+text-size:200%;
+-webkit-touch-callout:none;
+-webkit-user-select:none;
+-khtml-user-select:none;
+-moz-user-select:none;
+-ms-user-select:none;
+-o-user-select:none;
+user-select:none;
+margin:0;
+padding:0;
 }
 
 #socialMedia {
-	position: fixed;
-	bottom: -75px;
-	left: 0;
-	width: 100%;
-	height: 100px;
-	color: #336600;
-	background-color: #E8EAEB; 
+position:fixed;
+bottom:-75px;
+left:0;
+width:100%;
+height:100px;
+color:#360;
+background-color:#E8EAEB;
 }
 
-#socialUpDiv img{
-	padding-top: 3px;
-	height: 20px;
+#socialUpDiv img {
+padding-top:3px;
+height:20px;
 }
 
 .pageBanner {
-	margin: auto;
-	padding-top: 10px;
-	width: 150px;
-	height: 27px;
+padding-top:10px;
+width:150px;
+height:27px;
+margin:auto;
 }
 
 #heading {
-	background: #FF7F00; /*#FF7744;*/
-	color: #EEEEEE;
-	font-size: 1.6em;
-	font-weight: bold;
-	text-align: center;
-	margin-top: 15px;
+background:#FF7F00;
+color:#EEE;
+font-size:1.6em;
+font-weight:700;
+text-align:center;
+margin-top:15px;
 }
 
 #screen {
-	min-height: 100%;
+min-height:100%;
 }
 
 #topPlaceholder {
-	border:1px solid clear;
-	border-color:#333333;
-	text-align: center;
-	width: 37.5%;
-	height: 3%;
-	float: left;
+border:1px solid clear;
+text-align:center;
+width:37.5%;
+height:3%;
+float:left;
+border-color:#333;
 }
 
 #backDiv {
-	text-align: center;
-	width: 20%;
-	height: 30px;
-	float: left;
+text-align:center;
+width:20%;
+height:30px;
+float:left;
 }
 
-/* --------------------------index.html---------------------------*/
+.topDiv {
+margin:auto;
+padding:3% 5% 0;
+}
+
+#topContent {
+padding:5% 5% 0;
+}
+
+.iconSpan {
+display:inline-block;
+width:50px;
+}
 
 #bannerDivHome {
-	width:150px;
-	height: 41px;
-	margin-left: auto;
-	margin-right: auto;
-	display: inline-block;
+width:150px;
+height:41px;
+margin-left:auto;
+margin-right:auto;
+display:inline-block;
 }
 
-#bannerDivHome img{
-	display:block;
-	width: 100%;
-}
-
-#loginDiv {
-	margin-left: auto;
-	margin-right: auto;
-    width: 60px;
-    height: 30px;
-    display: inline-block;
+#bannerDivHome img {
+display:block;
+width:100%;
 }
 
 #logoutDiv {
-	margin-left: auto;
-	margin-right: auto;
-    width: 60px;
-    height: 30px;
-    display: none;
-}
-
-#backDivHome {
-	margin-left: auto;
-	margin-right: auto;
-    width: 60px;
-    height: 30px;
-    display: inline-block;
+margin-left:auto;
+margin-right:auto;
+width:60px;
+height:30px;
+display:none;
 }
 
 #tickerDiv {
-    position:relative;
-    margin-top: 7%;
-    height: 7%;
-    width: 100%;
-    clear: both;
+position:relative;
+margin-top:7%;
+height:7%;
+width:100%;
+clear:both;
 }
-
-/* -------------------------ggcApps.html------------------------------*/
 
 #bannerDiv {
-	text-align: center;
-	width:25%;
-	height: 3%;
-	float: left;
-	padding-left: 17.5%;
+text-align:center;
+width:25%;
+height:3%;
+float:left;
+padding-left:17.5%;
 }
 
-/* ----------------------index.html & ggcApps.html------------------*/
-
 .iconRow {
-	padding: 7% 10% 7% 10%;
+padding:7% 10%;
 }
 
 #homeContent {
-	padding-bottom: 7%;
+padding-bottom:7%;
 }
 
 #icons div {
-	height: 90px;
+height:90px;
+}
+
+#iconWrapper {
+padding-top:20px;
+margin:0 auto;
 }
 
 #icons {
-	padding-left: 5%;
-	padding-right: 5%;
+padding-left:5%;
+padding-right:5%;
+}
+
+.iconDiv {
+display:inline-block;
 }
 
 .icon {
-	width: 90px;
-	height: 90px;
+width:90px;
+height:90px;
 }
 
 .socialMediaIcon {
-	width: 35px;
-	height: 35px;
+width:35px;
+height:35px;
 }
 
-/* -------------------------------------mySchedule.html------------------------------*/
+.socialMediaSpan {
+width:10%;
+display:inline-block;
+}
+
+#socialMediaIcons {
+padding-top:10px;
+}
 
 table {
-	border-collapse: collapse;
+border-collapse:collapse;
+table-layout:fixed;
+margin:auto;
+}
+
+td {
+width:25%;
 }
 
 #scheduleContent {
-	margin: auto;
-	height: 100%;
-	padding-bottom: 1%;
+padding-top:20px;
+height:100%;
+margin:auto;
 }
 
 .scheduleDay {
-	display: none;
-	margin: auto;
+display:none;
+padding-bottom:5px;
+margin:auto;
 }
 
 .scheduleDayLabel {
-	padding-left: 5px;
-	text-align: left;
+text-align:center;
+font-weight:700;
 }
 
-.scheduleClasses {
-	margin: auto;
+#mentorContent {
+padding-top:25px;
+padding-bottom:20px;
 }
 
-.scheduleClassesTable {
-	margin: auto;
+#mentorInfo {
+width:100%;
+height:40%;
 }
 
-/* ----------------------------------------gymInfo.html----------------------------------------------------- */
+.mentorInfoRow {
+width:100%;
+height:20%;
+}
+
+.mentorLabelDiv {
+display:inline-block;
+width:30%;
+text-align:right;
+}
+
+.mentorInfoSpan {
+display:inline-block;
+width:10%;
+}
+
+.mentorInfoDiv {
+display:inline-block;
+width:40%;
+text-align:left;
+}
 
 .gymInfoLinks {
-	width:70%;
-	font-size: 18px;
-	background-color: #66FF33;
+width:70%;
+font-size:18px;
+background-color:#6F3;
 }
 
 .gymLinksDiv {
-	padding: 5px 5px 5px 5px;
+padding:5px;
 }
 
-/* ----------------------------------------gymSchedule.html----------------------------------------------------- */
-
 .gymContactInfoLeft {
-	width: 30%;
-	text-align: right;
-	display: inline-block;
+width:30%;
+text-align:right;
+display:inline-block;
 }
 
 .gymContactInfoRight {
-	text-align: left;
-	display: inline-block;
-	padding-left: 10%;
+text-align:left;
+display:inline-block;
+padding-left:10%;
 }
 
-/* ------------------------groupFitnessSchedule.html --------------------------*/
 .styled_table {
-    border-left: 1px solid #B3C1AC !important;
-    border-top: 1px solid #B3C1AC !important;
+border-left:1px solid #B3C1AC!important;
+border-top:1px solid #B3C1AC!important;
 }
+
 .styled_table td {
-    border-bottom: 1px solid #B3C1AC;
-    border-right: 1px solid #B3C1AC;
-    font-size: 12px;
-    line-height: 18px;
-    padding: 10px;
-    white-space: nowrap;
+border-bottom:1px solid #B3C1AC;
+border-right:1px solid #B3C1AC;
+font-size:12px;
+line-height:18px;
+white-space:nowrap;
+padding:10px;
 }
+
 .styled_table tr:nth-child(2n+1) {
-    background-color: #E8EAEB;
+background-color:#E8EAEB;
 }
 
 .styled_table th {
-    background-color: #CDE5BB;
-    border-bottom: 1px solid #B3C1AC;
-    border-right: 1px solid #B3C1AC;
-    font-weight: bold;
-    padding: 10px;
-    text-align: left;
+background-color:#CDE5BB;
+border-bottom:1px solid #B3C1AC;
+border-right:1px solid #B3C1AC;
+font-weight:700;
+text-align:left;
+padding:10px;
 }
 
-/* -----------------------classSearch.html -----------------------------------*/
 .clasSearchComboBox {
-    font-size: 20px;
-    width: 50%;
-    display: inline-block;
-    border: 0px solid red;
+font-size:20px;
+width:50%;
+display:inline-block;
+border:0 solid red;
 }
 
 .classSearchInputField {
-    font-size: 20px;
-    width: 50%;
-    display: inline-block;
-    overflow: hidden;
+font-size:20px;
+width:50%;
+display:inline-block;
+overflow:hidden;
 }
 
 .classSearchLabel {
-    font-size: 20px;
-    width: 15%; 
-    display: inline-block;
-    padding-left: 10%;
+font-size:20px;
+width:15%;
+display:inline-block;
+padding-left:10%;
 }
 
 .classSearchSpan {
-    width: 15%; 
-    display: inline-block;
+width:15%;
+display:inline-block;
 }
+
 .classSearchCoursesSpan {
-    width: 5%;
-    display: inline-block;
+width:5%;
+display:inline-block;
 }
 
-/* ---------------------------login.html -----------------------------------*/
-.passwordLabels {
-    width: 30%;
-    padding-left: 5%;
-    text-align: right;
-    display: inline-block;
+#loginFormDiv {
+width:100%;
+padding-top:25px;
+margin:auto;
 }
 
-
-/* -------------------------------- whatsHappening.html ------------------------------*/
-.gfc-result {
-    width: 90%; border-top-left-radius: 0.6em;
-    border-top-right-radius: 0.6em;
-    background: grey;
-    border-bottom-left-radius: 0.6em;
-    border-bottom-right-radius: 0.6em;
-}
-
-.gfc-author, .gfc-space, .gfc-relativePublicheddate {
-    display: none;
+.feedContent {
+padding-top:25px;
+max-width:300px;
 }
 
 .rssEntryContainer .rssEntry {
-    background-color: #DADDDF;
-    border-bottom-left-radius: 5px;
-    border-top-left-radius: 5px;
-    color: #000000;
-    display: block;
-    padding: 10px 30px 10px 15px;
-    text-decoration: none;
+background-color:#DADDDF;
+border-bottom-left-radius:5px;
+border-top-left-radius:5px;
+color:#000;
+display:block;
+text-decoration:none;
+padding:10px 30px 10px 15px;
 }
 
 .rssEntryContainer a:hover {
-    background-color: #C9CBCD;
-    margin-left: 0;
-    margin-right: 0;
-    max-width: 300px;
+background-color:#C9CBCD;
+margin-left:0;
+margin-right:0;
+max-width:300px;
 }
 
 .rssEntry {
-    border-radius: 5px 5px 5px 5px;
-    margin: 0;
+border-radius:5px 5px 5px 5px;
+margin:0;
+}
+
+#loginDiv,#backDivHome {
+margin-left:auto;
+margin-right:auto;
+width:60px;
+height:30px;
+display:inline-block;
+}
+
+.scheduleClasses,form {
+margin:auto;
 }

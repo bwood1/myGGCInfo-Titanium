@@ -19,7 +19,6 @@ function EventsWindow() {
         backgroundColor : '#FFFFFF',
         fullscreen:false,
         modal : false,
-        orientationModes: [Titanium.UI.PORTRAIT],
         exitOnClose : false  // Android only
     });
     
@@ -34,9 +33,9 @@ function EventsWindow() {
         // opacity : animationsOn ? 0 : 1,
         disableBounce: true,
         willHandleTouches: false,
-        ignoreSslError: true,
         enableZoomControls : false, // Android only
-        // Default assumes that all HTML is in the HTML folder and the first file is index.html, you can change the next line to suit your HTML.
+        // Default assumes that all HTML is in the HTML folder and the first file is index.html, 
+        // you can change the next line to suit your HTML.
         url : '/HTML/whatsHappening.html'
     });
     
@@ -52,7 +51,21 @@ function EventsWindow() {
                 self.close();
             }
         });
+        
+        Ti.App.addEventListener('whatsHappening:openLink', function(aLink) {
+            // alert('try to open event link');
+            Ti.Platform.openURL(aLink.link);
+        });
+        
+        Ti.App.addEventListener('events:closeWindow', function() {
+            if( osname == 'iphone' || osname == 'ipad') {
+                nav.close(eventsWindow, {animated: true});
+            } else {
+                eventsWindow.close();
+            }
+        });
     }
+    
     addEventListeners();
     self.add(eventsWebView);
     return self;

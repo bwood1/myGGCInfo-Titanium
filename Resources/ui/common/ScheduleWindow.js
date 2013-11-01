@@ -19,7 +19,6 @@ function ScheduleWindow() {
         backgroundColor : '#FFFFFF',
         fullscreen:false,
         modal : false,
-        orientationModes: [Titanium.UI.PORTRAIT],
         exitOnClose : false  // Android only
     });
     
@@ -33,11 +32,73 @@ function ScheduleWindow() {
         // backgroundColor : translucentViewOn ? 'transparent' : backgroundColor,
         // opacity : animationsOn ? 0 : 1,
         disableBounce: true,
-        willHandleTouches: false,
-        enableZoomControls : false, // Android only
+        willHandleTouches: true,
+        enableZoomControls : true, // Android only
         // Default assumes that all HTML is in the HTML folder and the first file is index.html, you can change the next line to suit your HTML.
         url : '/HTML/mySchedule.html'
     });
+    
+    
+    function addEventListeners() {
+        Ti.App.addEventListener('schedule:getUserNameFromProperties', function() {
+            var user = Ti.App.Properties.getString('username');
+            Ti.App.fireEvent('schedule:sendUsername', {username: user});
+        });
+        
+        Ti.App.addEventListener('schedule:sendScheduleRequest', function(e) {
+            var url = 'http://' + Ti.App.Properties.getString('server') + Ti.App.Properties.getString('requestPath') +
+                Ti.App.Properties.getString('scheduleRequest') + '&user=' + Ti.App.Properties.getString('username') +
+                '&session=' + e.semester + '&year=' + e.year;
+                                    
+            var client = Ti.Network.createHTTPClient({
+                onload : function(e) {
+                    checkScheduleResponse(client.responseText);
+                },
+                onerror : function(e) {
+                    Ti.API.debug(e.error);
+                    alert("Problem connecting to the server");
+                },
+                timeout : 5000, //in miliseconds
+                withCredentials: true
+            });
+            
+            //prepare the connection
+            client.open("GET", url);
+            // Send the request
+            client.send();
+        });
+        
+        function checkScheduleResponse( aResponse ) {
+            if (aResponse == 'not logged in') {
+                notLoggedIn();
+            } else {
+                Ti.App.fireEvent('schedule:sendScheduleText', { scheduleText: aResponse });
+            }
+        }
+        
+        function notLoggedIn() {
+            if(osname == 'iphone' || osname == 'ipad'){
+                alert('You must log in to see your schedule.');
+            } else {
+                loginWindow.open();
+                alert('You must log in to see your schedule.');
+            }
+        }
+        
+        Ti.App.addEventListener('schedule:mustLogIn', function() {
+            alert('You must log in to see your schedule.');
+        });
+        
+        Ti.App.addEventListener('schedule:closeWindow', function () {
+            if (osname == 'iphone' || osname == 'ipad') {
+                nav.close(scheduleWindow, {animated: true});
+            } else {
+                scheduleWindow.close();
+            }
+        });
+    }
+    
+    addEventListeners();
     self.add(scheduleWebView);
     return self;
 }

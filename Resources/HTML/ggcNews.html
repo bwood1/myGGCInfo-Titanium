@@ -1,19 +1,44 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!--
+* @file ggcNews.html
+*
+-->
+
+<!-- 
+* Copyright 2013 Georgia Gwinnett College
+* This file is part of MyInfo.
+*
+* MyInfo is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* MyInfo is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser Public License for more details.
+*
+* You should have received a copy of the GNU Lesser Public License
+* along with MyInfo.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
 <html>
     <head>
-        <meta name="viewport" content="width=320, user-scalable=no">
+        <meta name="viewport" content="user-scalable=yes, width=device-width, minimum-scale=1, 
+            initial-scale=1, maximum-scale=4">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>GGC News</title>
         <link rel="stylesheet" href="style.css" type="text/css" media="screen"
-        title="no title" charset="utf-8">
+            title="no title" charset="utf-8">
         <link rel="stylesheet" href="rss.css" type="text/css" media="screen"
-        title="no title" charset="utf-8">
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-        <script src="http://www.google.com/jsapi?key=AIzaSyA5m1Nc8ws2BbmPRwKu5gFradvD_hgq6G0" type="text/javascript"></script>
-        <script src="http://www.google.com/uds/?file=feeds&amp;v=1" type="text/javascript"></script>
-        <link href="http://www.google.com/uds/api/feeds/1.0/e658fb253c8b588196cf534cc43ab319/default+en.css"
+            title="no title" charset="utf-8">
+        <script src="js/jquery1.10.1.js"></script>
+        <script src="js/googleRSS1.js" type="text/javascript"></script>
+        <script src="js/googleRSS2.js" type="text/javascript"></script>
+        <link href="CSS/googleRSS_CSS1.css"
             type="text/css" rel="stylesheet">
-        <script src="http://www.google.com/uds/api/feeds/1.0/e658fb253c8b588196cf534cc43ab319/default+en.I.js"
+        <script src="js/googleRSS3.js"
             type="text/javascript"></script>
         <script type="text/javascript">
         	google.load("feeds", "1");
@@ -21,29 +46,25 @@
             // Our callback function for when a feed is loaded
             function feedLoaded(result) {
                 if (!result.error) {
-                    // Grab the container we will put the resulsts into
-                    var container = document.getElementById("content");
-                    container.innerHTML = '';
+                    $(".feedContent").html("");
                     
-                    //Loop through the feeds, putting the titnels onto the page.
-                    // Check out the reulst object for a list of properties returned in each entry.
+                    // Loop through the feeds, putting the titnels onto the page.
+                    // Check out the results object for a list of properties returned in each entry.
                     for ( var i = 0; i < result.feed.entries.length; i++) {
                         var entry = result.feed.entries[i];
-                        var div = document.createElement("div");
-                        div.className = "rssEntryContainer";
-                        
-                        var a = document.createElement("a");
-                        a.className = "rssEntry";
-                        a.href = entry.link;
-                        a.title = entry.title;
-                        a.innerHTML = entry.title;
-                        div.appendChild(a);
-                        
-                        container.appendChild(div);
-                        var spacer = document.createElement("br")
-                        container.appendChild(spacer);
+                        var theLink = entry.link;
+                        $('.feedContent').append('<div class="rssEntryContainer" onclick="openLink(\'' + theLink + '\')">' + 
+                            '<a class="rssEntry" title="' + entry.title + '">' +
+                                entry.title +
+                            '</a>' + 
+                        '</div>' +
+                        '<br>');
                     }
                 }
+            }
+            
+            function openLink(aURL) {
+            	Ti.App.fireEvent('ggcNews:openLink', {link: aURL});
             }
             
             function OnLoad(){
@@ -57,8 +78,20 @@
         </script>
     </head>
     <body>
+        <!-- Top content -->
+            <div class="topDiv">
+                <!-- myInfoBanner -->
+                <div id="bannerDivHome">
+                    <a onclick="Ti.App.fireEvent('news:closeWindow');"> 
+                        <img alt="bannerImage" src="images/banners/MyInfoMobile_Logo.png" /> 
+                    </a>
+                </div>
+                <!-- /myInfoBanner -->
+            </div>
+        <!-- Top Content -->
+        
     	<center>
-            <div id="content" style="padding-top: 25px; max-width: 300px; ">
+            <div class="feedContent">
                 Loading...
             </div>
         </center>

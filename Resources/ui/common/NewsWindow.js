@@ -19,7 +19,6 @@ function NewsWindow() {
         backgroundColor : '#FFFFFF',
         fullscreen:false,
         modal : false,
-        orientationModes: [Titanium.UI.PORTRAIT],
         exitOnClose : false  // Android only
     });
     
@@ -51,9 +50,18 @@ function NewsWindow() {
                 self.close();
             }
        });
+       
+       Ti.App.addEventListener('ggcNews:openLink', function(aLink) {
+            // alert('try to open event link');
+            Ti.Platform.openURL(aLink.link);
+        });
         
-        Ti.App.addEventListener('news:openLink', function(l) {
-            Ti.Platform.openURL(l.link);
+        Ti.App.addEventListener('news:closeWindow', function() {
+            if( osname == 'iphone' || osname == 'ipad') {
+                nav.close(newsWindow, {animated: true});
+            } else {
+                newsWindow.close();
+            }
         });
     }    
     addEventListeners();

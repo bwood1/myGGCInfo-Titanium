@@ -19,7 +19,6 @@ function MentorWindow() {
         backgroundColor : '#FFFFFF',
         fullscreen:false,
         modal : false,
-        orientationModes: [Titanium.UI.PORTRAIT],
         exitOnClose : false  // Android only
     });
     
@@ -38,6 +37,48 @@ function MentorWindow() {
         // Default assumes that all HTML is in the HTML folder and the first file is index.html, you can change the next line to suit your HTML.
         url : '/HTML/myMentor.html'
     });
+    
+    function addEventListeners() {
+         Ti.App.addEventListener('mentor:getMentorInfo', function() {
+            var mentorObject = Ti.App.Properties.getObject('mentorObject');
+            var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, mentorObject.FACULTY_USERNAME + '.jpg');
+            
+            Ti.App.fireEvent('mentor:sendMentorInfo', {
+                username: Ti.App.Properties.getString('username'),
+                mentorObject: mentorObject,
+                mentorPicNativePath: file.nativePath}
+            );
+        });
+
+        //listens for mentor request
+        Ti.App.addEventListener('myMentor:loadMentorInfo', function() {
+            loadMentorInfo();
+        });
+        
+        function loadMentorInfo() {
+            var mentorObject;
+            mentorObject = Ti.App.Properties.getObject('mentorInfo');
+            Ti.App.fireEvent('myMentor:sendMentor', {mentor: mentorObject});
+        }
+        
+        Ti.App.addEventListener('mentor:closeWindow', function() {
+            if( osname == 'iphone' || osname == 'ipad') {
+                nav.close(mentorWindow, {animated: true});
+                // mentorWebView.setHtml("");
+                // mentorWebView.setHtml('<html><head></head><body>hello</body></html>');
+            } else {
+                mentorWindow.close();
+            }
+        });
+        
+        Ti.App.addEventListener('login:deleteMentorPic', function() {
+            Ti.API.info('login:deleteMentorPic heard');
+            Ti.App.fireEvent('mentor:deleteMentorPic');
+            
+        });
+    }
+    
+    addEventListeners();
     self.add(mentorWebView);
     return self;
 }

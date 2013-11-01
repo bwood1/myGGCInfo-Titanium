@@ -2,37 +2,43 @@
 <!--
 * @file index.html
 *
-* Template application that shows examples of how to access
-* device services from JavaScript using the Wormhole library.
+* 
 -->
 
 <!--
-    TODO:
-    change onclick methods to work for HTML
+* Copyright 2013 Georgia Gwinnett College
+* This file is part of MyInfo.
+*
+* MyInfo is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* MyInfo is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser Public License for more details.
+*
+* You should have received a copy of the GNU Lesser Public License
+* along with MyInfo.  If not, see <http://www.gnu.org/licenses/>.
 -->
+
 <html>
     <head>
-        <meta name="viewport" content="user-scalable=no">
+        <meta name="viewport" content="user-scalable=no, width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=1">
         <meta http-equiv="Content-type" content="text/html; charset=utf-8">
         <title>myGGC Info</title>
         <link rel="stylesheet" href="style.css" type="text/css" media="screen"
         title="no title" charset="utf-8">
-        <!-- <script type="text/javascript" charset="utf-8" src="js/wormhole.js"></script> -->
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-        <!-- <script src="js/checkLogInStatus.js"></script> -->
+        <script src="js/jquery1.10.1.js"></script>
         <script type="text/javascript">
 			var screenWidth = 0;
 			var screenHeight = 0;
 			var username;
-			var isLoggedIn;
 			
 			//add event listeners
-			
 			Ti.App.addEventListener('index:sendLoggedInStatus', function(e) {
-				// alert('index:sendLoggedInStatus');
-				isLoggedIn = e.status;
-				// alert('The logged in status is ' + isLoggedIn);
-				loadLogInOutButton();
+				loadLogInOutButton(e.status);
 			});
 			
 			Ti.App.addEventListener('index:swipeUp', function() {
@@ -47,13 +53,11 @@
 			 * Checks to see if the user is logged in. If so then displays the log out button.
 			 * If not, displays the log in button.
 			 */
-			function loadLogInOutButton() {
-				if( isLoggedIn) {
-					Ti.API.info('Set Log out button to show');
+			function loadLogInOutButton( loggedInStatus ) {
+				if( loggedInStatus ) {
 					$("#loginDiv").css('display', 'none');
 					$("#logoutDiv").css('display', 'inline-block');
 				} else {
-					Ti.API.info('Set Log In button to show');
 					$("#logoutDiv").css('display', 'none');
 					$("#loginDiv").css('display', 'inline-block');		
 				}
@@ -64,16 +68,11 @@
 			 * displays the log in button.
 			 */
 			function logOut() {
-				isLoggedIn = false;
-				Ti.App.fireEvent("index:logoutRequest");
-				Ti.API.info('Set Log In button to show');
-				// $("#logoutDiv").css('display', 'none');
-				// $("#loginDiv").css('display', 'inline-block');
-				// $("#logInOutButton").attr({
-					// alt: 'logInButton',
-					// onClick: 'document.location="login.html"'
-				// });
-				// $("#logInOutCaption").html('Log In');
+			    
+			    var confirmLogout = confirm("Are you sure you want to log out?");
+			    if (confirmLogout)
+			        Ti.App.fireEvent("index:logoutRequest");
+				
 			}
 			
 			function showSocialMedia() {
@@ -97,11 +96,27 @@
 			}
 			
 			function getLoggedInStatus() {
-				// alert('getLoggedInStatus called');
 				Ti.App.fireEvent('index:getLoggedInStatus');
+			}
+			
+			function setProperties() {
+				//TODO: change this back
+				localStorage.domain = 'myinfo.dev.ggc.edu';
+				localStorage.path = '/ss/request.php?';
+				
+				//localStorage.domain = '10.0.179.202';
+				//localStorage.path = '/brandon/myinfo-titanium-server-side/request.php?';
+				localStorage.picPath = '/brandon/myinfo-titanium-server-side/request.jpg?';
+				localStorage.loginRequest = 'request=login';
+				localStorage.logOutRequest = 'request=logoff';
+				localStorage.mentorRequest = 'request=mentor';
+				localStorage.mentorPicRequest = 'request=pics&size=200';
+				localStorage.scheduleRequest = 'request=schedule';
+				localStorage.employeeSearchRequest = 'request=employeesearch';
 			}
 
 			$(document).ready(function() {
+				setProperties();
 				getLoggedInStatus();
 			});
         </script>
@@ -109,7 +124,7 @@
     <body>
         <div id="screen">
             <!-- Top content -->
-            <div style="padding: 5% 5% 0% 5%;">
+            <div id="topContent">
                 <!-- backButton -->
                 <div id="backDivHome">
                 </div>
@@ -127,7 +142,7 @@
                 </div>
                 <!-- /loginButton -->
                 <!-- logOutButton -->
-                <div id="logoutDiv" style="display: none;">
+                <div id="logoutDiv">
                 	<img id="logOutButton" width="100%" height="100%" src="images/homeIcons/Log_out_Button.png" 
                 		alt="logOutButton" onclick="logOut();" />
                 	<!-- <figcaption>Log Out</figcaption> -->
@@ -139,55 +154,46 @@
 
             <!-- content -->
             <!-- Icons -->
-            <div id="iconWrapper" style="margin: 0px auto;">
-                <div id="icons" style="margin: 0px auto">
-                    <!-- First Row of Icons -->
-                    <div class="iconRow">
-                        <!-- mySchedule Button -->
-                        <div style="float: left">
-                            <img class="icon" onclick="Ti.App.fireEvent('index:openSchedule');"
-                            src="images/homeIcons/myScheduleIcon.png" alt="scheduleIcon">
-                            <figcaption>
-                                mySchedule
-                            </figcaption>
-                        </div>
-                        <!-- myMentor Button -->
-                        <div style="float: right">
-                            <img class="icon" onclick="Ti.App.fireEvent('index:openMentor');"
-                            src="images/homeIcons/myMentorIcon.png" alt="mentorIcon">
-                            <figcaption>
-                                myMentor
-                            </figcaption>
-                        </div>
-                    </div>
-                    <br>
-                    <!-- Second Row of Icons -->
-                    <div class="iconRow">
-                        <!-- ggcNewsButton -->
-                        <div style="float: left">
-                            <img class="icon" onclick="Ti.App.fireEvent('index:openNews');"
-                            src="images/homeIcons/news3.png" alt="ggcNewsIcon">
-                            <figcaption>
-                                GGC News
-                            </figcaption>
-                        </div>
-                        <!-- /ggcNewsButton -->
-                        <!-- What's Happening Button -->
-                        <div style="float: right">
-                            <img class="icon" onclick="Ti.App.fireEvent('index:openEvents');"
-                            src="images/homeIcons/WhatsHappening.png"
-                            alt="whatsHappeningIcon">
-                            <figcaption>
-                                What's
-                                <br>
-                                Happening
-                            </figcaption>
-                        </div>
-                    </div>
-                    <!-- /SecondRowIcons -->
+            <div id="iconWrapper">
+            	<!-- mySchedule Button -->
+                <div class="iconDiv">
+                    <img alt="scheduleIcon" src="images/homeIcons/myScheduleIcon.png" 
+                         onclick="Ti.App.fireEvent('index:openSchedule');" class="icon">
+                    <br />
+                    <label>mySchedule</label>
+                </div>
+                <span class="iconSpan" ></span>
+
+                <!-- myMentor Button -->
+                <div class="iconDiv">
+                    <img alt="mentorIcon" src="images/homeIcons/myMentorIcon.png" 
+                         onclick="Ti.App.fireEvent('index:openMentor');" class="icon">
+                    <br />
+                    <label>myMentor</label>
+                </div>
+            	
+            	<br />
+                <br />
+
+                <!-- ggcNewsButton -->
+                <div class="iconDiv">
+                    <img alt="ggcNewsIcon" src="images/homeIcons/news3.png" 
+                         onclick="Ti.App.fireEvent('index:openNews');" class="icon">
+                    <br />
+                    <label>GGC News</label>
+                </div>
+                <!-- /ggcNewsButton -->
+                <span class="iconSpan"></span>
+                <!-- What's Happening Button -->
+                <div class="iconDiv">
+                    <img alt="whatsHappeningIcon" src="images/homeIcons/WhatsHappening.png" 
+                         onclick="Ti.App.fireEvent('index:openEvents');" class="icon">
+                    <br />
+                    <label>Get Involved</label>
                 </div>
             </div>
-            <!-- /Icons -->
+            	
+               
         </div>
         <div id="socialMedia">
         	<div id="socialUpDiv">
@@ -195,18 +201,18 @@
         			<img id="socialUpButton"src="images/socialMediaIcons/Social_Media_up.png" />
         		</a>
         	</div>
-        	<div id="socialMediaIcons" style="padding-top: 4%">
-        	<a onclick="Ti.App.fireEvent('index:openFacebook')">
-        		<img class="socialMediaIcon" src="images/socialMediaIcons/facebook.png" />
-        	</a>
-        	<span style="width: 10%; display: inline-block"></span>
-        	<a onclick="Ti.App.fireEvent('index:openTwitter')">
-        		<img class="socialMediaIcon" src="images/socialMediaIcons/twitter.png" />
-        	</a>
-        	<span style="width: 10%; display: inline-block"></span>
-        	<a onclick="Ti.App.fireEvent('index:openYouTube')">
-        		<img class="socialMediaIcon" src="images/socialMediaIcons/youtube.png" />
-        	</a>
+        	<div id="socialMediaIcons">
+            	<a onclick="Ti.App.fireEvent('index:openFacebook')">
+            		<img class="socialMediaIcon" src="images/socialMediaIcons/facebook.png" />
+            	</a>
+            	<span class="socialMediaSpan"></span>
+            	<a onclick="Ti.App.fireEvent('index:openTwitter')">
+            		<img class="socialMediaIcon" src="images/socialMediaIcons/twitter.png" />
+            	</a>
+            	<span class="socialMediaSpan"></span>
+            	<a onclick="Ti.App.fireEvent('index:openYouTube')">
+            		<img class="socialMediaIcon" src="images/socialMediaIcons/youtube.png" />
+            	</a>
         	</div>
         </div>
     </body>

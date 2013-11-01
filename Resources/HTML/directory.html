@@ -1,86 +1,321 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!--
+* @file directory.html
+*
+-->
+
+<!-- 
+* Copyright 2013 Georgia Gwinnett College
+* This file is part of MyInfo.
+*
+* MyInfo is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* MyInfo is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser Public License for more details.
+*
+* You should have received a copy of the GNU Lesser Public License
+* along with MyInfo.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
 <html>
-<head>
-<meta name="viewport" content="width=320, user-scalable=no">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Directory</title>
-<link rel="stylesheet" href="style.css" type="text/css" media="screen"
-	title="no title" charset="utf-8">
-<!-- <script type="text/javascript" charset="utf-8" src="js/wormhole.js"></script> -->
-<script>
-
-	/**
-	 * Takes the values entered into the search fields and sends a request to the server for results
-	 */
-	function search() {
-		var fName = document.getElementById('firstName').value;
-		var lName = document.getElementById('lastName').value;
-
-		if (fName.value != "" && lName.value != "") {
-			alert('Searching for ' + fName + ' ' + lName)
-		} else if (fName.value != "") {
-			alert('Searching for ' + fName);
+    <head>
+        <meta name="viewport" content="user-scalable=yes">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Directory</title>
+        <link rel="stylesheet" href="style.css" type="text/css" media="screen"
+            title="no title" charset="utf-8">
+        <script src="js/jquery1.10.1.js"></script>
+        <style>
+            #content, div.oddrow, div.evenrow{
+                display: -moz-box;   /* Firefox */
+                display:-webkit-box; /* Safari and Chrome */
+                display:-ms-flexbox; /* Internet Explorer 10 */
+                display:box;
+            }
+            #wrapper {
+                padding-top: 10px;
+            }
+            li {
+                display: -moz-box;
+            }
+            div.oddrow, div.evenrow {
+                -moz-box-flex: 1;     /* Firefox */
+                -webkit-box-flex:1.0; /* Safari and Chrome */
+                -ms-flex:1.0;         /* Internet Explorer 10 */
+                box-flex:1.0;
+            }
+            ul, .emp_info {
+                -moz-box-flex: 2;     /* Firefox */
+                -webkit-box-flex:2.0; /* Safari and Chrome */
+                -ms-flex:2.0;         /* Internet Explorer 10 */
+                box-flex:2.0;
+            }
+            ul {
+                border: 1px solid black;
+                border-radius: 0.6em;
+            }
+            .emp_div {
+                padding: 10px;
+            }
+            #content div.oddrow {
+                background-color: #CCCCCC;
+            }
+            #content div.evenrow {
+                background-color: #FFFFFF;
+            }
+            .emp-div-first {
+                border-top-left-radius: 0.6em;
+                border-top-right-radius: 0.6em;
+            }
+            .emp-div-last {
+                border-bottom-left-radius: 0.6em;
+                border-bottom-right-radius: 0.6em;
+            }
+            .emp_info, .emp_contact_info {
+                text-align: left;
+            }
+            .emp_contact_info {
+                width: 200px;
+            }
+            .search_phone, .emp_phonenumbers {
+                display: inline-block;
+            }
+            li {
+                width: 100%;
+            }
+            li div {
+                /*border: 1px solid black;*/
+            }
+            .phonenumbers span {
+                font-size: .8em;
+            }
+        </style>
+        <script type="text/javascript">
+            var employees = [{
+                "emp_name": "Employee1",
+                "emp_title": "Title1",
+                "emp_department": "Department1",
+                "emp_office":"Office1",
+                "emp_email": "Email1@ggc.edu",
+                "emp_desk_phone": "(123) 456-7890",
+                "emp_mobile_phone":"(987) 654-3210"
+            }, {
+                "emp_name": "Employee2",
+                "emp_title": "Title2",
+                "emp_department": "Department2",
+                "emp_office":"Office2",
+                "emp_email": "Email2@ggc.edu",
+                "emp_desk_phone": "(123) 456-7890",
+                "emp_mobile_phone":"(987) 654-3210"
+            },{
+                "emp_name": "Employee3",
+                "emp_title": "Title3",
+                "emp_department": "Department3",
+                "emp_office":"Office3",
+                "emp_email": "Email3@ggc.edu",
+                "emp_desk_phone": "(123) 456-7890",
+                "emp_mobile_phone":"(987) 654-3210"
+            },{
+                "emp_name": "Employee4",
+                "emp_title": "Title4",
+                "emp_department": "Department4",
+                "emp_office":"Office4",
+                "emp_email": "Email4@ggc.edu",
+                "emp_desk_phone": "(123) 456-7890",
+                "emp_mobile_phone":"(987) 654-3210"
+            },{
+                "emp_name": "Employee5",
+                "emp_title": "Title5",
+                "emp_department": "Department5",
+                "emp_office":"Office5",
+                "emp_email": "Email5@ggc.edu",
+                "emp_desk_phone": "(123) 456-7890",
+                "emp_mobile_phone":"(987) 654-3210"
+            },{
+                "emp_name": "Employee6",
+                "emp_title": "Title6",
+                "emp_department": "Department6",
+                "emp_office":"Office6",
+                "emp_email": "Email6@ggc.edu",
+                "emp_desk_phone": "(123) 456-7890",
+                "emp_mobile_phone":"(987) 654-3210"
+            }];
+            
+            /**
+             * Sends a request to the server based on the users search paramaters.
+             * Server will respond with a JSON object of the results
+             * @param {string} searchParam - the paramaters the user entered
+             */
+            function requestEmployees(searchParam) {
+                //TODO: generate a request based on what the user
+                // entered and send to server
+                var url = 'enter url here';
+		console.log('create the new request');
+		var request = new XMLHttpRequest();
+		
+		request.onreadystatechange = function() {
+                    if(request.readyState != 4) {
+                    } if(request.readyState == 4) {
+                    console.log('request finished, response: ', request.responseText);
+                    displayemployees();
+                    }
 		}
-		else if (lName.value != "") {
-			alert('Searching for ' + lName)
-		}
-		else
-			alert('Please enter something into either text box.')
-	}
-</script>
-</head>
-<body>
-	<div id="Screen">
-		<!-- Banner -->
-		<!-- Top content -->
-		<div style="padding: 5% 5% 10% 5%">
-			<!-- LoginButton -->
-			<div id="backDiv">
-				<img width="100%" height="100%"
-					onclick="document.location='index.html'" src="images/icons.png"
-					alt="backButton">
-				<figcaption>Back</figcaption>
-			</div>
-			<!-- /LoginButton -->
-			<!-- myGGC Banner -->
-			<div id="bannerDiv">
-				<img alt="bannerImage" src="images/icons.png" width="100%"
-					height="100%">
-			</div>
-		</div>
-		<!-- /TopContent -->
+			
+		console.log('The request is ', url);
+		request.open("GET", url, false);
+		request.send();
+            }
+            
+            /**
+             * Once the response is received from the server display results
+             * @returns {undefined}
+             */
+            function displayEmployees() {
+                for (x in employees) {
+                    if (x == 0) {
+                        console.log("first employee added");
+//                        addFirstEmp();
+                        $('#wrapper').append(addFirstEmp(x));
 
-		<!-- searchContent -->
-		<div id="searchContent">
-			<div id="inputFields" style="width: 90%">
-				<form action="">
-					<div style="display: inline-block; width: 90%">
-						<div style="display: inline-block; width: 30%; text-align: right">
-							First name:</div>
-						<div style="display: inline-block; width: 40%">
-							<input type="text" id="firstName" name="firstName"
-								style="width: 90%">
-						</div>
-					</div>
-					<div style="display: inline-block; width: 90%">
-						<div style="display: inline-block; width: 30%; text-align: right">
-							Last Name:</div>
-						<div style="display: inline-block; width: 40%">
-							<input type="text" id="lastName" name="lastName"
-								style="width: 90%">
-						</div>
-					</div>
-				</form>
-				<button type="button" onclick="search();">Search</button>
-			</div>
-			<br>
+                        
+                    } else if ( x == (employees.length - 1)) {
+                        console.log("last employee added");
+                        $('.emp_ul').append(addLastEmp(x));
+                        
+                        
+                    } else {
+                        console.log('employee ' + x + ' added');
+//                        addMiddleEmp();
+                        $('.emp_ul').append(addMiddleEmp(x));
+                    }
+                }
+            }
+            
+            /**
+             * Creates the first entry in the ul
+             * @param {int} number - the position in the array
+             * @returns {String} - string of the html to add
+             */
+            function addFirstEmp(number) {
+                var html;
+                html = '<div id="content" style="width: 700px;">';
+                html += '<ul class="emp_ul">';
+                html += '<li class="emp_li">';
+                html += '<div class="emp_div oddrow emp-div-first">';
+                
+                html += addEmp(number);
+                
+                html += '</div>';
+                html += '</li>';
+                html += '</ul>';
+                html += '</div>';
+                return html;
+            }
+            
+            /**
+             * creates the middle entries in the ul
+             * @param {int} number - the position in the array
+             * @returns {String} - string of the html to add
+             */
+            function addMiddleEmp(number) {
+                var html;
+                html = '<li class="emp_li">';
+                if (number%2 == 0) {
+                    html += '<div class="emp_div oddrow">';
+                } else {
+                    html += '<div class="emp_div evenrow">';
+                }
+                
+                html += addEmp(number);
+                
+                html += '</div>';
+                html += '</li>';
+                return html;
+            }
+            
+            /**
+             * Creates the last entry in the ul
+             * @param {int} number - the position in the array
+             * @returns {String} - string of the html to add
+             */
+            function addLastEmp(number) {
+                var html;
+                html = '<li class="emp_li">';
+                if (number%2 == 0) {
+                    html += '<div class="emp_div oddrow emp-div-last">';
+                } else {
+                    html += '<div class="emp_div evenrow emp-div-last">';
+                }
+                
+                html += addEmp(number);
+                
+                html += '</div>';
+                html += '</li>';
+                return html;
+            }
+            
+            /**
+             * This is the common data that is shared between all of the <li>s
+             * Builds the html based on where the loop is in the array and
+             * returns a string of the html
+             * @param {int} number - the position in the array
+             * @returns {String} - string of the html to add
+             */
+            function addEmp(number) {
+                var html;
+                html = '<div class="emp_info">';
+                html += '<div class="emp_name">' + employees[number].emp_name +
+                        '</div>';
+                html += '<div class="emp_title">' + employees[number].emp_title +
+                        '</div>';
+                html += '<div class="emp_dept">' + employees[number].emp_department +
+                        '</div>';
+                html += '</div>';
+                
+                html += '<div class="emp_contact_info">';
+                html += '<div class="emp_office">' + employees[number].emp_office +
+                        '</div>';
+                html += '<div class="search_email">';
+                html += '<a class="ui_link" href="mailto:' + 
+                        employees[number].emp_email + '">' +
+                        employees[number].emp_email + '</a>';
+                html += '</div>';
+                html += '<div class="phonenumbers" class="emp_phonenumbers">'
+                html += '<span class="desk_phone">Desk. ' + 
+                        employees[number].emp_desk_phone + '</span>';
+                html += '<br>';
+                html += '<span class="mobile_phone">Mob. ' + 
+                        employees[number].emp_mobile_phone + '</span>';
+                html += '</div>'
+                html += '</div>';
+                return html;
+            }
+            
+            $(document).ready(function() {
+//                requestEmployees();
+                displayEmployees(employees);
+            }); 
+        </script>
+        
+    </head>
+    <body>
+        <div id="text_head" style="height: 140px; background-color: #00704A; width: 750px; margin: auto;">
+            <form method="post" action="" accept-charset="UTF-8">
+                <fieldset>
+                    <div id="search_term_div">
+                        <div id="search_by-div">
 
-			<!-- results go here -->
-			<div id="searchResults"></div>
-			<!-- /results -->
-		</div>
-		<!-- /searchContent -->
-	</div>
-
-</body>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <div id="wrapper" style="margin: auto;"></div>
+    </body>
 </html>

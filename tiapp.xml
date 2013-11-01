@@ -4,10 +4,10 @@
     <id>com.ggc.myinfo</id>
     <name>myInfo</name>
     <version>1.0</version>
-    <publisher>brandonwood</publisher>
-    <url>http://</url>
+    <publisher>GGC</publisher>
+    <url>http://www.ggc.edu</url>
     <description>not specified</description>
-    <copyright>2013 by brandonwood</copyright>
+    <copyright>2013 by Georgia Gwinnett College</copyright>
     <icon>Icon.png</icon>
     <persistent-wifi>false</persistent-wifi>
     <prerendered-icon>false</prerendered-icon>
@@ -21,12 +21,24 @@
     <iphone>
         <orientations device="iphone">
             <orientation>Ti.UI.PORTRAIT</orientation>
+            <orientation>Ti.Ui.UPSIDE_PORTRAIT</orientation>
+            <orientation>Ti.UI.LANDSCAPE_LEFT</orientation>
+            <orientation>Ti.UI.LANDSCAPE_RIGHT</orientation>
         </orientations>
         <orientations device="ipad">
             <orientation>Ti.UI.PORTRAIT</orientation>
+            <orientation>Ti.Ui.UPSIDE_PORTRAIT</orientation>
+            <orientation>Ti.UI.LANDSCAPE_LEFT</orientation>
+            <orientation>Ti.UI.LANDSCAPE_RIGHT</orientation>
         </orientations>
     </iphone>
-    <android xmlns:android="http://schemas.android.com/apk/res/android"/>
+    <android xmlns:android="http://schemas.android.com/apk/res/android">
+    	<manifest>
+    		<application android:debuggable="true" />
+    		<property name="ti.android.fastdev" type="bool">true</property>
+    		<property name="ti.android.bug2373.disableDetection" type="bool">true</property>
+    	</manifest>
+    </android>
     <mobileweb>
         <precache/>
         <splash>

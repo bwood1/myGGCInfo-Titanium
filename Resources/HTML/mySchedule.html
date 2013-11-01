@@ -1,519 +1,263 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!--
+* @file mySchedule.html
+*
+-->
+
+<!--
+* Copyright 2013 Georgia Gwinnett College
+* This file is part of MyInfo.
+*
+* MyInfo is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* MyInfo is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser Public License for more details.
+*
+* You should have received a copy of the GNU Lesser Public License
+* along with MyInfo.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
 <html>
-<head>
-<meta name="viewport" content="width=320, user-scalable=no">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>mySchedule</title>
-<link rel="stylesheet" href="style.css" type="text/css" media="screen"
-	title="no title" charset="utf-8">
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-<script type="text/javascript">
-	var scheduleArray;
-	[{
-    "dayOfWeek": [
-        {
-            "day": "Monday",
-            "classes": [
-                {
-                    "subject": "CHEM",
-                    "courseNum": "1211K",
-                    "section": "-01",
-                    "startTime": "8:00 AM",
-                    "endTime": "8:50 AM",
-                    "building": "A",
-                    "roomNum": "1100"
-                },
-                {
-                    "subject": "MATH",
-                    "courseNum": "1300",
-                    "section": "-05",
-                    "startTime": "11:00 AM",
-                    "endTime": "11:50 AM",
-                    "building": "B",
-                    "roomNum": "1100"
-                },
-                {
-                    "subject": "MUSIC",
-                    "courseNum": "1101",
-                    "section": "-02",
-                    "startTime": "1:00 PM",
-                    "endTime": "1:50 PM",
-                    "building": "C",
-                    "roomNum": "2200"
-                },
-                {
-                    "subject": "ENGL",
-                    "courseNum": "2203",
-                    "section": "-04",
-                    "startTime": "3:00 PM",
-                    "endTime": "4:15 PM",
-                    "building": "A",
-                    "roomNum": "1550"
+    <head>
+        <meta name="viewport" content="user-scalable=yes, width=device-width, minimum-scale=1, 
+            initial-scale=1, maximum-scale=4,">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>mySchedule</title>
+        <link rel="stylesheet" href="style.css" type="text/css" media="screen"
+            title="no title" charset="utf-8">
+        <script src="js/jquery1.10.1.js"></script>
+        <script type="text/javascript">
+            var screenWidth;
+            var screenHeight;
+
+            var scheduleArray;
+            var semester;
+            var year;
+            var todaysDate;
+            var uName;
+
+            function addTIListeners() {
+                Ti.App.addEventListener('schedule:sendScheduleText', function(e) {
+                    scheduleArray = eval('(' + e.scheduleText + ')');
+                    showScheduleInfo();
+                });
+                
+                Ti.App.addEventListener('schedule:sendScreenDimentions', function(e) {
+                    screenWidth = e.width;
+                    screenHeight = e.height;
+                    setDocumentWidth();
+                });
+            }
+
+            /**
+             *	Will retrieve the students schedule from the server and store it in variables
+             */
+            function requestScheduleInfoFromServer() {
+                //get the date first
+                getSemester();
+
+                Ti.App.fireEvent('schedule:sendScheduleRequest', {
+                    semester : semester,
+                    year : year
+                });
+            }
+
+            /**
+             * Determines which semester and year to display
+             */
+            function getSemester() {
+                var date = new Date();
+                year = date.getFullYear();
+                if (date.getMonth() >= 0 && date.getMonth() < 4) {
+                    semester = 'Spring';
+                } else if (date.getMonth() >= 4 && date.getMonth() < 7) {
+                    semester = "Summer";
+                } else if (date.getMonth() >= 7 && date.getMonth() < 12) {
+                    semester = "Fall";
                 }
-            ]
-        },
-        {
-            "day": "Tuesday",
-            "classes": [
-                {
-                    "subject": "CHEM",
-                    "courseNum": "1211K",
-                    "section": "-01",
-                    "startTime": "8:00 AM",
-                    "endTime": "8:50 AM",
-                    "building": "A",
-                    "roomNum": "1100"
-                },
-                {
-                    "subject": "MATH",
-                    "courseNum": "1300",
-                    "section": "-05",
-                    "startTime": "11:00 AM",
-                    "endTime": "11:50 AM",
-                    "building": "B",
-                    "roomNum": "1100"
-                },
-                {
-                    "subject": "MUSIC",
-                    "courseNum": "1101",
-                    "section": "-02",
-                    "startTime": "1:00 PM",
-                    "endTime": "1:50 PM",
-                    "building": "C",
-                    "roomNum": "2200"
-                },
-                {
-                    "subject": "ENGL",
-                    "courseNum": "2203",
-                    "section": "-04",
-                    "startTime": "3:00 PM",
-                    "endTime": "4:15 PM",
-                    "building": "A",
-                    "roomNum": "1550"
+            }
+            
+            /**
+             *	Will show the student's schedule on screen
+             */
+            function showScheduleInfo() {
+                for (var i = 0; i < 6; i++) {//for each day
+                    //check to make sure there are classes
+                    var classesLength;
+                    if (scheduleArray.dayOfWeek[i].classes == null) {//if no classes for that day
+                        classesLength = 0;
+                    } else {
+                        $("#" + scheduleArray.dayOfWeek[i].day.toLowerCase()).css('display', 'inline');
+                        //Show the day of the week
+                        classesLength = scheduleArray.dayOfWeek[i].classes.length;
+                    }
+
+                    for (var j = 0; j < classesLength; j++) {//for each class
+                        $("#table" + i).append('<tr id="' + i + '-' + j + '"></tr>');
+                        $("#table" + i).append('<tr id="' + i + '-' + j + '-2"><td colspan="3" id="' + i + '-' + j + '-prof"></td></tr>');
+                        for (var k = 0; k < 4; k++) {
+                            var emptyTD;
+                            if (k == 0) {
+                                emptyTD = '<td rowspan="2" id="' + i + '-' + j + '-' + k + '"></td>'; //rowspan="2"
+                            } else
+                                emptyTD = '<td id="' + i + '-' + j + '-' + k + '"></td>';
+                            $("#" + i + "-" + j).append(emptyTD);
+                        }
+                        
+                        scheduleArray.dayOfWeek[i].classes[j].startTime = convertTime(scheduleArray.dayOfWeek[i].classes[j].startTime);
+                        scheduleArray.dayOfWeek[i].classes[j].endTime = convertTime(scheduleArray.dayOfWeek[i].classes[j].endTime);
+
+                        //populate TD with the data from the JSON
+                        $("#" + i + "-" + j + "-0").html(scheduleArray.dayOfWeek[i].classes[j].subject);
+                        $("#" + i + "-" + j + "-1").html(scheduleArray.dayOfWeek[i].classes[j].courseNum + "-" + scheduleArray.dayOfWeek[i].classes[j].section);
+                        $("#" + i + "-" + j + "-2").html(scheduleArray.dayOfWeek[i].classes[j].building + "-" + scheduleArray.dayOfWeek[i].classes[j].roomNum);
+                        $("#" + i + "-" + j + "-3").html(scheduleArray.dayOfWeek[i].classes[j].startTime + " - " + scheduleArray.dayOfWeek[i].classes[j].endTime);
+                        $('#' + i + '-' + j + '-prof').html(scheduleArray.dayOfWeek[i].classes[j].INSTRUCTOR_NAME);
+                    }
                 }
-            ]
-        },
-        {
-            "day": "Wensday",
-            "classes": [
-                {
-                    "subject": "CHEM",
-                    "courseNum": "1211K",
-                    "section": "-01",
-                    "startTime": "8:00 AM",
-                    "endTime": "8:50 AM",
-                    "building": "A",
-                    "roomNum": "1100"
-                },
-                {
-                    "subject": "MATH",
-                    "courseNum": "1300",
-                    "section": "-05",
-                    "startTime": "11:00 AM",
-                    "endTime": "11:50 AM",
-                    "building": "B",
-                    "roomNum": "1100"
-                },
-                {
-                    "subject": "MUSIC",
-                    "courseNum": "1101",
-                    "section": "-02",
-                    "startTime": "1:00 PM",
-                    "endTime": "1:50 PM",
-                    "building": "C",
-                    "roomNum": "2200"
-                },
-                {
-                    "subject": "ENGL",
-                    "courseNum": "2203",
-                    "section": "-04",
-                    "startTime": "3:00 PM",
-                    "endTime": "4:15 PM",
-                    "building": "A",
-                    "roomNum": "1550"
+            }
+            
+            /**
+             * Converts the time from 24 hour clock to 12 hr clock
+             * 
+             * theTime - the time that needs to be converted
+             */
+            function convertTime(theTime) {
+                if (theTime < 1300 && theTime < 1000) {//before 1pm and before 10am
+                    theTime = theTime.substr(1, 3);
+                    var newTime = theTime.substr(0, 1) + ':' + theTime.substr(1, 2) + " AM";
+                    return newTime;
+                } else if (theTime < 1300 && theTime >= 1000) {// before 1pm and after 10am
+                    var newTime = theTime.substr(0, 2) + ':' + theTime.substr(2, 2) + " AM";
+                    return newTime;
+                } else if (theTime >= 1300) {// it's 1pm or later
+                    theTime = theTime - 1200;
+
+                    if (theTime < 1000) {// if it's before 10PM
+                        theTime = '' + theTime;
+                        var newTime = theTime.substr(0, 1) + ':' + theTime.substr(1, 2) + " PM";
+                        return newTime;
+                    } else {// if it's after 10PM
+                        theTime = '' + theTime;
+                        var newTime = theTime.substr(0, 2) + ':' + theTime.substr(2, 2) + " PM";
+                        return newTime;
+                    }
+                } else {
+                    return "null";
                 }
-            ]
-        },
-        {
-            "day": "Thursday",
-            "classes": [
-                {
-                    "subject": "CHEM",
-                    "courseNum": "1211K",
-                    "section": "-01",
-                    "startTime": "8:00 AM",
-                    "endTime": "8:50 AM",
-                    "building": "A",
-                    "roomNum": "1100"
-                },
-                {
-                    "subject": "MATH",
-                    "courseNum": "1300",
-                    "section": "-05",
-                    "startTime": "11:00 AM",
-                    "endTime": "11:50 AM",
-                    "building": "B",
-                    "roomNum": "1100"
-                },
-                {
-                    "subject": "MUSIC",
-                    "courseNum": "1101",
-                    "section": "-02",
-                    "startTime": "1:00 PM",
-                    "endTime": "1:50 PM",
-                    "building": "C",
-                    "roomNum": "2200"
-                },
-                {
-                    "subject": "ENGL",
-                    "courseNum": "2203",
-                    "section": "-04",
-                    "startTime": "3:00 PM",
-                    "endTime": "4:15 PM",
-                    "building": "A",
-                    "roomNum": "1550"
-                }
-            ]
-        },
-        {
-            "day": "Friday",
-            "classes": [
-                {
-                    "subject": "CHEM",
-                    "courseNum": "1211K",
-                    "section": "-01",
-                    "startTime": "8:00 AM",
-                    "endTime": "8:50 AM",
-                    "building": "A",
-                    "roomNum": "1100"
-                },
-                {
-                    "subject": "MATH",
-                    "courseNum": "1300",
-                    "section": "-05",
-                    "startTime": "11:00 AM",
-                    "endTime": "11:50 AM",
-                    "building": "B",
-                    "roomNum": "1100"
-                },
-                {
-                    "subject": "MUSIC",
-                    "courseNum": "1101",
-                    "section": "-02",
-                    "startTime": "1:00 PM",
-                    "endTime": "1:50 PM",
-                    "building": "C",
-                    "roomNum": "2200"
-                },
-                {
-                    "subject": "ENGL",
-                    "courseNum": "2203",
-                    "section": "-04",
-                    "startTime": "3:00 PM",
-                    "endTime": "4:15 PM",
-                    "building": "A",
-                    "roomNum": "1550"
-                }
-            ]
-        },
-        {
-            "day": "Saturday",
-            "classes": [
-                {
-                    "subject": "CHEM",
-                    "courseNum": "1211K",
-                    "section": "-01",
-                    "startTime": "8:00 AM",
-                    "endTime": "8:50 AM",
-                    "building": "A",
-                    "roomNum": "1100"
-                },
-                {
-                    "subject": "MATH",
-                    "courseNum": "1300",
-                    "section": "-05",
-                    "startTime": "11:00 AM",
-                    "endTime": "11:50 AM",
-                    "building": "B",
-                    "roomNum": "1100"
-                },
-                {
-                    "subject": "MUSIC",
-                    "courseNum": "1101",
-                    "section": "-02",
-                    "startTime": "1:00 PM",
-                    "endTime": "1:50 PM",
-                    "building": "C",
-                    "roomNum": "2200"
-                },
-                {
-                    "subject": "ENGL",
-                    "courseNum": "2203",
-                    "section": "-04",
-                    "startTime": "3:00 PM",
-                    "endTime": "4:15 PM",
-                    "building": "A",
-                    "roomNum": "1550"
-                }
-            ]
-        }
-    ]
-	}];
-	var semester;
-	var year;
-	var todaysDate;
-	var uName;
-	
-	//add event listeners
-	Ti.App.addEventListener('mySchedule:sendUsername', function(e) {
-		// Ti.API.info('The username received: ' + e.username);
-		uName = e.username;
-	});
-	
-	Ti.App.addEventListener('mySchedule:sendSchedule', function(e) {
-		scheduleArray = eval('(' + e.object + ')');
-		// Ti.API.info('The schedule object is: ' + scheduleArray);
-		// saveScheduleInfo();
-		showScheduleInfo();
-	});
-	
-	/* we are not going to save the schedule currently
-	// Ti.App.addEventListener('mySchedule:sendSchedule', function(e) {
-		// scheduleArray = e.schedule;
-		// // alert(scheduleArray);
-		// showScheduleInfo();
-	// });
-	*/
+            }
 
-	/** We are not going to save the schedule currently
-	 *	Checks to see if the students schedule is saved to the device and is updated
-	 
-	function checkSchedule() {
-		openSchedule();
-		if(scheduleArray == null){
-			alert('Schedule is null');
-			retreiveScheduleInfo();
-		}
-		else{
-			
-		}
-		showScheduleInfo();
-	}
-	*/
+            $(document).ready(function() {
+                addTIListeners();
+                requestScheduleInfoFromServer();
+            });
+        </script>
+    </head>
+    <body>
+        <div id="screen">
+            <!-- Top content -->
+            <div class="topDiv">
+                <!-- myInfoBanner -->
+                <div id="bannerDivHome">
+                    <a onclick="Ti.App.fireEvent('schedule:closeWindow');"> 
+                        <img alt="bannerImage" src="images/banners/MyInfoMobile_Logo.png" /> 
+                    </a>
+                </div>
+                <!-- /myInfoBanner -->
+            </div>
+            <!-- Top Content -->
 
-	/**
-	 *	Will retrieve the students schedule from the server and store it in variables
-	 */
-	function requestScheduleInfoFromServer() {
-		//get the date first
-		getSemester();
-		
-		Ti.App.fireEvent('mySchedule:openScheduleRequest', {username: uName, session: semester, 
-			year: year, theDate: todaysDate});
-	}
-	
-    /* we are not going to save the schecule currently
-	/**
-	 *	Will save the student's schedule to local storage
-	 
-	function saveScheduleInfo() {
-		// Ti.App.Properties.setString('studentSchedule', JSON.stringify(scheduleArray));
-		Ti.App.fireEvent('mySchedule:saveSchedule', {scheduleObject: scheduleArray});
-	}
+            <!-- scheduleContent -->
+            <div id="scheduleContent">
+                <!-- monday -->
+                <div class="scheduleDay" id="monday">
+                    <div class="scheduleDayLabel">
+                        Monday
+                    </div>
+                    <div class="scheduleClasses">
+                        <table id="table0" class="scheduleClassesTable" cellpadding='2' border="1">
+                            <tr>
+                                <th>SUBJ</th>
+                                <th>CRSE</th>
+                                <th>ROOM</th>
+                                <th>TIME</th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <!-- /monday -->
 
-	/**
-	 *	Will get the student's schedule from the device and store it in variables
-	 
-	function openSchedule() {
-		// Ti.API.info('open schedule file');
-		Ti.App.fireEvent('mySchedule:openSchedule');
-	}	*/
-	
-	/**
-	 * Gets the current date and returns it as a string
-	 */
-	function getDate() {
-		todaysDate = new Date();
-		var today = (date.getMonth() +1) + '/' + date.getDate() + '/' + date.getFullYear();
-		// Ti.API.info('todays date is ' + today);
-	}
-	
-	/**
-	 * Determines which semester and year to display
-	 */
-	function getSemester() {
-		var date = new Date();
-		year = date.getFullYear();
-		if(date.getMonth() >= 0 && date.getMonth() < 4){
-			semester = 'Spring';
-		}
-		else if(date.getMonth() >= 4 && date.getMonth() < 7){
-			semester = "Summer";
-		}
-		else if(date.getMonth() >= 7 && date.getMonth() < 12){
-			semester = "Fall";
-		}
-	}
+                <!-- tuesday -->
+                <div class="scheduleDay" id="tuesday">
+                    <div class="scheduleDayLabel">
+                        Tuesday
+                    </div>
+                    <div class="scheduleClasses">
+                        <table id="table1" class="scheduleClassesTable" cellpadding='2' border="1">
+                        </table>
 
-	/**
-	 *	Will show the student's schedule on screen
-	 */
-	function showScheduleInfo() {
-		for(var i=0; i<6; i++){           //for each day
-			//check to make sure there are classes
-			var classesLength;
-			if (scheduleArray.dayOfWeek[i].classes == null){  //if no classes for that day
-				classesLength = 0;
-			}
-			else { 
-				$("#" + scheduleArray.dayOfWeek[i].day.toLowerCase()).css('display', 'inline');  //Show the day of the week
-				classesLength = scheduleArray.dayOfWeek[i].classes.length;
-			}
-			
-		    for(var j=0; j < classesLength; j++){       //for each class
-		        Ti.API.info('day: ' + scheduleArray.dayOfWeek[i].day + ' class ' + j + ": " + 
-		        	scheduleArray.dayOfWeek[i].classes[j].subject + ' ' + scheduleArray.dayOfWeek[i].classes[j].courseNum + ' ' + 
-                    scheduleArray.dayOfWeek[i].classes[j].section + ' ' + scheduleArray.dayOfWeek[i].classes[j].building + ' ' + 
-                    scheduleArray.dayOfWeek[i].classes[j].roomNum + ' ' + scheduleArray.dayOfWeek[i].classes[j].startTime + ' ' +
-                    scheduleArray.dayOfWeek[i].classes[j].endTime); 
-                    
-                //create new TD cells for each element to be displayed
-                $("#" + i + "-" +j).html('<td id="'+i+'-'+j+'-0'+'"></td>' +
-					        '<td id="'+i+'-'+j+'-1'+'"></td>' +
-					        '<td id="'+i+'-'+j+'-2'+'"></td>' +
-					        '<td id="'+i+'-'+j+'-3'+'"></td>' +
-					        '<td id="'+i+'-'+j+'-4'+'"></td>');
-				
-				//populate TD with the data from the JSON
-		        $("#"+i+"-"+j+"-0").html(scheduleArray.dayOfWeek[i].classes[j].subject);
-		        $("#"+i+"-"+j+"-1").html(scheduleArray.dayOfWeek[i].classes[j].courseNum + "-" + 
-                                         scheduleArray.dayOfWeek[i].classes[j].section);
-                $("#"+i+"-"+j+"-2").html(scheduleArray.dayOfWeek[i].classes[j].building + "-" + 
-                                         scheduleArray.dayOfWeek[i].classes[j].roomNum);
-                $("#"+i+"-"+j+"-3").html(scheduleArray.dayOfWeek[i].classes[j].startTime); // + " - " + 
-                                         //JSONObject.dayOfWeek[i].classes[j].endTime);
-                $("#"+i+"-"+j+"-4").html(scheduleArray.dayOfWeek[i].classes[j].INSTRUCTOR_NAME);
-		    }
-		}
-	}
-    
-    $(document).ready( function() {
-    	//TODO: change this back
-    	//Ti.App.fireEvent('mySchedule:getUNameFromProperties');
-        requestScheduleInfoFromServer();
-        // showScheduleInfo();
-    });
-</script>
-</head>
-<body>
-	<div id="screen" style="margin: auto">
-		<!-- Banner -->
-		<!-- Top content -->
-		<div class="pageBanner" style=" ">
-			<img src="images/banners/MyScheduleMobile_Logo.png" height="100%" width="100%" />
-			<!-- backButton -->
-			<!-- Dont need this for HTML version -->
-			<!-- <div id="backDiv">
-				<img width="100%" height="100%"
-					onclick="Ti.App.fireEvent('schedule:backPressed');" src=""
-					alt="backButton">
-				<figcaption>Back</figcaption>
-			</div> -->
-			<!-- /backButton -->
-		</div>
-		<!-- /TopContent -->
+                    </div>
+                </div>
+                <!-- /tuesday -->
 
-		<!-- scheduleContent -->
-		<div id="scheduleContent">
-			<!-- monday -->
-			<div class="scheduleDay" id="monday">
-				<div class="scheduleDayLabel">Monday</div>
-				<div class="scheduleClasses">
-					<table class="scheduleClassesTable" border="1">
-					    <tr id="0-0"></tr>
-					    <tr id="0-1"></tr>
-					    <tr id="0-2"></tr>
-                        <tr id="0-3"></tr>
-					</table>
-				</div>
-			</div>
-			<!-- /monday -->
+                <!-- wednesday -->
+                <div class="scheduleDay" id="wednesday">
+                    <div class="scheduleDayLabel">
+                        Wednesday
+                    </div>
+                    <div class="scheduleClasses">
+                        <table id="table2" class="scheduleClassesTable" cellpadding='2' border="1">
+                        </table>
 
-			<!-- tuesday -->
-			<div class="scheduleDay" id="tuesday">
-				<div class="scheduleDayLabel">Tuesday</div>
-				<div class="scheduleClasses">
-					<table  class="scheduleClassesTable" border="1">
-					    <tr id="1-0"></tr>
-					    <tr id="1-1"></tr>
-					    <tr id="1-2"></tr>
-                        <tr id="1-3"></tr>
-					</table>
-					
-				</div>
-			</div>
-			<!-- /tuesday -->
+                    </div>
+                </div>
+                <!-- /wedensday -->
 
-			<!-- wednesday -->
-			<div class="scheduleDay" id="wednesday">
-				<div class="scheduleDayLabel">Wednesday</div>
-				<div class="scheduleClasses">
-					<table class="scheduleClassesTable" border="1">
-					    <tr id="2-0"></tr>
-					    <tr id="2-1"></tr>
-					    <tr id="2-2"></tr>
-                        <tr id="2-3"></tr>
-					</table>
-					
-				</div>
-			</div>
-			<!-- /wedensday -->
+                <!-- thursday -->
+                <div class="scheduleDay" id="thursday" >
+                    <div class="scheduleDayLabel">
+                        Thursday
+                    </div>
+                    <div class="scheduleClasses">
+                        <table  id="table3" class="scheduleClassesTable" cellpadding='2' border="1">
+                        </table>
 
-			<!-- thursday -->
-			<div class="scheduleDay" id="thursday" >
-				<div class="scheduleDayLabel">Thursday</div>
-				<div class="scheduleClasses">
-					<table class="scheduleClassesTable" border="1">
-					    <tr id="3-0"></tr>
-					    <tr id="3-1"></tr>
-					    <tr id="3-2"></tr>
-                        <tr id="3-3"></tr>
-					</table>
-					
-				</div>
-			</div>
-			<!-- /thursday -->
+                    </div>
+                </div>
+                <!-- /thursday -->
 
-			<!-- friday -->
-			<div class="scheduleDay" id="friday" >
-				<div class="scheduleDayLabel">Friday</div>
-				<div class="scheduleClasses">
-					<table class="scheduleClassesTable" border="1">
-					    <tr id="4-0"></tr>
-					    <tr id="4-1"></tr>
-					    <tr id="4-2"></tr>
-                        <tr id="4-3"></tr>
-					</table>
-				</div>
-			</div>
-			<!-- /friday -->
-			
-			<!-- saturday -->
-			<div class="scheduleDay" id="saturday" >
-				<div class="scheduleDayLabel">Saturday</div>
-				<div class="scheduleClasses">
-					<table class="scheduleClassesTable" border="1">
-					    <tr id="5-0"></tr>
-					    <tr id="5-1"></tr>
-					    <tr id="5-2"></tr>
-                        <tr id="5-3"></tr>
-					</table>
-				</div>
-			</div>
-			<!-- /saturday -->
-		</div>
-		<!-- /scheduleContent -->
-	</div>
-	<!-- /screen -->
-</body>
+                <!-- friday -->
+                <div class="scheduleDay" id="friday" >
+                    <div class="scheduleDayLabel">
+                        Friday
+                    </div>
+                    <div class="scheduleClasses">
+                        <table  id="table4" class="scheduleClassesTable" cellpadding='2' border="1">
+                        </table>
+                    </div>
+                </div>
+                <!-- /friday -->
+
+                <!-- saturday -->
+                <div class="scheduleDay" id="saturday" >
+                    <div class="scheduleDayLabel">
+                        Saturday
+                    </div>
+                    <div id="table5" class="scheduleClasses">
+                        <table class="scheduleClassesTable" cellpadding='2' border="1">
+                        </table>
+                    </div>
+                </div>
+                <!-- /saturday -->
+            </div>
+            <!-- /scheduleContent -->
+        </div>
+        <!-- /screen -->
+    </body>
 </html>

@@ -1,52 +1,45 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
+
+<!--
+* Copyright 2013 Georgia Gwinnett College
+* This file is part of MyInfo.
+*
+* MyInfo is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* MyInfo is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser Public License for more details.
+*
+* You should have received a copy of the GNU Lesser Public License
+* along with MyInfo.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
 <html>
     <head>
-        <meta name="viewport" content="width=320, user-scalable=no">
+        <meta name="viewport" content="user-scalable=yes, width=device-width, minimum-scale=1, 
+            initial-scale=1, maximum-scale=4">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Login</title>
         <link rel="stylesheet" href="style.css" type="text/css" media="screen"
-        title="no title" charset="utf-8">
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-        <!-- <script src="js/userName.js"></script> -->
-        <!-- <script src="/js/jquery.cookie.js"></script> -->
-        <!-- <script src="js/login.js"></script> -->
+            title="no title" charset="utf-8">
+        <script src="js/jquery1.10.1.js"></script>
         <script>
         	var isLoggedIn;
         	var uName = null;
         	var pWord = null;
         	
         	//add listeners for Ti events
-        	//is fired when the user logs in successfully
-			Ti.App.addEventListener('login:loginSuccess', function() {
-				// window.location = "index.html";
-				Ti.App.fireEvent('login:backPressed');
-			});
-			
-			Ti.App.addEventListener('schedule:loginSuccess', function() {
-				// window.location.href = "mySchedule.html";
-				
-			});
-			
-			//is fired when the user name is requested from the server
+			//is fired when the user name is requested from localStorage
 			Ti.App.addEventListener('login:sendUsername', function(e) {
-				// Ti.API.info('username received as: ' + e.username);
 				uName = e.username;
-				$("#userNameField").attr('value', uName);
+				if (uName != null)
+					$("#userNameField").attr('value', uName);
 			});
-		
-			/**
-			 *   gets the username and password and passes them to the authentication method
-			 */
-			function logIn() {
-				// window.location.href = "index.html";
-				uName = document.getElementById('userNameField').value;
-				pWord = document.getElementById('passwordField').value;
-				pWord = encodeURIComponent(pWord);
-				//TODO: Change this back
-				// createLoginRequest();
-				Ti.App.fireEvent('login:openLoginRequest', {username: uName, password: pWord});
-			}
-			
+						
 			/**
 			 * Checks to see if the username is saved in the properties file.
 			 * If it is then auto populates the username field.
@@ -55,64 +48,45 @@
 				Ti.App.fireEvent('login:getUNameFromProperties');
 			}
 			
+			function sendLoginRequest() {                
+                var user = $("#userNameField").val();
+                var pass = $("#passwordField").val();
+                
+                Ti.App.fireEvent('login:sendLoginRequest', {user: user, pass:pass} );
+            }
+			
 			$(document).ready(function() {
-				// Ti.API.info('Login.html opened');
 				checkUsername();
 			});
         </script>
     </head>
     <body>
         <div id="Screen">
-            <!-- Banner -->
-            <!-- Top content -->
-			<div style="padding: 5% 5% 10% 5%">
-				<!-- backButton -->
-				<!-- Dont need this for HTML version -->
-				<!-- <div id="backDiv">
-					<img width="100%" height="100%"
-						onclick="Ti.App.fireEvent('schedule:backPressed');" src=""
-						alt="backButton">
-					<figcaption>Back</figcaption>
-				</div> -->
-				<!-- /backButton -->
-			</div>
-			<!-- /TopContent -->
-            <br />
-            <br />
-            <!-- content -->
-            <div id="loginContent" style="text-align: left;">
-                <form id="loginForm">
-                    <!-- username -->
-                    <div>
-                        <div id="userNameLabel" class="passwordLabels">
-                            User Name:
-                        </div>
-                        <span style="width: 10%; display: inline-block"></span>
-                        <input id="userNameField" type="text" style="width: 30%;
-                         display: inline-block;" />
+            <div class="topDiv">
+                <!-- myInfoBanner -->
+                    <div id="bannerDivHome">
+                        <a onclick="Ti.App.fireEvent('login:closeLoginWindow');"> 
+                            <img alt="bannerImage" src="images/banners/MyInfoMobile_Logo.png" /> 
+                        </a>
                     </div>
-                    <!-- /username -->
-                    <!-- password -->
-                    <div>
-                        <div id="passwordLabel" class="passwordLabels">
-                            Password:
-                        </div>
-                        <span style="width: 10%; display: inline-block"></span>
-                        <input id="passwordField" type="password" style="width: 30%; display: 
-                            inline-block;" />
-                    </div>
-                    <!-- /password -->
-                </form>
-                <div style="text-align: right; padding-right: 20%">
-                    <button type="submit" id="loginButton" onclick="logIn();">
-                        Sign In
-                    </button>
-                </div>
+                <!-- /myInfoBanner -->
             </div>
-            <!--/content -->
-            <!-- <div id="hiddeniFrame" >
-            	<iframe id="myFrame" src=""></iframe>
-            </div> -->
-        </div>
-    </body>
+
+        	<div id="loginFormDiv">
+			    <form action="" id="loginForm">
+    				<label for="userNameField">Username</label>
+    				<input id="userNameField" type="text" name="user" />
+    				<br />
+    				<br />
+    				<label for="passwordField">Password</label>
+    				<input id="passwordField" type="password" name="pass" />
+    				
+    				<br />
+    				<br />
+				
+			    </form>
+			    <input type="submit" value="Log In" onclick="sendLoginRequest();" />
+			</div>
+	    </div>
+	 </body>
 </html>
